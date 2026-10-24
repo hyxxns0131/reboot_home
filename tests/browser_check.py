@@ -13,17 +13,27 @@ with sync_playwright() as p:
     assert page.goto(BASE_URL+'/').status==200
     page.wait_for_load_state('networkidle')
     page.screenshot(path=str(root/'artifacts/home-desktop.png'),full_page=True)
-    before=page.locator('.front-card').evaluate('(el)=>getComputedStyle(el).transform')
+    before=page.locator('.bottle-scroll').evaluate('(el)=>getComputedStyle(el).transform')
     page.evaluate('window.scrollTo(0,500)')
     page.wait_for_timeout(700)
-    after=page.locator('.front-card').evaluate('(el)=>getComputedStyle(el).transform')
-    assert before!=after,'Scroll must change 3D transform'
+    after=page.locator('.bottle-scroll').evaluate('(el)=>getComputedStyle(el).transform')
+    assert before!=after,'Scroll must change the independent bottle wrapper transform'
+    page.goto(BASE_URL+'/')
+    for expected in ['original_lemon','original_cherry','balance_lime','balance_lemon','balance_cherry','gummy_original','gummy_balance','original_lime']:
+        page.locator('#shot-button').click()
+        page.locator('[data-showcase][aria-busy="true"]').wait_for(state='detached')
+        assert page.locator('[data-showcase]').get_attribute('data-product')==expected
+    page.get_by_role('tab',name='BALANCE',exact=True).click()
+    page.locator('[data-flavor="cherry"] .drink-select').click()
+    assert page.locator('#drink-name').inner_text()=='BALANCE CHERRY'
+    page.locator('[data-gummy="balance"]').click()
+    assert page.locator('#gummy-name').inner_text()=='BALANCE GUMMY'
     page.goto(BASE_URL+'/products/')
     page.get_by_role('button',name='Drinks',exact=True).click()
     assert page.locator('[data-product-line]:visible').count()==2
     page.goto(BASE_URL+'/products/drink-balance')
     page.get_by_role('button',name='Cherry',exact=True).click()
-    assert 'cherry' in page.locator('.detail-cut img').get_attribute('src')
+    assert 'cherry' in page.locator('.detail-shot').get_attribute('src')
     page.screenshot(path=str(root/'artifacts/product-desktop.png'),full_page=True)
     page.goto(BASE_URL+'/auth/login')
     page.screenshot(path=str(root/'artifacts/login-desktop.png'),full_page=True)

@@ -3,7 +3,7 @@
     "slug": "jelly-original",
     "name": "Reboot Jelly Original",
     "line": "Jelly",
-    "format": "Stick Jelly",
+    "format": "Individually wrapped shaped jelly (cowboy boot, cowboy hat, lasso)",
     "pack": "One package of individually wrapped jellies: lime, lemon & cherry",
     "ingredients": [
       "A-HAT",
@@ -62,7 +62,7 @@
     "slug": "jelly-balance",
     "name": "Reboot Jelly Balance",
     "line": "Jelly",
-    "format": "Stick Jelly",
+    "format": "Individually wrapped shaped jelly (cowboy boot, cowboy hat, lasso)",
     "pack": "One package of individually wrapped jellies: lime, lemon & cherry",
     "ingredients": [
       "A-HAT",
@@ -122,6 +122,7 @@
     "name": "Reboot Drink Original",
     "line": "Drink",
     "format": "Non-carbonated drink",
+    "volume": "100ml",
     "pack": "Single bottles in lemon, lime or cherry, or a mixed box of all three",
     "ingredients": [
       "A-HAT",
@@ -206,6 +207,7 @@
     "name": "Reboot Drink Balance",
     "line": "Drink",
     "format": "Non-carbonated drink",
+    "volume": "100ml",
     "pack": "Single bottles in lemon, lime or cherry, or a mixed box of all three",
     "ingredients": [
       "A-HAT",

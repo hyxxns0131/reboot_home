@@ -142,6 +142,7 @@ def test_retailer_links(client):
         assert f'href="{url}" target="_blank" rel="noopener noreferrer"' in html
 
 def test_reels_embed_only_instagram(client,monkeypatch):
+    monkeypatch.setattr('feed.REELS',[]) # Isolate empty-state test from editorial content.
     assert 'reel-grid' not in client.get('/').get_data(as_text=True)
     monkeypatch.setattr('feed.REELS',['https://www.instagram.com/reel/AbC_12-x/?igsh=abc','https://evil.example/reel/zzz/','javascript:alert(1)'])
     for path in ['/','/feed/']:
@@ -189,3 +190,15 @@ def test_catalog_options_and_images(client,app):
         db.session.add(ProductOption(product_id=product.id,sku='drink-original-single',label='1 Bottle',price=7)); db.session.commit()
     assert app.test_cli_runner().invoke(args=['setup-db']).exit_code==0
     with app.app_context(): assert not db.session.scalar(db.select(ProductOption).filter_by(sku='drink-original-single')).is_active
+
+@pytest.mark.parametrize('line',['original','balance'])
+@pytest.mark.parametrize('flavor',['lime','lemon','cherry'])
+def test_showcase_purchase_link_selects_flavor(client,line,flavor):
+    sku=f'drink-{line}-{flavor}'
+    html=client.get(f'/products/drink-{line}?sku={sku}').get_data(as_text=True)
+    assert re.search(r'value="'+sku+r'"[^>]* checked',html)
+    assert re.search(r'class="[^"]*detail-shot[^>]+src="[^"]*'+sku+r'\.webp',html) or re.search(r'src="[^"]*'+sku+r'\.webp[^>]+class="[^"]*detail-shot',html)
+
+def test_unknown_product_option_falls_back(client):
+    html=client.get('/products/drink-original?sku=unknown').get_data(as_text=True)
+    assert re.search(r'value="drink-original-box3"[^>]* checked',html)
