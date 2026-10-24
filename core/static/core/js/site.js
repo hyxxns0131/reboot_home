@@ -24,13 +24,31 @@ document.querySelectorAll('[data-slide]').forEach(button => button.addEventListe
   const track = document.querySelector('.product-track');
   track?.scrollBy({left: Number(button.dataset.slide) * (track.querySelector('.product-card').offsetWidth + 24), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
 }));
-document.querySelectorAll('[data-flavor]').forEach(button => button.addEventListener('click', () => {
-  const image = document.querySelector('.detail-cut img');
-  image.parentElement.dataset.flavorCut = button.dataset.flavor;
-  image.src = image.src.replace(/_(lime|lemon|cherry)_3D/, `_${button.dataset.flavor}_3D`);
-  image.alt = image.alt.split(' — ')[0] + ' — ' + button.dataset.flavor + ' concept';
-  document.querySelectorAll('[data-flavor]').forEach(b => { b.classList.toggle('active', b === button); b.setAttribute('aria-pressed', String(b === button)); });
-}));
+// Product detail: thumbnails and purchase options share the main photo; a drink thumbnail also selects its option.
+const detailShot = document.querySelector('.detail-shot');
+if (detailShot) {
+  const showShot = src => {
+    detailShot.src = src;
+    document.querySelectorAll('.detail-thumbs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.shot === src)));
+  };
+  // Close-up views (3/4, side, back) follow the chosen flavor, so the nutrition label always matches.
+  const viewRe = /-(lime|lemon|cherry)-(34|side|back)\.webp$/;
+  const followFlavor = sku => {
+    const flavor = /-(lime|lemon|cherry)$/.exec(sku || '')?.[1];
+    if (!flavor) return;
+    document.querySelectorAll('.detail-thumbs [data-view]').forEach(b => {
+      b.dataset.shot = b.dataset.shot.replace(viewRe, `-${flavor}-$2.webp`);
+      const img = b.querySelector('img'); if (img) img.src = img.src.replace(viewRe, `-${flavor}-$2.webp`);
+    });
+  };
+  document.querySelectorAll('.detail-thumbs button').forEach(button => button.addEventListener('click', () => {
+    showShot(button.dataset.shot);
+    const option = button.dataset.sku && document.querySelector(`.option-list input[value="${button.dataset.sku}"]`);
+    if (option) option.checked = true;
+    followFlavor(button.dataset.sku);
+  }));
+  document.querySelectorAll('.option-list input').forEach(input => input.addEventListener('change', () => { showShot(input.dataset.shot); followFlavor(input.value); }));
+}
 // A perspective card scene: the original product artwork stays intact.
 const hero = document.querySelector('.hero');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -93,4 +111,15 @@ if (quiz) {
     const title = quiz.querySelector('h2'); title.tabIndex = -1; title.focus({preventScroll:true});
   }
   document.getElementById('quiz-start').addEventListener('click', render);
+}
+// Preview only; the server validates the balance and calculates the payable total.
+const pointInput = document.getElementById('points');
+if (pointInput) {
+  const previewPoints = () => {
+    const value = Math.max(0, Math.min(Number(pointInput.max), Math.trunc(Number(pointInput.value)||0)));
+    document.getElementById('point-discount').textContent = `−$${(value/100).toFixed(2)}`;
+    document.getElementById('point-final-total').textContent = `$${((Number(pointInput.dataset.baseCents)-value)/100).toFixed(2)}`;
+  };
+  pointInput.addEventListener('input',previewPoints);
+  document.getElementById('use-max-points').addEventListener('click',()=>{pointInput.value=pointInput.max;previewPoints();});
 }

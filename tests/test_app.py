@@ -135,3 +135,104 @@ def test_empty_export_and_input_validation(client,app):
     rows=list(csv.reader(io.StringIO(response.data.decode('utf-8-sig'))))
     assert len(rows)==1 and rows[0][0]=='order_id'
     assert client.get('/admin/?status=bogus').status_code==400
+
+def test_retailer_links(client):
+    html=client.get('/where-to-buy/').get_data(as_text=True)
+    for url in ['https://www.yamibuy.com/','https://www.amazon.com/','https://global.oliveyoung.com/','https://www.sayweee.com/']:
+        assert f'href="{url}" target="_blank" rel="noopener noreferrer"' in html
+
+def test_reels_embed_only_instagram(client,monkeypatch):
+    monkeypatch.setattr('feed.REELS',[]) # Isolate empty-state test from editorial content.
+    assert 'reel-grid' not in client.get('/').get_data(as_text=True)
+    monkeypatch.setattr('feed.REELS',['https://www.instagram.com/reel/AbC_12-x/?igsh=abc','https://evil.example/reel/zzz/','javascript:alert(1)'])
+    for path in ['/','/feed/']:
+        html=client.get(path).get_data(as_text=True)
+        assert html.count('<iframe')==1 and 'src="https://www.instagram.com/reel/AbC_12-x/embed/"' in html
+    monkeypatch.setattr('feed.REELS',['https://www.instagram.com/p/Po5t_1/?utm_source=ig_web_copy_link'])
+    assert 'src="https://www.instagram.com/p/Po5t_1/embed/"' in client.get('/feed/').get_data(as_text=True)
+
+def test_support_chat(client,monkeypatch):
+    import json
+    headers={'X-CSRFToken':token(client,'/')}
+    ask=lambda messages: client.post('/support/chat',json={'messages':messages},headers=headers)
+    hello=[{'role':'user','content':'Where can I buy Reboot?'}]
+    assert client.post('/support/chat',json={'messages':hello}).status_code==400 # CSRF
+    assert ask([{'role':'assistant','content':'Hi'}]).status_code==400
+    assert ask([{'role':'user','content':'x'*1001}]).status_code==400
+    monkeypatch.delenv('OPENAI_API_KEY',raising=False)
+    assert ask(hello).status_code==503
+    monkeypatch.setenv('OPENAI_API_KEY','test-key')
+    sent={}
+    def urlopen(request,timeout):
+        sent.update(body=json.loads(request.data),auth=request.get_header('Authorization'))
+        return io.BytesIO(json.dumps({'choices':[{'message':{'content':'Try Amazon or Weee!'}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen',urlopen)
+    assert ask(hello).get_json()=={'reply':'Try Amazon or Weee!'}
+    assert sent['auth']=='Bearer test-key'
+    system=sent['body']['messages'][0]
+    assert system['role']=='system' and 'Reboot Jelly Original' in system['content'] and 'Olive Young Global' in system['content']
+    for _ in range(19): assert ask(hello).status_code==200
+    assert ask(hello).status_code==429
+
+def test_catalog_options_and_images(client,app):
+    import json
+    from pathlib import Path
+    from shop.models import Product, ProductOption
+    html=client.get('/products/drink-original').get_data(as_text=True)
+    assert all(f'value="drink-original-{s}"' in html for s in ('box3','lemon','lime','cherry')) and 'drink-original-single' not in html
+    html=client.get('/products/jelly-balance').get_data(as_text=True)
+    # product pages use the studio photos derived from images/product_image
+    assert '/images/product_image/web/jelly-balance-package.webp' in html and all(f'/images/product_image/web/jelly-balance-{f}.webp' in html for f in ('lime','lemon','cherry'))
+    for p in json.loads(Path('products/data/products.json').read_text()):
+        for src in [p['images']['main'],p['images'].get('card','')]+[g['src'] for g in p['images']['gallery']]+[o['image'] for o in p['options']]:
+            if not src: continue
+            assert src.startswith('product_image/') and (Path('images')/src).exists(),src
+    login(client,app)
+    assert client.post('/shop/cart',data={'csrf_token':token(client,'/products/drink-balance'),'sku':'drink-balance-lime','quantity':1}).status_code==302
+    with app.app_context(): # options removed from products.json stop selling on the next setup-db
+        product=db.session.scalar(db.select(Product).filter_by(slug='drink-original'))
+        db.session.add(ProductOption(product_id=product.id,sku='drink-original-single',label='1 Bottle',price=7)); db.session.commit()
+    assert app.test_cli_runner().invoke(args=['setup-db']).exit_code==0
+    with app.app_context(): assert not db.session.scalar(db.select(ProductOption).filter_by(sku='drink-original-single')).is_active
+
+@pytest.mark.parametrize('line',['original','balance'])
+@pytest.mark.parametrize('flavor',['lime','lemon','cherry'])
+def test_showcase_purchase_link_selects_flavor(client,line,flavor):
+    sku=f'drink-{line}-{flavor}'
+    html=client.get(f'/products/drink-{line}?sku={sku}').get_data(as_text=True)
+    assert re.search(r'value="'+sku+r'"[^>]* checked',html)
+    assert re.search(r'class="[^"]*detail-shot[^>]+src="[^"]*'+sku+r'\.webp',html) or re.search(r'src="[^"]*'+sku+r'\.webp[^>]+class="[^"]*detail-shot',html)
+
+def test_unknown_product_option_falls_back(client):
+    html=client.get('/products/drink-original?sku=unknown').get_data(as_text=True)
+    assert re.search(r'value="drink-original-box3"[^>]* checked',html)
+
+def test_option_and_influencer_platform_csv(client,app):
+    login(client,app,'admin')
+    q='start=2026-01-01&end=2030-12-31&status=all'
+    rows=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/option-sales.csv?{q}').data.decode('utf-8-sig'))))
+    from products.services import get_all_products
+    skus={o['sku'] for p in get_all_products() for o in p['options']}
+    assert {r['option_sku'] for r in rows}==skus
+    assert all(int(r['order_count'])>=100 for r in rows)  # every sales option has 100+ dummy orders
+    jelly=[r for r in rows if r['product_line']=='Jelly']
+    assert len(jelly)==2  # jelly is sold per line package only, never per flavor
+    for r in rows:
+        assert Decimal(r['net_sales_usd'])==Decimal(r['direct_sales_usd'])+Decimal(r['instagram_sales_usd'])+Decimal(r['tiktok_sales_usd'])
+    product_rows=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/product-sales.csv?{q}').data.decode('utf-8-sig'))))
+    assert sum(Decimal(r['net_sales_usd']) for r in rows)==sum(Decimal(r['net_sales_usd']) for r in product_rows)
+    totals={}
+    for platform,name in (('instagram','Instagram'),('tiktok','TikTok')):
+        response=client.get(f'/admin/export/influencer-sales.csv?platform={platform}&{q}')
+        assert response.status_code==200 and f'influencer_sales_{platform}_' in response.headers['Content-Disposition']
+        summary=list(csv.DictReader(io.StringIO(response.data.decode('utf-8-sig'))))
+        assert len(summary)==3 and {r['platform'] for r in summary}=={name}
+        assert all(r['discount_code'] and r['link_path']=='/r/'+r['discount_code'] and int(r['order_count'])>=100 for r in summary)
+        lines=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/influencer-orders.csv?platform={platform}&{q}').data.decode('utf-8-sig'))))
+        assert lines and {r['platform'] for r in lines}=={name}
+        assert sum(Decimal(r['line_total_usd']) for r in lines)==sum(Decimal(r['net_sales_usd']) for r in summary)
+        totals[platform]=sum(Decimal(r['instagram_sales_usd' if platform=='instagram' else 'tiktok_sales_usd']) for r in rows)
+        assert totals[platform]==sum(Decimal(r['net_sales_usd']) for r in summary)
+    assert client.get(f'/admin/export/influencer-sales.csv?platform=youtube&{q}').status_code==400
+    page=client.get('/admin/').get_data(as_text=True)
+    assert 'platform=instagram' in page and 'platform=tiktok' in page and 'option-sales' in page

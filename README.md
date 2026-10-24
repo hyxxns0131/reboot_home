@@ -61,34 +61,57 @@
 
 ## 2. 브랜드 · 제품
 
-### 브랜드
+### Reboot 제품 정보
 
-| 항목 | 내용 |
-|---|---|
-| 라인명 | **Reboot** |
-| 색 | 검정 & 네온 |
-| 슬로건 | *"Restart Your Day"* |
-| 캐릭터 | 미정 |
-| CM송 | 미정 |
+**브랜드 (`brand`)**
 
-> 캐릭터 · CM송은 확정 전이라 사이트에 넣지 않고, 들어갈 자리만 비워 둡니다. 확정되면 About · Home 히어로에 추가합니다.
+| 필드 | 지금 값 | 새 값 |
+| --- | --- | --- |
+| `base_company` | 알디콤 (실제 데이터 출처) | 알디콤 (ALDICOM) — 한국 숙취해소제 기업. Reboot는 미국 시장 전용 라인 |
+| `character` | 리부부 (공식 외형 자료 미제공) | Rebu (이 표기로 통일). 연두색 젤리 몸, 검정 카우보이 모자(초록 별·작은 초록 뿔), 흰 카우보이 부츠 |
+| `cm_song` | 니온 앤 리부 (제목만 확인) | 제작 중. 가사·음원 없음 (나중에 추가) |
+| `slogan`, `colors`, `category` | 그대로 | 그대로 (Restart Your Day / 검정 & 네온 / 일반식품) |
 
-### 제품 4종
+**제품 4종 공통**
 
-| | 젤리 | 제로슈가 젤리 | 음료 | 제로슈가 음료 |
-|---|---|---|---|---|
-| 제품명 | **Reboot Jelly Original** | **Reboot Jelly Balance** | **Reboot Drink Original** | **Reboot Drink Balance** |
-| slug (URL) | `jelly-original` | `jelly-balance` | `drink-original` | `drink-balance` |
-| 제형 | 스틱 젤리 | 스틱 젤리 | 비탄산 음료 | 비탄산 음료 |
-| 성분 | A-HAT + 헛개나무 열매 | A-HAT + 헛개나무 열매 | A-HAT + 헛개나무 열매 | A-HAT + 헛개나무 열매 |
-| 맛 (임시) | 라임, 체리, 레몬 | 레몬, 체리, 라임 | 레몬, 체리, 라임 | 레몬, 라임, 체리 |
-| 구성 · 포장 | 개별 포장된 한 봉지 | 개별 포장된 한 봉지 | 소형 병 낱개 · 3병/박스 | 소형 병 낱개 · 3병/박스 |
-| 개발 방향 | 기본 젤리 | 당류 저감 목표 | 기본 음료 | 당류 저감 목표 |
-| 판매가 (**가상값**) | 한 봉지: $16 | 한 봉지: $18 | 개당: $7 · 박스(3개입): $19 | 개당: $8 · 박스(3개입): $22 |
-| 구매 옵션 SKU | `jelly-original-pouch` | `jelly-balance-pouch` | `drink-original-single` · `drink-original-box3` | `drink-balance-single` · `drink-balance-box3` |
+- `ingredients`: `A-HAT + 헛개나무 열매`
+    - A-HAT은 알디콤의 특허 조성물입니다. 지구자(헛개나무) 추출물과 유산균 *Lactobacillus fermentum*을 결합한 것입니다.
+    - 함량은 받지 못했습니다.
+- `flavor_status`: `confirmed`. 최종 패키지에 맛이 인쇄되어 있습니다.
+- `consumer_name`: `name`과 같은 값입니다. 미국 홈페이지에 쓰는 제품명이 이 이름입니다.
 
-> ⚠️ 맛 · 가격은 확정 전 임시안이며, 화면에도 가격 옆에 "가상값(Sample price)"을 표시합니다.
-> ⚠️ "Balance" 제품의 **"Zero Sugar" · "Sugar Free" 등 당류 표현은 미국 표시 규정 확인 전까지 사이트에 쓰지 않습니다.** (§20)
+**젤리 (`jelly_original`, `jelly_balance`)**
+
+| 필드 | Jelly Original | Jelly Balance |
+| --- | --- | --- |
+| `ko` | Reboot 젤리 | Reboot 제로슈가 젤리 (지금: 저당 젤리) |
+| `form` | 개별 포장된 모양 젤리 (카우보이 부츠·카우보이 모자·올가미) | 같음 |
+| `flavors` | Lime, Lemon, Cherry (지금: 라임, 체리, 복숭아, 레몬) | Cherry, Lime, Lemon (지금: 레몬·라임) |
+| `pack` | 개별 포장된 젤리가 든 한 봉지 (봉지 안 개수 미정) | 같음 |
+| `price` | $16 | $18 |
+| `direction` | 기본 젤리 | 제로슈가 젤리 (Zero Sugar 표기 조건을 충족했다고 가정) |
+| `sugar_reduced` | false | true |
+
+- 젤리 모양은 **부츠·모자·올가미 3가지만** 확정입니다. 일부 사진에 리볼버 모양이 보이지만 확정 모양이 아닙니다.
+- 맛과 모양: 체리는 모자(분홍), 레몬은 올가미(노랑), 라임은 부츠(연두)입니다. Balance는 연한 색, Original은 진한 색입니다.
+
+**음료 (`drink_original`, `drink_balance`)**
+
+| 필드 | Drink Original | Drink Balance |
+| --- | --- | --- |
+| `ko` | Reboot 음료 | Reboot 제로슈가 음료 (지금: 저당 음료) |
+| `form` | 비탄산 음료 · 소형 유리병 | 같음 |
+| `flavors` | Lemon, Cherry, Lime (지금: 레몬·라임) | Lemon, Lime, Cherry (지금: 레몬·라임) |
+| `pack` | 소형 병 낱개 · 3병/박스 (지금: 6병/박스) | 같음 |
+| `volume` | 100ml (병 높이 108mm) | 같음 |
+| `price` | $7 (낱개). 박스(3병)는 $19 | $8 (낱개). 박스(3병)는 $22 |
+| `direction` | 기본 음료 | 제로슈가 음료 (Zero Sugar 표기 조건을 충족했다고 가정) |
+| `sugar_reduced` | false | true |
+
+### 주의할 점
+
+3. **Zero Sugar**는 표기 조건을 충족했다고 가정하고 쓰기로 했습니다. Balance 2종에만 해당합니다.
+5. 효능(숙취 해소 등)은 성분 정보가 생겨도 계속 쓰지 않습니다.
 
 ---
 
@@ -250,6 +273,8 @@ customer_required = role_required("customer")
 | 할인 | 링크별 할인율(`discount_rate`) 주문서에 자동 적용 |
 | 수수료 | 링크별 수수료율(`commission_rate`)로 정산 예정액 계산 |
 | 관리 | 링크 등록 · 수정은 관리자 페이지에서 (Phase 3) — 초기엔 더미 데이터로 시드 |
+| 플랫폼 | 인플루언서는 **Instagram · TikTok 두 플랫폼으로만** 나눠 관리합니다. 링크 코드 = 전용 할인코드 |
+| 집계 범위 | **자사몰 주문만** 집계합니다. 유통사(Amazon · Weee · Yamibuy 등) 매출 데이터는 가져오지 않습니다. |
 
 ---
 
@@ -261,8 +286,8 @@ customer_required = role_required("customer")
 
 - 기간 필터: 시작일 · 종료일 (기본: 최근 90일), 주문 상태 필터
 - 요약 카드: 총 주문 수, 판매 수량, 총 매출(Net), 링크 경유 매출 비중
-- 표 2개: 상품별 매출 / 전용 링크별 매출 (상위 정렬)
-- CSV 다운로드 버튼 3개 (현재 필터 그대로 적용)
+- 표: 상품별 매출 / **판매 옵션별 매출** / **플랫폼별(Instagram · TikTok) 인플루언서 매출** / 전용 링크별 매출
+- CSV 다운로드 버튼: 공통 4개 + 인플루언서 4개 (현재 필터 그대로 적용)
 
 ### CSV 종류
 
@@ -271,6 +296,11 @@ customer_required = role_required("customer")
 | 상품별 매출 | `/admin/export/product-sales.csv?start=2026-01-01&end=2026-10-22` | `reboot_product_sales_20260101_20261022.csv` |
 | 전용 링크별 매출 | `/admin/export/link-sales.csv?start=...&end=...` | `reboot_link_sales_20260101_20261022.csv` |
 | 주문 상세 (원본) | `/admin/export/orders.csv?start=...&end=...` | `reboot_orders_20260101_20261022.csv` |
+| 판매 옵션별 매출 | `/admin/export/option-sales.csv?start=...&end=...` | `reboot_option_sales_20260101_20261022.csv` |
+| 인플루언서별 매출 (플랫폼) | `/admin/export/influencer-sales.csv?platform=instagram` (또는 `tiktok`, `all`) | `reboot_influencer_sales_instagram_20260101_20261022.csv` |
+| 인플루언서 주문 상세 (플랫폼) | `/admin/export/influencer-orders.csv?platform=tiktok` (또는 `instagram`, `all`) | `reboot_influencer_orders_tiktok_20260101_20261022.csv` |
+
+> `platform`은 `instagram` · `tiktok` · `all`만 허용합니다(그 외 400). 인플루언서 CSV에는 DIRECT(링크 없이 들어온 주문)가 포함되지 않습니다.
 
 #### ① 상품별 매출 (`product-sales.csv`)
 
@@ -292,7 +322,7 @@ customer_required = role_required("customer")
 |---|---|
 | `link_code` | 링크 코드 (`DIRECT` = 링크 없이 들어온 주문) |
 | `influencer_name` | 인플루언서 이름 (가상) |
-| `platform` | TikTok / Instagram / YouTube |
+| `platform` | TikTok / Instagram |
 | `clicks` | 링크 클릭 수 |
 | `order_count` | 주문 수 |
 | `conversion_rate` | 주문 수 ÷ 클릭 수 |
@@ -300,6 +330,33 @@ customer_required = role_required("customer")
 | `net_sales_usd` | 할인 후 매출 |
 | `commission_usd` | 정산 예정 수수료 |
 | `top_product` | 가장 많이 팔린 제품 |
+
+#### ④ 판매 옵션별 매출 (`option-sales.csv`)
+
+판매 중인 **모든 옵션(SKU)** 이 한 줄씩 나옵니다. 기간 내 판매가 0건이어도 행이 나옵니다.
+젤리는 맛별이 아니라 **라인별 패키지(3가지 맛 구성) 1개 옵션**만 있고, 음료는 맛별 낱병 3개 + 믹스 박스(3병) 1개 옵션입니다. → 총 10개 옵션
+
+| 컬럼 | 설명 |
+|---|---|
+| `product_slug` · `product_name` · `product_line` | 제품 · 라인 (`Jelly` / `Drink`) |
+| `option_sku` · `option_label` | 판매 옵션 |
+| `pack_size` | 옵션 1개에 든 개수 (박스 = 3) |
+| `list_price_usd` | 옵션 정가 |
+| `order_count` | 이 옵션이 포함된 주문 수 |
+| `quantity_sold` | 옵션 판매 수량 |
+| `pieces_sold` | 병 · 패키지 기준 개수 (`quantity_sold × pack_size`) |
+| `gross_sales_usd` · `discount_usd` · `net_sales_usd` | 할인 전 · 할인 · 할인 후 매출 |
+| `direct_sales_usd` · `instagram_sales_usd` · `tiktok_sales_usd` | 유입 경로별 순매출 (세 값의 합 = `net_sales_usd`) |
+
+#### ⑤ 인플루언서별 매출 (`influencer-sales.csv?platform=`)
+
+`platform, influencer_name, discount_code, link_path, discount_rate, commission_rate, clicks, order_count, conversion_rate, units_sold, gross_sales_usd, discount_usd, net_sales_usd, commission_usd, top_product`
+(인플루언서 1명 = 1행. `discount_code`는 링크 코드와 같고 `link_path`는 `/r/<code>`)
+
+#### ⑥ 인플루언서 주문 상세 (`influencer-orders.csv?platform=`)
+
+`order_id, ordered_at, status, platform, influencer_name, discount_code, link_path, discount_rate, product_slug, product_name, option_sku, option_label, quantity, unit_price_usd, gross_usd, discount_usd, line_total_usd, commission_rate, commission_usd, ship_state, is_dummy`
+(전용 링크로 들어온 주문의 품목 1줄 = 1행, `commission_usd = line_total_usd × commission_rate`)
 
 #### ③ 주문 상세 (`orders.csv`)
 
@@ -352,7 +409,9 @@ shop_referral_link ──┐   ▼
 |---|---|---|
 | 전체 주문 | — | **1,000건** (`2026-01-01 ~ 2026-10-22`) |
 | **상품별** | 4종 **각각 주문 100건 이상** | 주문당 1–3개 품목, 각 제품 최소 150건 보장 (음료는 개당 · 박스 옵션 섞어서) |
+| **판매 옵션별** | 옵션 10개 **각각 주문 100건 이상** | 주문의 첫 제품이 판매 옵션을 차례로 돌아가며 선택 → 옵션마다 100건 이상 보장 |
 | **전용 링크별** | 링크 **각각 주문 100건 이상** | 인플루언서 링크 6개 × 각 120건 = 720건 |
+| **플랫폼별** | Instagram · TikTok **각각 100건 이상** | Instagram 3명 × 120 = 360건 / TikTok 3명 × 120 = 360건 |
 | 링크 없는 주문 (DIRECT) | — | 280건 |
 | 링크 클릭 수 | 주문 수보다 큼 | 링크별 주문 수 × 8–20배 |
 
@@ -362,7 +421,7 @@ shop_referral_link ──┐   ▼
 |---|---|---|---|---|
 | `NEONNIGHTS` | Neon Nights (가상) | TikTok | 10% | 15% |
 | `KPARTYLA` | K-Party LA (가상) | Instagram | 10% | 12% |
-| `MORNINGRESET` | Morning Reset (가상) | YouTube | 15% | 15% |
+| `MORNINGRESET` | Morning Reset (가상) | Instagram | 15% | 15% |
 | `SEOULSIPNYC` | Seoul Sip NYC (가상) | TikTok | 10% | 10% |
 | `BRUNCHCLUB` | Brunch Club (가상) | Instagram | 5% | 10% |
 | `RESTARTCREW` | Restart Crew (가상) | TikTok | 20% | 20% |
@@ -373,7 +432,12 @@ shop_referral_link ──┐   ▼
 - 배송 주(state): CA · NY · TX · WA · NJ · IL 등 MZ세대 인구가 많은 대도시권 주에 가중치
 - 상태: `paid` 95% / `refunded` 3% / `cancelled` 2%
 - 이름 · 주소는 가상 데이터만 사용 (실존 인물 · 주소 금지)
-- 생성 후 **검증 assert**: 각 제품 주문 수 ≥ 100, 각 링크 주문 수 ≥ 100을 확인하고, 실패하면 시드를 중단합니다.
+- 생성 후 **검증 assert**: 각 제품 · 각 판매 옵션 · 각 링크 · Instagram/TikTok 플랫폼 주문 수 ≥ 100을 확인하고, 실패하면 시드를 중단합니다.
+- 이미 만든 로컬 DB에 새 규칙의 더미 데이터를 다시 넣으려면 `flask --app app:create_app reset-db`를 실행합니다. (`setup-db`는 기존 더미 주문이 있으면 건너뛰고, 링크 플랫폼만 Instagram/TikTok으로 맞춥니다.)
+
+### 더미 CSV 샘플 파일 (`sample_exports/`)
+
+`2026-01-01 ~ 2026-10-25`, 주문 상태 `paid` 기준으로 관리자 CSV 8종을 뽑아 둔 파일입니다. (상품별 · 옵션별 · 링크별 · 주문 상세 + Instagram/TikTok 인플루언서별 · 인플루언서 주문 상세) 시드를 바꾸면 다시 뽑습니다.
 
 ```python
 # shop/seed.py (요약)
@@ -625,7 +689,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "slug": "jelly-original",
     "name": "Reboot Jelly Original",
     "line": "Jelly",
-    "format": "Stick Jelly",
+    "format": "Individually wrapped shaped jelly (cowboy boot, cowboy hat, lasso)",
     "pack": "Individually wrapped pouch",
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lime", "Cherry", "Lemon"],
@@ -643,7 +707,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "slug": "jelly-balance",
     "name": "Reboot Jelly Balance",
     "line": "Jelly",
-    "format": "Stick Jelly",
+    "format": "Individually wrapped shaped jelly (cowboy boot, cowboy hat, lasso)",
     "pack": "Individually wrapped pouch",
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Cherry", "Lime"],
@@ -662,6 +726,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "name": "Reboot Drink Original",
     "line": "Drink",
     "format": "Non-carbonated drink",
+    "volume": "100ml",
     "pack": "Small bottle (single) or box of 3",
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Cherry", "Lime"],
@@ -681,6 +746,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "name": "Reboot Drink Balance",
     "line": "Drink",
     "format": "Non-carbonated drink",
+    "volume": "100ml",
     "pack": "Small bottle (single) or box of 3",
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Lime", "Cherry"],
@@ -888,8 +954,8 @@ services:
 | hangover cure, hangover remedy, anti-hangover | 같은 의미 |
 | detox, flushes alcohol, sober up faster | 효능 · 생리 작용 주장 |
 | drink more, drink without worry | 과음 조장 |
-| Zero Sugar / Sugar Free (Balance) | 표시 규정 확인 전 사용 보류 |
 
+- Balance 2종(Jelly Balance, Drink Balance)은 **Zero Sugar**로 표기합니다. (표기 조건을 충족했다고 가정, Original 2종에는 쓰지 않음)
 - 성분(A-HAT, 헛개나무 열매)은 **원료 소개**까지만 하고 효능과 연결하지 않습니다.
 - 미성년자를 연상시키는 이미지 · 표현을 쓰지 않습니다.
 - Creators 페이지에는 협업 시 금지 표현 안내를 둡니다. (FTC 보증 가이드상 크리에이터 발언도 브랜드 책임) 인플루언서 전용 링크 게시물에는 협찬 표시(#ad 등)를 안내합니다.
