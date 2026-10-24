@@ -206,3 +206,33 @@ def test_showcase_purchase_link_selects_flavor(client,line,flavor):
 def test_unknown_product_option_falls_back(client):
     html=client.get('/products/drink-original?sku=unknown').get_data(as_text=True)
     assert re.search(r'value="drink-original-box3"[^>]* checked',html)
+
+def test_option_and_influencer_platform_csv(client,app):
+    login(client,app,'admin')
+    q='start=2026-01-01&end=2030-12-31&status=all'
+    rows=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/option-sales.csv?{q}').data.decode('utf-8-sig'))))
+    from products.services import get_all_products
+    skus={o['sku'] for p in get_all_products() for o in p['options']}
+    assert {r['option_sku'] for r in rows}==skus
+    assert all(int(r['order_count'])>=100 for r in rows)  # every sales option has 100+ dummy orders
+    jelly=[r for r in rows if r['product_line']=='Jelly']
+    assert len(jelly)==2  # jelly is sold per line package only, never per flavor
+    for r in rows:
+        assert Decimal(r['net_sales_usd'])==Decimal(r['direct_sales_usd'])+Decimal(r['instagram_sales_usd'])+Decimal(r['tiktok_sales_usd'])
+    product_rows=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/product-sales.csv?{q}').data.decode('utf-8-sig'))))
+    assert sum(Decimal(r['net_sales_usd']) for r in rows)==sum(Decimal(r['net_sales_usd']) for r in product_rows)
+    totals={}
+    for platform,name in (('instagram','Instagram'),('tiktok','TikTok')):
+        response=client.get(f'/admin/export/influencer-sales.csv?platform={platform}&{q}')
+        assert response.status_code==200 and f'influencer_sales_{platform}_' in response.headers['Content-Disposition']
+        summary=list(csv.DictReader(io.StringIO(response.data.decode('utf-8-sig'))))
+        assert len(summary)==3 and {r['platform'] for r in summary}=={name}
+        assert all(r['discount_code'] and r['link_path']=='/r/'+r['discount_code'] and int(r['order_count'])>=100 for r in summary)
+        lines=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/influencer-orders.csv?platform={platform}&{q}').data.decode('utf-8-sig'))))
+        assert lines and {r['platform'] for r in lines}=={name}
+        assert sum(Decimal(r['line_total_usd']) for r in lines)==sum(Decimal(r['net_sales_usd']) for r in summary)
+        totals[platform]=sum(Decimal(r['instagram_sales_usd' if platform=='instagram' else 'tiktok_sales_usd']) for r in rows)
+        assert totals[platform]==sum(Decimal(r['net_sales_usd']) for r in summary)
+    assert client.get(f'/admin/export/influencer-sales.csv?platform=youtube&{q}').status_code==400
+    page=client.get('/admin/').get_data(as_text=True)
+    assert 'platform=instagram' in page and 'platform=tiktok' in page and 'option-sales' in page

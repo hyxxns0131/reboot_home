@@ -273,6 +273,8 @@ customer_required = role_required("customer")
 | 할인 | 링크별 할인율(`discount_rate`) 주문서에 자동 적용 |
 | 수수료 | 링크별 수수료율(`commission_rate`)로 정산 예정액 계산 |
 | 관리 | 링크 등록 · 수정은 관리자 페이지에서 (Phase 3) — 초기엔 더미 데이터로 시드 |
+| 플랫폼 | 인플루언서는 **Instagram · TikTok 두 플랫폼으로만** 나눠 관리합니다. 링크 코드 = 전용 할인코드 |
+| 집계 범위 | **자사몰 주문만** 집계합니다. 유통사(Amazon · Weee · Yamibuy 등) 매출 데이터는 가져오지 않습니다. |
 
 ---
 
@@ -284,8 +286,8 @@ customer_required = role_required("customer")
 
 - 기간 필터: 시작일 · 종료일 (기본: 최근 90일), 주문 상태 필터
 - 요약 카드: 총 주문 수, 판매 수량, 총 매출(Net), 링크 경유 매출 비중
-- 표 2개: 상품별 매출 / 전용 링크별 매출 (상위 정렬)
-- CSV 다운로드 버튼 3개 (현재 필터 그대로 적용)
+- 표: 상품별 매출 / **판매 옵션별 매출** / **플랫폼별(Instagram · TikTok) 인플루언서 매출** / 전용 링크별 매출
+- CSV 다운로드 버튼: 공통 4개 + 인플루언서 4개 (현재 필터 그대로 적용)
 
 ### CSV 종류
 
@@ -294,6 +296,11 @@ customer_required = role_required("customer")
 | 상품별 매출 | `/admin/export/product-sales.csv?start=2026-01-01&end=2026-10-22` | `reboot_product_sales_20260101_20261022.csv` |
 | 전용 링크별 매출 | `/admin/export/link-sales.csv?start=...&end=...` | `reboot_link_sales_20260101_20261022.csv` |
 | 주문 상세 (원본) | `/admin/export/orders.csv?start=...&end=...` | `reboot_orders_20260101_20261022.csv` |
+| 판매 옵션별 매출 | `/admin/export/option-sales.csv?start=...&end=...` | `reboot_option_sales_20260101_20261022.csv` |
+| 인플루언서별 매출 (플랫폼) | `/admin/export/influencer-sales.csv?platform=instagram` (또는 `tiktok`, `all`) | `reboot_influencer_sales_instagram_20260101_20261022.csv` |
+| 인플루언서 주문 상세 (플랫폼) | `/admin/export/influencer-orders.csv?platform=tiktok` (또는 `instagram`, `all`) | `reboot_influencer_orders_tiktok_20260101_20261022.csv` |
+
+> `platform`은 `instagram` · `tiktok` · `all`만 허용합니다(그 외 400). 인플루언서 CSV에는 DIRECT(링크 없이 들어온 주문)가 포함되지 않습니다.
 
 #### ① 상품별 매출 (`product-sales.csv`)
 
@@ -315,7 +322,7 @@ customer_required = role_required("customer")
 |---|---|
 | `link_code` | 링크 코드 (`DIRECT` = 링크 없이 들어온 주문) |
 | `influencer_name` | 인플루언서 이름 (가상) |
-| `platform` | TikTok / Instagram / YouTube |
+| `platform` | TikTok / Instagram |
 | `clicks` | 링크 클릭 수 |
 | `order_count` | 주문 수 |
 | `conversion_rate` | 주문 수 ÷ 클릭 수 |
@@ -323,6 +330,33 @@ customer_required = role_required("customer")
 | `net_sales_usd` | 할인 후 매출 |
 | `commission_usd` | 정산 예정 수수료 |
 | `top_product` | 가장 많이 팔린 제품 |
+
+#### ④ 판매 옵션별 매출 (`option-sales.csv`)
+
+판매 중인 **모든 옵션(SKU)** 이 한 줄씩 나옵니다. 기간 내 판매가 0건이어도 행이 나옵니다.
+젤리는 맛별이 아니라 **라인별 패키지(3가지 맛 구성) 1개 옵션**만 있고, 음료는 맛별 낱병 3개 + 믹스 박스(3병) 1개 옵션입니다. → 총 10개 옵션
+
+| 컬럼 | 설명 |
+|---|---|
+| `product_slug` · `product_name` · `product_line` | 제품 · 라인 (`Jelly` / `Drink`) |
+| `option_sku` · `option_label` | 판매 옵션 |
+| `pack_size` | 옵션 1개에 든 개수 (박스 = 3) |
+| `list_price_usd` | 옵션 정가 |
+| `order_count` | 이 옵션이 포함된 주문 수 |
+| `quantity_sold` | 옵션 판매 수량 |
+| `pieces_sold` | 병 · 패키지 기준 개수 (`quantity_sold × pack_size`) |
+| `gross_sales_usd` · `discount_usd` · `net_sales_usd` | 할인 전 · 할인 · 할인 후 매출 |
+| `direct_sales_usd` · `instagram_sales_usd` · `tiktok_sales_usd` | 유입 경로별 순매출 (세 값의 합 = `net_sales_usd`) |
+
+#### ⑤ 인플루언서별 매출 (`influencer-sales.csv?platform=`)
+
+`platform, influencer_name, discount_code, link_path, discount_rate, commission_rate, clicks, order_count, conversion_rate, units_sold, gross_sales_usd, discount_usd, net_sales_usd, commission_usd, top_product`
+(인플루언서 1명 = 1행. `discount_code`는 링크 코드와 같고 `link_path`는 `/r/<code>`)
+
+#### ⑥ 인플루언서 주문 상세 (`influencer-orders.csv?platform=`)
+
+`order_id, ordered_at, status, platform, influencer_name, discount_code, link_path, discount_rate, product_slug, product_name, option_sku, option_label, quantity, unit_price_usd, gross_usd, discount_usd, line_total_usd, commission_rate, commission_usd, ship_state, is_dummy`
+(전용 링크로 들어온 주문의 품목 1줄 = 1행, `commission_usd = line_total_usd × commission_rate`)
 
 #### ③ 주문 상세 (`orders.csv`)
 
@@ -375,7 +409,9 @@ shop_referral_link ──┐   ▼
 |---|---|---|
 | 전체 주문 | — | **1,000건** (`2026-01-01 ~ 2026-10-22`) |
 | **상품별** | 4종 **각각 주문 100건 이상** | 주문당 1–3개 품목, 각 제품 최소 150건 보장 (음료는 개당 · 박스 옵션 섞어서) |
+| **판매 옵션별** | 옵션 10개 **각각 주문 100건 이상** | 주문의 첫 제품이 판매 옵션을 차례로 돌아가며 선택 → 옵션마다 100건 이상 보장 |
 | **전용 링크별** | 링크 **각각 주문 100건 이상** | 인플루언서 링크 6개 × 각 120건 = 720건 |
+| **플랫폼별** | Instagram · TikTok **각각 100건 이상** | Instagram 3명 × 120 = 360건 / TikTok 3명 × 120 = 360건 |
 | 링크 없는 주문 (DIRECT) | — | 280건 |
 | 링크 클릭 수 | 주문 수보다 큼 | 링크별 주문 수 × 8–20배 |
 
@@ -385,7 +421,7 @@ shop_referral_link ──┐   ▼
 |---|---|---|---|---|
 | `NEONNIGHTS` | Neon Nights (가상) | TikTok | 10% | 15% |
 | `KPARTYLA` | K-Party LA (가상) | Instagram | 10% | 12% |
-| `MORNINGRESET` | Morning Reset (가상) | YouTube | 15% | 15% |
+| `MORNINGRESET` | Morning Reset (가상) | Instagram | 15% | 15% |
 | `SEOULSIPNYC` | Seoul Sip NYC (가상) | TikTok | 10% | 10% |
 | `BRUNCHCLUB` | Brunch Club (가상) | Instagram | 5% | 10% |
 | `RESTARTCREW` | Restart Crew (가상) | TikTok | 20% | 20% |
@@ -396,7 +432,12 @@ shop_referral_link ──┐   ▼
 - 배송 주(state): CA · NY · TX · WA · NJ · IL 등 MZ세대 인구가 많은 대도시권 주에 가중치
 - 상태: `paid` 95% / `refunded` 3% / `cancelled` 2%
 - 이름 · 주소는 가상 데이터만 사용 (실존 인물 · 주소 금지)
-- 생성 후 **검증 assert**: 각 제품 주문 수 ≥ 100, 각 링크 주문 수 ≥ 100을 확인하고, 실패하면 시드를 중단합니다.
+- 생성 후 **검증 assert**: 각 제품 · 각 판매 옵션 · 각 링크 · Instagram/TikTok 플랫폼 주문 수 ≥ 100을 확인하고, 실패하면 시드를 중단합니다.
+- 이미 만든 로컬 DB에 새 규칙의 더미 데이터를 다시 넣으려면 `flask --app app:create_app reset-db`를 실행합니다. (`setup-db`는 기존 더미 주문이 있으면 건너뛰고, 링크 플랫폼만 Instagram/TikTok으로 맞춥니다.)
+
+### 더미 CSV 샘플 파일 (`sample_exports/`)
+
+`2026-01-01 ~ 2026-10-25`, 주문 상태 `paid` 기준으로 관리자 CSV 8종을 뽑아 둔 파일입니다. (상품별 · 옵션별 · 링크별 · 주문 상세 + Instagram/TikTok 인플루언서별 · 인플루언서 주문 상세) 시드를 바꾸면 다시 뽑습니다.
 
 ```python
 # shop/seed.py (요약)
