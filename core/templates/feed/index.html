@@ -1,0 +1,1 @@
+{% extends 'core/base.html' %}{% from 'core/macros.html' import feedcard %}{% block content %}<section class="section page-top"><span class="eyebrow">THE REBOOT EDIT</span><h1>FRESH<br><span class="neon">PERSPECTIVES.</span></h1><div class="feed-grid">{% for a in articles %}{{ feedcard(a,loop.index) }}{% endfor %}</div></section>{% endblock %}

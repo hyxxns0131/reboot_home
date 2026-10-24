@@ -1,0 +1,174 @@
+[
+  {
+    "slug": "jelly-original",
+    "name": "Reboot Jelly Original",
+    "line": "Jelly",
+    "format": "Stick Jelly",
+    "pack": "Individually wrapped pouch",
+    "ingredients": [
+      "A-HAT",
+      "Hovenia dulcis (Oriental raisin tree) fruit"
+    ],
+    "flavors": [
+      "Lime",
+      "Cherry",
+      "Lemon"
+    ],
+    "options": [
+      {
+        "sku": "jelly-original-pouch",
+        "label": "1 Pouch",
+        "unit_count": 1,
+        "price_usd": 16.0
+      }
+    ],
+    "price_is_sample": true,
+    "is_balance": false,
+    "tagline": "TBD",
+    "images": {
+      "main": "jelly-original-main.webp",
+      "gallery": []
+    },
+    "buy_links": {
+      "amazon": "",
+      "weee": "",
+      "yamibuy": ""
+    },
+    "order": 1,
+    "image_dir": "jelly",
+    "variant": "original",
+    "color": "#ff87bd"
+  },
+  {
+    "slug": "jelly-balance",
+    "name": "Reboot Jelly Balance",
+    "line": "Jelly",
+    "format": "Stick Jelly",
+    "pack": "Individually wrapped pouch",
+    "ingredients": [
+      "A-HAT",
+      "Hovenia dulcis (Oriental raisin tree) fruit"
+    ],
+    "flavors": [
+      "Lemon",
+      "Cherry",
+      "Lime"
+    ],
+    "options": [
+      {
+        "sku": "jelly-balance-pouch",
+        "label": "1 Pouch",
+        "unit_count": 1,
+        "price_usd": 18.0
+      }
+    ],
+    "price_is_sample": true,
+    "is_balance": true,
+    "tagline": "TBD",
+    "images": {
+      "main": "jelly-balance-main.webp",
+      "gallery": []
+    },
+    "buy_links": {
+      "amazon": "",
+      "weee": "",
+      "yamibuy": ""
+    },
+    "order": 2,
+    "image_dir": "jelly",
+    "variant": "balance",
+    "color": "#c8b5ff"
+  },
+  {
+    "slug": "drink-original",
+    "name": "Reboot Drink Original",
+    "line": "Drink",
+    "format": "Non-carbonated drink",
+    "pack": "Small bottle (single) or box of 3",
+    "ingredients": [
+      "A-HAT",
+      "Hovenia dulcis (Oriental raisin tree) fruit"
+    ],
+    "flavors": [
+      "Lemon",
+      "Cherry",
+      "Lime"
+    ],
+    "options": [
+      {
+        "sku": "drink-original-single",
+        "label": "1 Bottle",
+        "unit_count": 1,
+        "price_usd": 7.0
+      },
+      {
+        "sku": "drink-original-box3",
+        "label": "Box of 3",
+        "unit_count": 3,
+        "price_usd": 19.0
+      }
+    ],
+    "price_is_sample": true,
+    "is_balance": false,
+    "tagline": "TBD",
+    "images": {
+      "main": "drink-original-main.webp",
+      "gallery": []
+    },
+    "buy_links": {
+      "amazon": "",
+      "weee": "",
+      "yamibuy": ""
+    },
+    "order": 3,
+    "image_dir": "beverage",
+    "variant": "original",
+    "color": "#b1ff3b"
+  },
+  {
+    "slug": "drink-balance",
+    "name": "Reboot Drink Balance",
+    "line": "Drink",
+    "format": "Non-carbonated drink",
+    "pack": "Small bottle (single) or box of 3",
+    "ingredients": [
+      "A-HAT",
+      "Hovenia dulcis (Oriental raisin tree) fruit"
+    ],
+    "flavors": [
+      "Lemon",
+      "Lime",
+      "Cherry"
+    ],
+    "options": [
+      {
+        "sku": "drink-balance-single",
+        "label": "1 Bottle",
+        "unit_count": 1,
+        "price_usd": 8.0
+      },
+      {
+        "sku": "drink-balance-box3",
+        "label": "Box of 3",
+        "unit_count": 3,
+        "price_usd": 22.0
+      }
+    ],
+    "price_is_sample": true,
+    "is_balance": true,
+    "tagline": "TBD",
+    "images": {
+      "main": "drink-balance-main.webp",
+      "gallery": []
+    },
+    "buy_links": {
+      "amazon": "",
+      "weee": "",
+      "yamibuy": ""
+    },
+    "order": 4,
+    "image_dir": "beverage",
+    "variant": "balance",
+    "color": "#fff071"
+  }
+]
