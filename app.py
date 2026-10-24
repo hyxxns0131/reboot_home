@@ -13,7 +13,7 @@ def create_app(test_config=None):
     login_manager.login_view='auth.login'
     import auth.models, shop.models, core.messages, rewards.models
     from importlib import import_module
-    for name in ('main','about','legal','auth','products','shop','shop.referral','where_to_buy','admin','vibe_test','feed','creators','contact','rewards','core.i18n'):
+    for name in ('main','about','legal','auth','products','shop','shop.referral','where_to_buy','admin','vibe_test','feed','creators','contact','rewards','support','core.i18n'):
         app.register_blueprint(import_module(name).bp)
     from core.cli import register_cli
     from core.nav import NAV_ITEMS

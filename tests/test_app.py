@@ -135,3 +135,57 @@ def test_empty_export_and_input_validation(client,app):
     rows=list(csv.reader(io.StringIO(response.data.decode('utf-8-sig'))))
     assert len(rows)==1 and rows[0][0]=='order_id'
     assert client.get('/admin/?status=bogus').status_code==400
+
+def test_retailer_links(client):
+    html=client.get('/where-to-buy/').get_data(as_text=True)
+    for url in ['https://www.yamibuy.com/','https://www.amazon.com/','https://global.oliveyoung.com/','https://www.sayweee.com/']:
+        assert f'href="{url}" target="_blank" rel="noopener noreferrer"' in html
+
+def test_reels_embed_only_instagram(client,monkeypatch):
+    assert 'reel-grid' not in client.get('/').get_data(as_text=True)
+    monkeypatch.setattr('feed.REELS',['https://www.instagram.com/reel/AbC_12-x/?igsh=abc','https://evil.example/reel/zzz/','javascript:alert(1)'])
+    for path in ['/','/feed/']:
+        html=client.get(path).get_data(as_text=True)
+        assert html.count('<iframe')==1 and 'src="https://www.instagram.com/reel/AbC_12-x/embed/"' in html
+
+def test_support_chat(client,monkeypatch):
+    import json
+    headers={'X-CSRFToken':token(client,'/')}
+    ask=lambda messages: client.post('/support/chat',json={'messages':messages},headers=headers)
+    hello=[{'role':'user','content':'Where can I buy Reboot?'}]
+    assert client.post('/support/chat',json={'messages':hello}).status_code==400 # CSRF
+    assert ask([{'role':'assistant','content':'Hi'}]).status_code==400
+    assert ask([{'role':'user','content':'x'*1001}]).status_code==400
+    monkeypatch.delenv('OPENAI_API_KEY',raising=False)
+    assert ask(hello).status_code==503
+    monkeypatch.setenv('OPENAI_API_KEY','test-key')
+    sent={}
+    def urlopen(request,timeout):
+        sent.update(body=json.loads(request.data),auth=request.get_header('Authorization'))
+        return io.BytesIO(json.dumps({'choices':[{'message':{'content':'Try Amazon or Weee!'}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen',urlopen)
+    assert ask(hello).get_json()=={'reply':'Try Amazon or Weee!'}
+    assert sent['auth']=='Bearer test-key'
+    system=sent['body']['messages'][0]
+    assert system['role']=='system' and 'Reboot Jelly Original' in system['content'] and 'Olive Young Global' in system['content']
+    for _ in range(19): assert ask(hello).status_code==200
+    assert ask(hello).status_code==429
+
+def test_catalog_options_and_images(client,app):
+    import json
+    from pathlib import Path
+    from shop.models import Product, ProductOption
+    html=client.get('/products/drink-original').get_data(as_text=True)
+    assert all(f'value="drink-original-{s}"' in html for s in ('box3','lemon','lime','cherry')) and 'drink-original-single' not in html
+    html=client.get('/products/jelly-balance').get_data(as_text=True)
+    assert '/images/shop/jelly-balance-package.webp' in html and all(f'/images/shop/jelly-balance-{f}.webp' in html for f in ('lime','lemon','cherry'))
+    for p in json.loads(Path('products/data/products.json').read_text()):
+        for src in [p['images']['main']]+[g['src'] for g in p['images']['gallery']]+[o['image'] for o in p['options']]:
+            assert (Path('images/shop')/src).exists(),src
+    login(client,app)
+    assert client.post('/shop/cart',data={'csrf_token':token(client,'/products/drink-balance'),'sku':'drink-balance-lime','quantity':1}).status_code==302
+    with app.app_context(): # options removed from products.json stop selling on the next setup-db
+        product=db.session.scalar(db.select(Product).filter_by(slug='drink-original'))
+        db.session.add(ProductOption(product_id=product.id,sku='drink-original-single',label='1 Bottle',price=7)); db.session.commit()
+    assert app.test_cli_runner().invoke(args=['setup-db']).exit_code==0
+    with app.app_context(): assert not db.session.scalar(db.select(ProductOption).filter_by(sku='drink-original-single')).is_active

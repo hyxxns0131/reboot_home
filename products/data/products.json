@@ -4,7 +4,7 @@
     "name": "Reboot Jelly Original",
     "line": "Jelly",
     "format": "Stick Jelly",
-    "pack": "Individually wrapped pouch",
+    "pack": "One package of individually wrapped jellies: lime, lemon & cherry",
     "ingredients": [
       "A-HAT",
       "Hovenia dulcis (Oriental raisin tree) fruit"
@@ -17,22 +17,41 @@
     "options": [
       {
         "sku": "jelly-original-pouch",
-        "label": "1 Pouch",
+        "label": "1 Package · Lime, Lemon & Cherry",
         "unit_count": 1,
-        "price_usd": 16.0
+        "price_usd": 16.0,
+        "image": "jelly-original-package.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": false,
     "tagline": "TBD",
     "images": {
-      "main": "jelly-original-main.webp",
-      "gallery": []
+      "main": "jelly-original-package.webp",
+      "gallery": [
+        {
+          "src": "jelly-original-package.webp",
+          "label": "Package"
+        },
+        {
+          "src": "jelly-original-lime.webp",
+          "label": "Lime"
+        },
+        {
+          "src": "jelly-original-lemon.webp",
+          "label": "Lemon"
+        },
+        {
+          "src": "jelly-original-cherry.webp",
+          "label": "Cherry"
+        }
+      ]
     },
     "buy_links": {
+      "yamibuy": "",
       "amazon": "",
-      "weee": "",
-      "yamibuy": ""
+      "oliveyoung": "",
+      "weee": ""
     },
     "order": 1,
     "image_dir": "jelly",
@@ -44,7 +63,7 @@
     "name": "Reboot Jelly Balance",
     "line": "Jelly",
     "format": "Stick Jelly",
-    "pack": "Individually wrapped pouch",
+    "pack": "One package of individually wrapped jellies: lime, lemon & cherry",
     "ingredients": [
       "A-HAT",
       "Hovenia dulcis (Oriental raisin tree) fruit"
@@ -57,22 +76,41 @@
     "options": [
       {
         "sku": "jelly-balance-pouch",
-        "label": "1 Pouch",
+        "label": "1 Package · Lime, Lemon & Cherry",
         "unit_count": 1,
-        "price_usd": 18.0
+        "price_usd": 18.0,
+        "image": "jelly-balance-package.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": true,
     "tagline": "TBD",
     "images": {
-      "main": "jelly-balance-main.webp",
-      "gallery": []
+      "main": "jelly-balance-package.webp",
+      "gallery": [
+        {
+          "src": "jelly-balance-package.webp",
+          "label": "Package"
+        },
+        {
+          "src": "jelly-balance-lime.webp",
+          "label": "Lime"
+        },
+        {
+          "src": "jelly-balance-lemon.webp",
+          "label": "Lemon"
+        },
+        {
+          "src": "jelly-balance-cherry.webp",
+          "label": "Cherry"
+        }
+      ]
     },
     "buy_links": {
+      "yamibuy": "",
       "amazon": "",
-      "weee": "",
-      "yamibuy": ""
+      "oliveyoung": "",
+      "weee": ""
     },
     "order": 2,
     "image_dir": "jelly",
@@ -84,7 +122,7 @@
     "name": "Reboot Drink Original",
     "line": "Drink",
     "format": "Non-carbonated drink",
-    "pack": "Small bottle (single) or box of 3",
+    "pack": "Single bottles in lemon, lime or cherry, or a mixed box of all three",
     "ingredients": [
       "A-HAT",
       "Hovenia dulcis (Oriental raisin tree) fruit"
@@ -96,29 +134,67 @@
     ],
     "options": [
       {
-        "sku": "drink-original-single",
-        "label": "1 Bottle",
-        "unit_count": 1,
-        "price_usd": 7.0
+        "sku": "drink-original-box3",
+        "label": "Mixed Box · Lemon, Lime & Cherry",
+        "unit_count": 3,
+        "price_usd": 19.0,
+        "image": "drink-original-set.webp"
       },
       {
-        "sku": "drink-original-box3",
-        "label": "Box of 3",
-        "unit_count": 3,
-        "price_usd": 19.0
+        "sku": "drink-original-lemon",
+        "label": "Lemon · 1 Bottle",
+        "unit_count": 1,
+        "price_usd": 7.0,
+        "image": "drink-original-lemon.webp"
+      },
+      {
+        "sku": "drink-original-lime",
+        "label": "Lime · 1 Bottle",
+        "unit_count": 1,
+        "price_usd": 7.0,
+        "image": "drink-original-lime.webp"
+      },
+      {
+        "sku": "drink-original-cherry",
+        "label": "Cherry · 1 Bottle",
+        "unit_count": 1,
+        "price_usd": 7.0,
+        "image": "drink-original-cherry.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": false,
     "tagline": "TBD",
     "images": {
-      "main": "drink-original-main.webp",
-      "gallery": []
+      "main": "drink-original-set.webp",
+      "gallery": [
+        {
+          "src": "drink-original-set.webp",
+          "label": "Mixed Box",
+          "sku": "drink-original-box3"
+        },
+        {
+          "src": "drink-original-lemon.webp",
+          "label": "Lemon",
+          "sku": "drink-original-lemon"
+        },
+        {
+          "src": "drink-original-lime.webp",
+          "label": "Lime",
+          "sku": "drink-original-lime"
+        },
+        {
+          "src": "drink-original-cherry.webp",
+          "label": "Cherry",
+          "sku": "drink-original-cherry"
+        }
+      ]
     },
     "buy_links": {
+      "yamibuy": "",
       "amazon": "",
-      "weee": "",
-      "yamibuy": ""
+      "oliveyoung": "",
+      "weee": ""
     },
     "order": 3,
     "image_dir": "beverage",
@@ -130,7 +206,7 @@
     "name": "Reboot Drink Balance",
     "line": "Drink",
     "format": "Non-carbonated drink",
-    "pack": "Small bottle (single) or box of 3",
+    "pack": "Single bottles in lemon, lime or cherry, or a mixed box of all three",
     "ingredients": [
       "A-HAT",
       "Hovenia dulcis (Oriental raisin tree) fruit"
@@ -142,29 +218,67 @@
     ],
     "options": [
       {
-        "sku": "drink-balance-single",
-        "label": "1 Bottle",
-        "unit_count": 1,
-        "price_usd": 8.0
+        "sku": "drink-balance-box3",
+        "label": "Mixed Box · Lemon, Lime & Cherry",
+        "unit_count": 3,
+        "price_usd": 22.0,
+        "image": "drink-balance-set.webp"
       },
       {
-        "sku": "drink-balance-box3",
-        "label": "Box of 3",
-        "unit_count": 3,
-        "price_usd": 22.0
+        "sku": "drink-balance-lemon",
+        "label": "Lemon · 1 Bottle",
+        "unit_count": 1,
+        "price_usd": 8.0,
+        "image": "drink-balance-lemon.webp"
+      },
+      {
+        "sku": "drink-balance-lime",
+        "label": "Lime · 1 Bottle",
+        "unit_count": 1,
+        "price_usd": 8.0,
+        "image": "drink-balance-lime.webp"
+      },
+      {
+        "sku": "drink-balance-cherry",
+        "label": "Cherry · 1 Bottle",
+        "unit_count": 1,
+        "price_usd": 8.0,
+        "image": "drink-balance-cherry.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": true,
     "tagline": "TBD",
     "images": {
-      "main": "drink-balance-main.webp",
-      "gallery": []
+      "main": "drink-balance-set.webp",
+      "gallery": [
+        {
+          "src": "drink-balance-set.webp",
+          "label": "Mixed Box",
+          "sku": "drink-balance-box3"
+        },
+        {
+          "src": "drink-balance-lemon.webp",
+          "label": "Lemon",
+          "sku": "drink-balance-lemon"
+        },
+        {
+          "src": "drink-balance-lime.webp",
+          "label": "Lime",
+          "sku": "drink-balance-lime"
+        },
+        {
+          "src": "drink-balance-cherry.webp",
+          "label": "Cherry",
+          "sku": "drink-balance-cherry"
+        }
+      ]
     },
     "buy_links": {
+      "yamibuy": "",
       "amazon": "",
-      "weee": "",
-      "yamibuy": ""
+      "oliveyoung": "",
+      "weee": ""
     },
     "order": 4,
     "image_dir": "beverage",

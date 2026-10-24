@@ -29,7 +29,11 @@ def setup():
         for item in data['options']:
             option=db.session.scalar(db.select(ProductOption).filter_by(sku=item['sku']))
             if not option: option=ProductOption(sku=item['sku'],product_id=product.id); db.session.add(option)
-            option.label=item['label']; option.unit_count=item['unit_count']; option.price=Decimal(str(item['price_usd']))
+            option.label=item['label']; option.unit_count=item['unit_count']; option.price=Decimal(str(item['price_usd'])); option.is_active=True
+        # Options dropped from products.json stop selling but stay in the DB for past orders.
+        db.session.flush()
+        for option in db.session.scalars(db.select(ProductOption).filter(ProductOption.product_id==product.id,ProductOption.sku.not_in([o['sku'] for o in data['options']]))):
+            option.is_active=False
     seeds=[('NEONNIGHTS','Neon Nights','TikTok',10,15),('KPARTYLA','K-Party LA','Instagram',10,12),('MORNINGRESET','Morning Reset','YouTube',15,15),('SEOULSIPNYC','Seoul Sip NYC','TikTok',10,10),('BRUNCHCLUB','Brunch Club','Instagram',5,10),('RESTARTCREW','Restart Crew','TikTok',20,20)]
     for code,name,platform,discount,commission in seeds:
         if not db.session.scalar(db.select(ReferralLink).filter_by(code=code)):
@@ -41,7 +45,7 @@ def setup():
         dates=[datetime(2026,1,1)+timedelta(days=i) for i in range(295)]
         for i in range(1000):
             selected=[products[i%4]]+rng.sample([p for p in products if p.id!=products[i%4].id],rng.randint(0,2))
-            lines=[(rng.choice(p.options),rng.randint(1,3)) for p in selected]
+            lines=[(rng.choice([o for o in p.options if o.is_active]),rng.randint(1,3)) for p in selected]
             link=links[i//120] if i<720 else None
             if link: link_counts[link.id]+=1
             for p in selected: counts[p.id]+=1

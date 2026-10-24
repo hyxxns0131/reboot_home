@@ -24,13 +24,20 @@ document.querySelectorAll('[data-slide]').forEach(button => button.addEventListe
   const track = document.querySelector('.product-track');
   track?.scrollBy({left: Number(button.dataset.slide) * (track.querySelector('.product-card').offsetWidth + 24), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
 }));
-document.querySelectorAll('[data-flavor]').forEach(button => button.addEventListener('click', () => {
-  const image = document.querySelector('.detail-cut img');
-  image.parentElement.dataset.flavorCut = button.dataset.flavor;
-  image.src = image.src.replace(/_(lime|lemon|cherry)_3D/, `_${button.dataset.flavor}_3D`);
-  image.alt = image.alt.split(' — ')[0] + ' — ' + button.dataset.flavor + ' concept';
-  document.querySelectorAll('[data-flavor]').forEach(b => { b.classList.toggle('active', b === button); b.setAttribute('aria-pressed', String(b === button)); });
-}));
+// Product detail: thumbnails and purchase options share the main photo; a drink thumbnail also selects its option.
+const detailShot = document.querySelector('.detail-shot');
+if (detailShot) {
+  const showShot = src => {
+    detailShot.src = src;
+    document.querySelectorAll('.detail-thumbs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.shot === src)));
+  };
+  document.querySelectorAll('.detail-thumbs button').forEach(button => button.addEventListener('click', () => {
+    showShot(button.dataset.shot);
+    const option = button.dataset.sku && document.querySelector(`.option-list input[value="${button.dataset.sku}"]`);
+    if (option) option.checked = true;
+  }));
+  document.querySelectorAll('.option-list input').forEach(input => input.addEventListener('change', () => showShot(input.dataset.shot)));
+}
 // A perspective card scene: the original product artwork stays intact.
 const hero = document.querySelector('.hero');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
