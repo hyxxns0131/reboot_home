@@ -6,4 +6,5 @@ ARTICLES=[
 # Paste public Instagram Reel links here, one per line, e.g. 'https://www.instagram.com/reel/ABC123xyz/'.
 # They appear on Home and Feed in this order; the section stays hidden while the list is empty.
 REELS=[
+ 'https://www.instagram.com/reel/De1aUaRh1Yu/?utm_source=ig_web_copy_link&srtk=MzRlODBiNWFlZA==',
 ]
