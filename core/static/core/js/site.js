@@ -31,12 +31,23 @@ if (detailShot) {
     detailShot.src = src;
     document.querySelectorAll('.detail-thumbs button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.shot === src)));
   };
+  // Close-up views (3/4, side, back) follow the chosen flavor, so the nutrition label always matches.
+  const viewRe = /-(lime|lemon|cherry)-(34|side|back)\.webp$/;
+  const followFlavor = sku => {
+    const flavor = /-(lime|lemon|cherry)$/.exec(sku || '')?.[1];
+    if (!flavor) return;
+    document.querySelectorAll('.detail-thumbs [data-view]').forEach(b => {
+      b.dataset.shot = b.dataset.shot.replace(viewRe, `-${flavor}-$2.webp`);
+      const img = b.querySelector('img'); if (img) img.src = img.src.replace(viewRe, `-${flavor}-$2.webp`);
+    });
+  };
   document.querySelectorAll('.detail-thumbs button').forEach(button => button.addEventListener('click', () => {
     showShot(button.dataset.shot);
     const option = button.dataset.sku && document.querySelector(`.option-list input[value="${button.dataset.sku}"]`);
     if (option) option.checked = true;
+    followFlavor(button.dataset.sku);
   }));
-  document.querySelectorAll('.option-list input').forEach(input => input.addEventListener('change', () => showShot(input.dataset.shot)));
+  document.querySelectorAll('.option-list input').forEach(input => input.addEventListener('change', () => { showShot(input.dataset.shot); followFlavor(input.value); }));
 }
 // A perspective card scene: the original product artwork stays intact.
 const hero = document.querySelector('.hero');

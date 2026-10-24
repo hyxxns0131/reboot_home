@@ -20,32 +20,41 @@
         "label": "1 Package · Lime, Lemon & Cherry",
         "unit_count": 1,
         "price_usd": 16.0,
-        "image": "jelly-original-package.webp"
+        "image": "product_image/web/jelly-original-package.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": false,
     "tagline": "TBD",
     "images": {
-      "main": "jelly-original-package.webp",
+      "main": "product_image/web/cutout/jelly-original-package.webp",
       "gallery": [
         {
-          "src": "jelly-original-package.webp",
+          "src": "product_image/web/jelly-original-package.webp",
           "label": "Package"
         },
         {
-          "src": "jelly-original-lime.webp",
+          "src": "product_image/web/jelly-original-mix.webp",
+          "label": "All three shapes"
+        },
+        {
+          "src": "product_image/web/jelly-original-lime.webp",
           "label": "Lime"
         },
         {
-          "src": "jelly-original-lemon.webp",
+          "src": "product_image/web/jelly-original-lemon.webp",
           "label": "Lemon"
         },
         {
-          "src": "jelly-original-cherry.webp",
+          "src": "product_image/web/jelly-original-cherry.webp",
           "label": "Cherry"
+        },
+        {
+          "src": "product_image/web/jelly-original-scene.webp",
+          "label": "In the pack"
         }
-      ]
+      ],
+      "card": "product_image/web/jelly-original-card.webp"
     },
     "buy_links": {
       "yamibuy": "",
@@ -79,32 +88,41 @@
         "label": "1 Package · Lime, Lemon & Cherry",
         "unit_count": 1,
         "price_usd": 18.0,
-        "image": "jelly-balance-package.webp"
+        "image": "product_image/web/jelly-balance-package.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": true,
     "tagline": "TBD",
     "images": {
-      "main": "jelly-balance-package.webp",
+      "main": "product_image/web/cutout/jelly-balance-package.webp",
       "gallery": [
         {
-          "src": "jelly-balance-package.webp",
+          "src": "product_image/web/jelly-balance-package.webp",
           "label": "Package"
         },
         {
-          "src": "jelly-balance-lime.webp",
+          "src": "product_image/web/jelly-balance-mix.webp",
+          "label": "All three shapes"
+        },
+        {
+          "src": "product_image/web/jelly-balance-lime.webp",
           "label": "Lime"
         },
         {
-          "src": "jelly-balance-lemon.webp",
+          "src": "product_image/web/jelly-balance-lemon.webp",
           "label": "Lemon"
         },
         {
-          "src": "jelly-balance-cherry.webp",
+          "src": "product_image/web/jelly-balance-cherry.webp",
           "label": "Cherry"
+        },
+        {
+          "src": "product_image/web/jelly-balance-scene.webp",
+          "label": "In the pack"
         }
-      ]
+      ],
+      "card": "product_image/web/jelly-balance-card.webp"
     },
     "buy_links": {
       "yamibuy": "",
@@ -139,57 +157,73 @@
         "label": "Mixed Box · Lemon, Lime & Cherry",
         "unit_count": 3,
         "price_usd": 19.0,
-        "image": "drink-original-set.webp"
+        "image": "product_image/web/drink-original-box3.webp"
       },
       {
         "sku": "drink-original-lemon",
         "label": "Lemon · 1 Bottle",
         "unit_count": 1,
         "price_usd": 7.0,
-        "image": "drink-original-lemon.webp"
+        "image": "product_image/web/drink-original-lemon.webp"
       },
       {
         "sku": "drink-original-lime",
         "label": "Lime · 1 Bottle",
         "unit_count": 1,
         "price_usd": 7.0,
-        "image": "drink-original-lime.webp"
+        "image": "product_image/web/drink-original-lime.webp"
       },
       {
         "sku": "drink-original-cherry",
         "label": "Cherry · 1 Bottle",
         "unit_count": 1,
         "price_usd": 7.0,
-        "image": "drink-original-cherry.webp"
+        "image": "product_image/web/drink-original-cherry.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": false,
     "tagline": "TBD",
     "images": {
-      "main": "drink-original-set.webp",
+      "main": "product_image/web/drink-original-box3.webp",
       "gallery": [
         {
-          "src": "drink-original-set.webp",
+          "src": "product_image/web/drink-original-box3.webp",
           "label": "Mixed Box",
           "sku": "drink-original-box3"
         },
         {
-          "src": "drink-original-lemon.webp",
+          "src": "product_image/web/drink-original-lemon.webp",
           "label": "Lemon",
           "sku": "drink-original-lemon"
         },
         {
-          "src": "drink-original-lime.webp",
+          "src": "product_image/web/drink-original-lime.webp",
           "label": "Lime",
           "sku": "drink-original-lime"
         },
         {
-          "src": "drink-original-cherry.webp",
+          "src": "product_image/web/drink-original-cherry.webp",
           "label": "Cherry",
           "sku": "drink-original-cherry"
+        },
+        {
+          "src": "product_image/web/drink-original-lime-34.webp",
+          "label": "3/4 view",
+          "view": "34"
+        },
+        {
+          "src": "product_image/web/drink-original-lime-side.webp",
+          "label": "Side",
+          "view": "side"
+        },
+        {
+          "src": "product_image/web/drink-original-lime-back.webp",
+          "label": "Back · nutrition",
+          "view": "back"
         }
-      ]
+      ],
+      "card": "product_image/web/drink-original-card.webp"
     },
     "buy_links": {
       "yamibuy": "",
@@ -224,57 +258,73 @@
         "label": "Mixed Box · Lemon, Lime & Cherry",
         "unit_count": 3,
         "price_usd": 22.0,
-        "image": "drink-balance-set.webp"
+        "image": "product_image/web/drink-balance-box3.webp"
       },
       {
         "sku": "drink-balance-lemon",
         "label": "Lemon · 1 Bottle",
         "unit_count": 1,
         "price_usd": 8.0,
-        "image": "drink-balance-lemon.webp"
+        "image": "product_image/web/drink-balance-lemon.webp"
       },
       {
         "sku": "drink-balance-lime",
         "label": "Lime · 1 Bottle",
         "unit_count": 1,
         "price_usd": 8.0,
-        "image": "drink-balance-lime.webp"
+        "image": "product_image/web/drink-balance-lime.webp"
       },
       {
         "sku": "drink-balance-cherry",
         "label": "Cherry · 1 Bottle",
         "unit_count": 1,
         "price_usd": 8.0,
-        "image": "drink-balance-cherry.webp"
+        "image": "product_image/web/drink-balance-cherry.webp"
       }
     ],
     "price_is_sample": true,
     "is_balance": true,
     "tagline": "TBD",
     "images": {
-      "main": "drink-balance-set.webp",
+      "main": "product_image/web/drink-balance-box3.webp",
       "gallery": [
         {
-          "src": "drink-balance-set.webp",
+          "src": "product_image/web/drink-balance-box3.webp",
           "label": "Mixed Box",
           "sku": "drink-balance-box3"
         },
         {
-          "src": "drink-balance-lemon.webp",
+          "src": "product_image/web/drink-balance-lemon.webp",
           "label": "Lemon",
           "sku": "drink-balance-lemon"
         },
         {
-          "src": "drink-balance-lime.webp",
+          "src": "product_image/web/drink-balance-lime.webp",
           "label": "Lime",
           "sku": "drink-balance-lime"
         },
         {
-          "src": "drink-balance-cherry.webp",
+          "src": "product_image/web/drink-balance-cherry.webp",
           "label": "Cherry",
           "sku": "drink-balance-cherry"
+        },
+        {
+          "src": "product_image/web/drink-balance-lime-34.webp",
+          "label": "3/4 view",
+          "view": "34"
+        },
+        {
+          "src": "product_image/web/drink-balance-lime-side.webp",
+          "label": "Side",
+          "view": "side"
+        },
+        {
+          "src": "product_image/web/drink-balance-lime-back.webp",
+          "label": "Back · nutrition",
+          "view": "back"
         }
-      ]
+      ],
+      "card": "product_image/web/drink-balance-card.webp"
     },
     "buy_links": {
       "yamibuy": "",

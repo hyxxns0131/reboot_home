@@ -148,6 +148,8 @@ def test_reels_embed_only_instagram(client,monkeypatch):
     for path in ['/','/feed/']:
         html=client.get(path).get_data(as_text=True)
         assert html.count('<iframe')==1 and 'src="https://www.instagram.com/reel/AbC_12-x/embed/"' in html
+    monkeypatch.setattr('feed.REELS',['https://www.instagram.com/p/Po5t_1/?utm_source=ig_web_copy_link'])
+    assert 'src="https://www.instagram.com/p/Po5t_1/embed/"' in client.get('/feed/').get_data(as_text=True)
 
 def test_support_chat(client,monkeypatch):
     import json
@@ -179,10 +181,12 @@ def test_catalog_options_and_images(client,app):
     html=client.get('/products/drink-original').get_data(as_text=True)
     assert all(f'value="drink-original-{s}"' in html for s in ('box3','lemon','lime','cherry')) and 'drink-original-single' not in html
     html=client.get('/products/jelly-balance').get_data(as_text=True)
-    assert '/images/shop/jelly-balance-package.webp' in html and all(f'/images/shop/jelly-balance-{f}.webp' in html for f in ('lime','lemon','cherry'))
+    # product pages use the studio photos derived from images/product_image
+    assert '/images/product_image/web/jelly-balance-package.webp' in html and all(f'/images/product_image/web/jelly-balance-{f}.webp' in html for f in ('lime','lemon','cherry'))
     for p in json.loads(Path('products/data/products.json').read_text()):
-        for src in [p['images']['main']]+[g['src'] for g in p['images']['gallery']]+[o['image'] for o in p['options']]:
-            assert (Path('images/shop')/src).exists(),src
+        for src in [p['images']['main'],p['images'].get('card','')]+[g['src'] for g in p['images']['gallery']]+[o['image'] for o in p['options']]:
+            if not src: continue
+            assert src.startswith('product_image/') and (Path('images')/src).exists(),src
     login(client,app)
     assert client.post('/shop/cart',data={'csrf_token':token(client,'/products/drink-balance'),'sku':'drink-balance-lime','quantity':1}).status_code==302
     with app.app_context(): # options removed from products.json stop selling on the next setup-db

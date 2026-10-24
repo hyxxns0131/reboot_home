@@ -30,3 +30,9 @@ KO.update({
 'One package of individually wrapped jellies: lime, lemon & cherry':'라임·레몬·체리 젤리가 개별 포장되어 한 패키지에 담겨 있습니다','Single bottles in lemon, lime or cherry, or a mixed box of all three':'레몬·라임·체리 낱병 또는 세 가지 맛을 모두 담은 믹스 박스',
 '1 Package · Lime, Lemon & Cherry':'1 패키지 · 라임, 레몬, 체리','Mixed Box · Lemon, Lime & Cherry':'믹스 박스 · 레몬, 라임, 체리','Lemon · 1 Bottle':'레몬 · 1병','Lime · 1 Bottle':'라임 · 1병','Cherry · 1 Bottle':'체리 · 1병',
 })
+
+# Motion hero (home)
+KO.update({'Single bottle': '낱병', 'Sold as a pack only': '패키지로만 판매', 'SHOP THIS BOTTLE': '이 제품 구매하기', 'SHOP THE PACK': '패키지 구매하기', 'Bright lime with a crisp citrus finish.': '산뜻한 시트러스 피니시의 상큼한 라임.', 'Zesty lemon with a bright, tangy finish.': '톡 쏘는 새콤함이 살아 있는 레몬.', 'Juicy cherry with a sweet, fruity finish.': '달콤하고 과즙 가득한 체리.', 'Lime comes shaped like a little cowboy boot.': '라임은 작은 카우보이 부츠 모양이에요.', 'Lemon comes coiled up like a lasso.': '레몬은 돌돌 말린 올가미 모양이에요.', 'Cherry comes shaped like a cowboy hat.': '체리는 카우보이 모자 모양이에요.', 'A 100 ml little ritual, born in Seoul.': '서울에서 태어난 100ml의 작은 리추얼.', 'Zero sugar. Same bright little ritual.': '제로 슈가. 똑같이 산뜻한 작은 리추얼.', 'One pouch. Lime, lemon and cherry inside.': '한 봉지에 라임·레몬·체리가 모두 들어 있어요.', 'Zero sugar. Lime, lemon and cherry inside.': '제로 슈가. 라임·레몬·체리가 모두 들어 있어요.', 'Lime time, partner!': '라임 타임이야, 파트너!', 'Squeeze the day!': '오늘을 상큼하게!', 'Cherry on top!': '체리로 마무리!', 'Comes in a pack of three!': '세 가지 맛이 한 봉지에!', 'Say hi to Rebu': '리부에게 인사하기', 'Rebu, the Reboot mascot': '리부트 마스코트 리부', 'Product type': '제품 종류', 'GUMMIES': '젤리', 'ZERO SUGAR': '제로 슈가', 'CLASSIC': '클래식', 'PACK': '패키지', 'Scroll to the collection': '컬렉션으로 이동', 'Reboot products': '리부트 제품', 'gummy pack': '젤리 패키지'})
+
+# Product page photo labels
+KO.update({'All three shapes': '세 가지 모양', 'In the pack': '패키지 구성', '3/4 view': '3/4 뷰', 'Side': '옆면', 'Back · nutrition': '뒷면 · 영양 정보'})

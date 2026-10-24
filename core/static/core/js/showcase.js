@@ -5,8 +5,9 @@
  */
 (() => {
   'use strict';
+  // The old shot-hero ([data-showcase]) may be absent: the motion hero replaced it.
+  // The drink / gummy collections below still need the helpers, so only that part is skipped.
   const root=document.querySelector('[data-showcase]');
-  if(!root)return;
   const $=s=>document.querySelector(s);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const flavors={
@@ -18,7 +19,7 @@
     ...['original','balance'].map(line=>({kind:'gummy',line,flavor:'lime',color:'#c5ff4b',pastel:'#e1c5ff',note:'Cherry. Lemon. Lime. All in one pouch.'}))];
   const src=(p,angle='front')=>`/images/showcase/${p.line}_${p.flavor}-${angle}.webp`;
   const angleSrc=(p,angle)=>p.kind==='gummy'?`/images/showcase/gummy_${p.line}_lime-${angle}.webp`:src(p,angle);
-  const mainSrc=p=>p.kind==='gummy'?`/images/shop/jelly-${p.line}-package.webp`:src(p);
+  const mainSrc=p=>p.kind==='gummy'?`/images/product_image/web/cutout/jelly-${p.line}-package.webp`:src(p);
   const shop=p=>p.kind==='gummy'?`/products/jelly-${p.line}`:`/products/drink-${p.line}?sku=drink-${p.line}-${p.flavor}`;
   const label=p=>`${p.line} ${p.kind==='gummy'?'gummy':`${p.flavor} drink`}`;
   const cache=new Map();
@@ -33,6 +34,7 @@
     return cache.get(url);
   };
   const preload=p=>Promise.all(['front','quarter','side','back'].map(a=>load(angleSrc(p,a))));
+  if(root){
   const button=$('#shot-button'),image=$('#hero-bottle'),canvas=$('#bottle-sequence'),gummyCanvas=$('#gummy-sequence'),holder=$('.bottle-float');
   const controls=[...document.querySelectorAll('[data-product-index]')];
   controls.forEach((control,i)=>{
@@ -75,7 +77,7 @@
     button.setAttribute('aria-label',`SHOT — next: ${label(products[(index+1)%products.length])}`);
     controls.forEach((control,i)=>control.setAttribute('aria-pressed',String(i===index)));
     $('.hero-gummy-candies').hidden=p.kind!=='gummy';
-    document.querySelectorAll('.hero-candy').forEach((img,i)=>{const flavor=i?'lemon':'cherry';img.src=`/images/shop/jelly-${p.line}-${flavor}.webp`;});
+    document.querySelectorAll('.hero-candy').forEach((img,i)=>{const flavor=i?'lemon':'cherry';img.src=`/images/product_image/web/cutout/jelly-${p.line}-${flavor}.webp`;});
     const companion=p.kind==='gummy'?{kind:'drink',line:p.line,flavor:'lime'}:{kind:'gummy',line:p.line,flavor:'lime'};
     $('#companion-link').href=shop(companion);$('#companion-link').setAttribute('aria-label',`Shop ${label(companion)}`);
     $('#companion-label').textContent=`${p.line.toUpperCase()} ${companion.kind==='gummy'?'GUMMY':'LIME DRINK'}`;
@@ -125,6 +127,7 @@
         .to('.showcase-tagline',{y:-30,opacity:0,ease:'none'},0);
     });
   }
+  }
   let line='original',selected='lime';
   function selectDrink(){
     document.querySelectorAll('.drink-choice').forEach(card=>{
@@ -145,10 +148,10 @@
   document.querySelectorAll('.drink-select').forEach(b=>b.addEventListener('click',()=>{selected=b.closest('[data-flavor]').dataset.flavor;selectDrink();}));
   document.querySelectorAll('[data-gummy]').forEach(b=>b.addEventListener('click',()=>{
     document.querySelectorAll('[data-gummy]').forEach(t=>{t.setAttribute('aria-pressed',String(t===b));t.closest('.gummy-choice').dataset.selected=String(t===b);});
-    $('#gummy-scene').src=`/images/showcase/gummy-${b.dataset.gummy}-scene.webp`;
+    $('#gummy-scene').src=`/images/product_image/web/jelly-${b.dataset.gummy}-scene-wide.webp`;
     $('#gummy-scene').alt=`${b.dataset.gummy} gummy package with cherry, lemon and lime candies`;
     $('#gummy-scene-link').href=`/products/jelly-${b.dataset.gummy}`;
     $('#gummy-name').textContent=`${b.dataset.gummy.toUpperCase()} GUMMY`;
-    document.querySelectorAll('[data-gummy-flavor]').forEach(img=>{img.src=`/images/shop/jelly-${b.dataset.gummy}-${img.dataset.gummyFlavor}.webp`;img.alt=`${b.dataset.gummy} ${img.dataset.gummyFlavor} gummy`;img.closest('a').href=`/products/jelly-${b.dataset.gummy}`;});
+    document.querySelectorAll('[data-gummy-flavor]').forEach(img=>{img.src=`/images/product_image/web/cutout/jelly-${b.dataset.gummy}-${img.dataset.gummyFlavor}.webp`;img.alt=`${b.dataset.gummy} ${img.dataset.gummyFlavor} gummy`;img.closest('a').href=`/products/jelly-${b.dataset.gummy}`;});
   }));
 })();

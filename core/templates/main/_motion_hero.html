@@ -1,0 +1,100 @@
+{#- Motion hero: one featured product at a time, Rebu (3D) beside it.
+    Drinks: 6 single bottles. Gummies: 2 packs (Original / Balance), each shown by flavor —
+    the purchase is always the whole pack. Every image is in the DOM up front; switching
+    only toggles classes, so a new product never waits on a download. -#}
+{%- set flavor_copy = {
+  'lime':   {'color':'#b0ef38','pastel':'#d6f0a8','drink':'Bright lime with a crisp citrus finish.','gummy':'Lime comes shaped like a little cowboy boot.','shape':'boot'},
+  'lemon':  {'color':'#ffe137','pastel':'#f6e9a0','drink':'Zesty lemon with a bright, tangy finish.','gummy':'Lemon comes coiled up like a lasso.','shape':'lasso'},
+  'cherry': {'color':'#ff4560','pastel':'#f7b3c8','drink':'Juicy cherry with a sweet, fruity finish.','gummy':'Cherry comes shaped like a cowboy hat.','shape':'hat'}
+} -%}
+{%- set lines = {
+  'original': {'drink_price':7,'gummy_price':16,'drink_tag':'A 100 ml little ritual, born in Seoul.','gummy_tag':'One pouch. Lime, lemon and cherry inside.'},
+  'balance':  {'drink_price':8,'gummy_price':18,'drink_tag':'Zero sugar. Same bright little ritual.','gummy_tag':'Zero sugar. Lime, lemon and cherry inside.'}
+} -%}
+{%- set bubbles = {'lime':'Lime time, partner!','lemon':'Squeeze the day!','cherry':'Cherry on top!'} -%}
+{%- set items = [] -%}
+{%- for kind in ['drink','gummy'] -%}{%- for line in ['original','balance'] -%}{%- for flavor in ['lime','lemon','cherry'] -%}
+{%- set f = flavor_copy[flavor] -%}{%- set l = lines[line] -%}
+{%- set _ = items.append({
+  'id': kind ~ '-' ~ line ~ '-' ~ flavor, 'kind': kind, 'line': line, 'flavor': flavor,
+  'color': f.color if line=='original' else f.pastel,
+  'eyebrow': (line|upper) ~ (' DRINK · 100 ML' if kind=='drink' else ' GUMMY PACK · 3 FLAVORS'),
+  'title': flavor|upper,
+  'lede': tr(f[kind]) ~ ' ' ~ tr(l[kind ~ '_tag']),
+  'price': ('$' ~ l.drink_price ~ ' · ' ~ tr('Single bottle')) if kind=='drink' else ('$' ~ l.gummy_price ~ ' · ' ~ tr('Sold as a pack only')),
+  'cta': tr('SHOP THIS BOTTLE') if kind=='drink' else tr('SHOP THE PACK'),
+  'href': '/products/drink-' ~ line ~ '?sku=drink-' ~ line ~ '-' ~ flavor if kind=='drink' else '/products/jelly-' ~ line,
+  'bubble': tr(bubbles[flavor]) if kind=='drink' else tr('Comes in a pack of three!') if flavor=='lime' else tr(bubbles[flavor]),
+  'video': ''
+}) -%}
+{%- endfor -%}{%- endfor -%}{%- endfor -%}
+<section class="mh" data-motion-hero data-kind="drink" aria-roledescription="carousel" aria-label="{{ tr('Reboot products') }}" style="--flavor:#b0ef38">
+  <div class="mh-sky" aria-hidden="true">
+    <span class="mh-glow"></span><span class="mh-blob mh-blob-a"></span><span class="mh-blob mh-blob-b"></span>
+    <div class="mh-videos"></div>
+    <svg class="mh-ring" viewBox="0 0 600 600"><defs><path id="mh-ring-path" d="M300,300 m-270,0 a270,270 0 1,1 540,0 a270,270 0 1,1 -540,0"/></defs><text><textPath href="#mh-ring-path">RESTART YOUR DAY ✳ REBOOT ✳ SEOUL ORIGIN ✳ RESTART YOUR DAY ✳ REBOOT ✳ SEOUL ORIGIN ✳</textPath></text></svg>
+    <span class="mh-grain"></span>
+  </div>
+
+  <div class="mh-frame">
+    <div class="mh-stage">
+      <p class="mh-eyebrow"><span class="ent-mask"><span class="ent-line"><i class="mh-dot"></i><span id="mh-eyebrow">ORIGINAL DRINK · 100 ML</span></span></span></p>
+      <h1 class="mh-title" id="mh-title-wrap"><span class="sr-only">REBOOT — </span><span class="ent-mask"><span class="ent-line" id="mh-title">LIME</span></span></h1>
+
+      <a class="mh-product" id="mh-product" href="/products/drink-original?sku=drink-original-lime" aria-label="{{ tr('Shop') }} Original Lime">
+        <span class="mh-shadow" aria-hidden="true"></span>
+        {%- for it in items %}
+        <span class="mh-shot mh-shot-{{ it.kind }}{% if loop.first %} is-on{% endif %}" data-id="{{ it.id }}">
+          {%- if it.kind=='drink' %}<img class="mh-bottle" src="/images/showcase/{{ it.line }}_{{ it.flavor }}-front.webp" alt="REBOOT {{ it.line|title }} {{ it.flavor|title }} {{ tr('drink') }}" width="394" height="720"{% if loop.first %} fetchpriority="high"{% else %} decoding="async"{% endif %}>
+          {%- else %}<img class="mh-pack" src="/images/product_image/web/cutout/jelly-{{ it.line }}-package.webp" alt="REBOOT {{ it.line|title }} {{ tr('gummy pack') }}" width="1000" height="1000" decoding="async"><img class="mh-candy" src="/images/product_image/web/cutout/jelly-{{ it.line }}-{{ it.flavor }}.webp" alt="" width="1000" height="1000" decoding="async">{% endif -%}
+        </span>
+        {%- endfor %}
+      </a>
+
+      {%- for side in ['l','r'] %}
+      <button class="mh-side mh-side-{{ side }}" type="button" data-slot="{{ side }}" aria-label="">
+        {%- for it in items %}<img data-id="{{ it.id }}" src="{{ '/images/showcase/' ~ it.line ~ '_' ~ it.flavor ~ '-front.webp' if it.kind=='drink' else '/images/product_image/web/cutout/jelly-' ~ it.line ~ '-' ~ it.flavor ~ '.webp' }}" alt="" decoding="async">{% endfor -%}
+        <span class="mh-side-label"><small></small><b></b></span>
+      </button>
+      {%- endfor %}
+
+      <div class="mh-rebu" id="mh-rebu">
+        <p class="mh-bubble" id="mh-bubble" aria-hidden="true">{{ tr('Lime time, partner!') }}</p>
+        <button type="button" class="mh-rebu-hit" aria-label="{{ tr('Say hi to Rebu') }}">
+          <img class="mh-rebu-poster" src="/images/Rebu/rebu-poster.webp" alt="{{ tr('Rebu, the Reboot mascot') }}" width="600" height="720">
+          <canvas class="mh-rebu-canvas" aria-hidden="true"></canvas>
+        </button>
+      </div>
+    </div>
+
+    <div class="mh-copy" aria-live="polite">
+      <div class="mh-rule"><span></span></div>
+      <p class="mh-lede" id="mh-lede">{{ tr('Bright lime with a crisp citrus finish.') }} {{ tr('A 100 ml little ritual, born in Seoul.') }}</p>
+      <p class="mh-price" id="mh-price">$7 · {{ tr('Single bottle') }}</p>
+      <a class="mh-cta" id="mh-cta" href="/products/drink-original?sku=drink-original-lime"><span id="mh-cta-text">{{ tr('SHOP THIS BOTTLE') }}</span><span aria-hidden="true">↗</span></a>
+    </div>
+
+    <div class="mh-picker">
+      <div class="mh-tabs" role="tablist" aria-label="{{ tr('Product type') }}">
+        <button type="button" role="tab" id="mh-tab-drink" data-kind="drink" aria-selected="true" aria-controls="mh-chips">{{ tr('DRINKS') }}</button>
+        <button type="button" role="tab" id="mh-tab-gummy" data-kind="gummy" aria-selected="false" aria-controls="mh-chips" tabindex="-1">{{ tr('GUMMIES') }}</button>
+      </div>
+      <div class="mh-chips" id="mh-chips" role="tabpanel" aria-labelledby="mh-tab-drink">
+        {%- for line in ['original','balance'] %}
+        <div class="mh-cluster" role="group" aria-labelledby="mh-cl-{{ line }}">
+          <span class="mh-cluster-name" id="mh-cl-{{ line }}"><b>{{ line|upper }}</b><em data-label-drink="{{ tr('ZERO SUGAR') if line=='balance' else tr('CLASSIC') }}" data-label-gummy="{{ tr('PACK') }} · ${{ lines[line].gummy_price }}">{{ tr('ZERO SUGAR') if line=='balance' else tr('CLASSIC') }}</em></span>
+          {%- for flavor in ['lime','lemon','cherry'] %}
+          <button type="button" class="mh-chip" data-line="{{ line }}" data-flavor="{{ flavor }}" aria-pressed="{{ 'true' if line=='original' and flavor=='lime' else 'false' }}" style="--chip:{{ flavor_copy[flavor].color if line=='original' else flavor_copy[flavor].pastel }}">
+            <span class="mh-chip-thumb"><img data-kind="drink" src="/images/showcase/{{ line }}_{{ flavor }}-front.webp" alt="" decoding="async"><img data-kind="gummy" src="/images/product_image/web/cutout/jelly-{{ line }}-{{ flavor }}.webp" alt="" decoding="async"></span>
+            <span class="mh-chip-name">{{ flavor|upper }}</span>
+          </button>
+          {%- endfor %}
+        </div>
+        {%- endfor %}
+      </div>
+    </div>
+  </div>
+  <a class="mh-scroll" href="#drink-collection" aria-label="{{ tr('Scroll to the collection') }}"><svg viewBox="0 0 26 33" fill="none" aria-hidden="true"><path d="M13 1.5 V31.5 M1.9 20.4 L13 31.5 L24.1 20.4" stroke="currentColor" stroke-width="3" stroke-linecap="square"/></svg></a>
+  <p class="sr-only" role="status" id="mh-status"></p>
+  <script type="application/json" id="mh-data">{{ items|tojson }}</script>
+</section>
