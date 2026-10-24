@@ -15,7 +15,8 @@ def setup():
     if not all(credentials.values()): raise click.ClickException('Set ADMIN_EMAIL, ADMIN_PASSWORD, CUSTOMER_EMAIL, CUSTOMER_PASSWORD in .env first.')
     if credentials['ADMIN_EMAIL'].lower()==credentials['CUSTOMER_EMAIL'].lower(): raise click.ClickException('Admin and customer emails must differ.')
     if any(len(credentials[key])<8 for key in ('ADMIN_PASSWORD','CUSTOMER_PASSWORD')): raise click.ClickException('Use passwords with at least 8 characters.')
-    db.create_all()
+    from core.migrations import upgrade_database
+    upgrade_database()
     for role in ('admin','customer'):
         email=credentials[role.upper()+'_EMAIL'].lower()
         if not db.session.scalar(db.select(User).filter_by(email=email)):
@@ -51,6 +52,11 @@ def setup():
     click.echo('Database ready. Accounts, catalog, and sample data initialized (existing records preserved).')
 
 def register_cli(app):
+    @app.cli.command('upgrade-db')
+    def upgrade_db():
+        from core.migrations import upgrade_database
+        upgrade_database()
+        click.echo('Database upgraded. Existing records preserved.')
     @app.cli.command('setup-db')
     def setup_db(): setup()
     @app.cli.command('reset-db')

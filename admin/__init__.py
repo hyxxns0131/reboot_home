@@ -4,11 +4,14 @@ from decimal import Decimal
 from flask import Blueprint, render_template, Response, abort
 from auth.decorators import admin_required
 from admin.services import report
+from core.extensions import db
+from rewards.models import Activity, PointEntry
+from core.messages import Message
 bp=Blueprint('admin',__name__,url_prefix='/admin')
 FIELDS={
 'product-sales':'product_slug product_name order_count units_sold box_units_sold gross_sales_usd discount_usd net_sales_usd via_link_sales_usd'.split(),
 'link-sales':'link_code influencer_name platform clicks order_count conversion_rate units_sold net_sales_usd commission_usd top_product'.split(),
-'orders':'order_id ordered_at status product_slug product_name option_sku option_label quantity unit_price_usd discount_usd line_total_usd link_code influencer_name ship_state is_dummy'.split()}
+'orders':'order_id ordered_at status product_slug product_name option_sku option_label quantity unit_price_usd discount_usd line_total_usd link_code influencer_name ship_state is_dummy points_used'.split()}
 
 def safe_cell(value):
     value=f'{value:.2f}' if isinstance(value,Decimal) else str(value if value is not None else '')
@@ -17,7 +20,7 @@ def safe_cell(value):
 @bp.get('/')
 @admin_required
 def dashboard():
-    return render_template('admin/dashboard.html',title='Sales overview',data=report())
+    return render_template('admin/dashboard.html',title='Sales overview',data=report(),activities=db.session.scalars(db.select(Activity).order_by(Activity.id.desc()).limit(100)).all(),point_entries=db.session.scalars(db.select(PointEntry).order_by(PointEntry.id.desc()).limit(100)).all(),messages=db.session.scalars(db.select(Message).order_by(Message.id.desc()).limit(50)).all())
 
 @bp.get('/export/<kind>.csv')
 @admin_required

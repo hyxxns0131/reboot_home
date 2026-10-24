@@ -4,14 +4,16 @@ README 기획을 기반으로 만든 Flask 브랜드 사이트입니다. 기존 
 
 ## 지금 이 컴퓨터에서 실행
 
+Finder에서 `start.command`를 더블클릭하거나 터미널에서 `./start.command`를 실행하세요. 서버 터미널을 열어 두어야 사이트가 표시됩니다. macOS가 5000번 포트를 사용하는 경우가 있어 5050번을 사용합니다. HTML 파일이나 IDE 파일 미리보기 대신 아래 HTTP 주소로 접속하세요.
+
 가상환경, 로컬 `.env`, SQLite 데이터베이스를 준비했습니다.
 
 ```bash
 source .venv/bin/activate
-flask --app app:create_app run --debug
+flask --app app:create_app run --debug --port 5050
 ```
 
-브라우저에서 http://127.0.0.1:5000 에 접속합니다.
+브라우저에서 http://127.0.0.1:5050 에 접속합니다.
 
 - 구매자 계정: `.env`의 `CUSTOMER_EMAIL` / `CUSTOMER_PASSWORD`
 - 관리자 계정: `.env`의 `ADMIN_EMAIL` / `ADMIN_PASSWORD`
@@ -34,7 +36,7 @@ cp .env.example .env
 
 ```bash
 flask --app app:create_app setup-db
-flask --app app:create_app run --debug
+flask --app app:create_app run --debug --port 5050
 ```
 
 `setup-db`는 제품 4종·SKU 6종·전용 링크 6개·더미 주문 1,000건을 생성합니다. 기존 계정과 주문을 보존합니다. `.env`의 계정 비밀번호를 나중에 수정해도 기존 DB 계정의 비밀번호는 자동으로 바뀌지 않습니다. 로컬 데이터 전체 삭제가 괜찮을 때만 `FLASK_DEBUG=1 flask --app app:create_app reset-db`를 사용합니다(확인 프롬프트 있음).

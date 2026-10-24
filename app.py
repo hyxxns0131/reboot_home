@@ -11,14 +11,16 @@ def create_app(test_config=None):
     Path(app.instance_path).mkdir(exist_ok=True)
     db.init_app(app); login_manager.init_app(app); csrf.init_app(app)
     login_manager.login_view='auth.login'
-    import auth.models, shop.models, core.messages
+    import auth.models, shop.models, core.messages, rewards.models
     from importlib import import_module
-    for name in ('main','about','legal','auth','products','shop','shop.referral','where_to_buy','admin','vibe_test','feed','creators','contact'):
+    for name in ('main','about','legal','auth','products','shop','shop.referral','where_to_buy','admin','vibe_test','feed','creators','contact','rewards','core.i18n'):
         app.register_blueprint(import_module(name).bp)
     from core.cli import register_cli
     from core.nav import NAV_ITEMS
     register_cli(app)
     app.jinja_env.globals['NAV_ITEMS']=NAV_ITEMS
+    from core.i18n import init_i18n
+    init_i18n(app)
     app.jinja_env.filters['usd']=lambda v:f'${v:,.2f}'
     @app.get('/images/<path:filename>')
     def images(filename): return send_from_directory(Path(app.root_path)/'images',filename)

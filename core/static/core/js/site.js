@@ -94,3 +94,14 @@ if (quiz) {
   }
   document.getElementById('quiz-start').addEventListener('click', render);
 }
+// Preview only; the server validates the balance and calculates the payable total.
+const pointInput = document.getElementById('points');
+if (pointInput) {
+  const previewPoints = () => {
+    const value = Math.max(0, Math.min(Number(pointInput.max), Math.trunc(Number(pointInput.value)||0)));
+    document.getElementById('point-discount').textContent = `−$${(value/100).toFixed(2)}`;
+    document.getElementById('point-final-total').textContent = `$${((Number(pointInput.dataset.baseCents)-value)/100).toFixed(2)}`;
+  };
+  pointInput.addEventListener('input',previewPoints);
+  document.getElementById('use-max-points').addEventListener('click',()=>{pointInput.value=pointInput.max;previewPoints();});
+}

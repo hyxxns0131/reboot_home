@@ -37,7 +37,7 @@ def report():
             p['discount_usd']+=item.line_discount; p['net_sales_usd']+=item.line_total
             p['via_link_sales_usd']+=item.line_total if link else Decimal(0)
             lr['units_sold']+=item.quantity; top[code][slug]+=item.quantity
-            details.append(dict(order_id=order.id,ordered_at=order.ordered_at.isoformat(),status=order.status,product_slug=slug,product_name=item.product.name,option_sku=item.option.sku,option_label=item.option.label,quantity=item.quantity,unit_price_usd=item.unit_price,discount_usd=item.line_discount,line_total_usd=item.line_total,link_code=code,influencer_name=link.influencer_name if link else '',ship_state=order.ship_state,is_dummy=order.is_dummy))
+            details.append(dict(order_id=order.id,ordered_at=order.ordered_at.isoformat(),status=order.status,product_slug=slug,product_name=item.product.name,option_sku=item.option.sku,option_label=item.option.label,quantity=item.quantity,unit_price_usd=item.unit_price,discount_usd=item.line_discount,line_total_usd=item.line_total,link_code=code,influencer_name=link.influencer_name if link else '',ship_state=order.ship_state,is_dummy=order.is_dummy,points_used=item.points_used))
     for slug,p in products.items(): p['order_count']=len(product_orders[slug])
     for code,lr in links.items():
         lr['conversion_rate']=f"{Decimal(lr['order_count'])/lr['clicks']:.4f}" if lr['clicks'] else ''
