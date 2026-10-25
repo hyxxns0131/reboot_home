@@ -1,6 +1,10 @@
 // Rebu in 3D for the motion hero. The model is a static mesh (body + hat), so every
-// move here is procedural: idle bob and breathing, looking at the pointer, a hop (with a
-// spin when the product type changes) on every switch, and a hat tip when poked.
+// move here is procedural.
+//  • Play mode (default): Rebu wanders around on his own, looks about, and plays —
+//    happy hops, spins, little dances and hat tips, with the odd "Hehe!" bubble.
+//  • Follow mode: only after Rebu is clicked. He turns to the pointer and scoots after it
+//    for a few seconds (each click restarts the timer), then goes back to playing.
+//  • A hop (with a spin when the product type changes) on every product switch.
 // If WebGL or the model fails, nothing changes and the poster image stays.
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
@@ -78,12 +82,23 @@ export async function mount({root, box, src}) {
   const look = {x: 0, y: 0, tx: 0, ty: 0};
   const startColor = getComputedStyle(root).getPropertyValue('--flavor').trim() || '#b0ef38';
   const rimColor = new THREE.Color(startColor), rimTarget = rimColor.clone();
-  let hop = null, poke = null, dirty = true, visible = true, raf = 0, last = performance.now(), t = 0;
+  let hop = null, poke = null, dance = null, dirty = true, visible = true, raf = 0, last = performance.now(), t = 0;
+  // play / follow state. RANGE = how far Rebu may walk left/right of centre (model units).
+  const RANGE = .25, FOLLOW_MS = 8000;
+  let mode = 'play', followUntil = 0;
+  const pointer = {x: 0, y: 0};
+  const walk = {x: 0, tx: 0, face: 0, next: performance.now() + 1200};
+  const bubble = root.querySelector('#mh-bubble');
+  const say = (lines, chance = 1) => {
+    if (!bubble || Math.random() > chance) return;
+    bubble.textContent = lines[Math.floor(Math.random() * lines.length)];
+    bubble.classList.remove('is-pop'); void bubble.offsetWidth; bubble.classList.add('is-pop');
+  };
 
   addEventListener('pointermove', e => {
     const r = box.getBoundingClientRect();
-    look.tx = clamp((e.clientX - (r.left + r.width / 2)) / (innerWidth * .5), -1, 1);
-    look.ty = clamp((e.clientY - (r.top + r.height * .35)) / (innerHeight * .5), -1, 1);
+    pointer.x = clamp((e.clientX - (r.left + r.width / 2)) / (innerWidth * .5), -1, 1);
+    pointer.y = clamp((e.clientY - (r.top + r.height * .35)) / (innerHeight * .5), -1, 1);
   }, {passive: true});
 
   root.addEventListener('mh:switch', e => {
@@ -94,12 +109,45 @@ export async function mount({root, box, src}) {
     kick();
   });
   root.addEventListener('mh:poke', () => {
+    mode = 'follow'; followUntil = performance.now() + FOLLOW_MS;   // click = "follow me"
     if (reduced.matches) return;
     poke = {t0: performance.now()}; if (!hop) hop = {t0: performance.now(), dur: 650, spin: 0, lean: 0, height: .12};
     kick();
   });
 
-  function pose(now) {
+  // Decide what Rebu does next while nobody is asking him to follow.
+  function play(now) {
+    if (now < walk.next || hop || dance) return;
+    const r = Math.random();
+    if (r < .5) {                                   // stroll somewhere new
+      let x; do { x = (Math.random() * 2 - 1) * RANGE; } while (Math.abs(x - walk.x) < .12);
+      walk.tx = x; walk.next = now + 2400 + Math.random() * 2400;
+    } else if (r < .68) {                           // happy hop with a spin
+      hop = {t0: now, dur: 950, spin: Math.PI * 2 * (Math.random() < .5 ? -1 : 1), lean: 0, height: .2};
+      say(['Wheee!', 'Yeehaw!', 'Hehe!'], .6); walk.next = now + 1900;
+    } else if (r < .84) {                           // little dance
+      dance = {t0: now, dur: 1800}; say(['La-la-la ♪', 'Hehe!', 'Dance with me!'], .5); walk.next = now + 2400;
+    } else {                                        // tip the hat
+      poke = {t0: now}; say(['Howdy!', 'Restart your day!'], .4); walk.next = now + 1700;
+    }
+  }
+
+  function pose(now, dt) {
+    if (mode === 'follow' && now > followUntil) { mode = 'play'; walk.next = now + 600; }
+    if (!reduced.matches) {
+      if (mode === 'follow') {
+        look.tx = pointer.x; look.ty = pointer.y;
+        walk.tx = clamp(pointer.x * RANGE * 1.4, -RANGE, RANGE);
+      } else {
+        play(now);
+        look.tx = Math.sin(t * .8) * .35 + Math.sin(t * 2.3) * .08;   // looking around while playing
+        look.ty = Math.sin(t * .6) * .15;
+      }
+    }
+    const dx = walk.tx - walk.x, moving = !reduced.matches && Math.abs(dx) > .01;
+    if (moving) walk.x += clamp(dx, -.32 * dt, .32 * dt);
+    walk.face = lerp(walk.face, moving ? Math.sign(dx) * (mode === 'follow' ? .35 : .95) : 0, .08);
+
     // idle
     const bob = reduced.matches ? 0 : Math.sin(t * 2.1) * .012;
     const breathe = reduced.matches ? 0 : Math.sin(t * 4.2) * .012;
@@ -116,14 +164,24 @@ export async function mount({root, box, src}) {
       } else { const k = Math.sin((p - .78) / .22 * Math.PI); sy *= 1 - .12 * k; sxz *= 1 + .08 * k; yaw += hop.spin; }
       if (p >= 1) hop = null;
     }
+    if (moving) {                                   // waddle while walking
+      y += Math.abs(Math.sin(t * 9)) * .035; roll += Math.sin(t * 9) * .07;
+    }
+    if (dance) {
+      const p = clamp((now - dance.t0) / dance.dur), k = Math.sin(p * Math.PI);
+      roll += Math.sin(p * Math.PI * 6) * .2 * k; yaw += Math.sin(p * Math.PI * 3) * .5 * k;
+      y += Math.abs(Math.sin(p * Math.PI * 6)) * .05 * k; sy *= 1 + Math.sin(p * Math.PI * 12) * .04 * k;
+      if (p >= 1) dance = null;
+    }
     if (poke && hatPivot) {
       const p = clamp((now - poke.t0) / 900);
       hatPivot.rotation.x = -Math.sin(p * Math.PI) * .55;
       if (p >= 1) { poke = null; hatPivot.rotation.x = 0; }
     }
     look.x = lerp(look.x, look.tx, .06); look.y = lerp(look.y, look.ty, .06);
-    rig.position.y = y;
-    rig.rotation.set(pitch + look.y * .12, yaw + look.x * .55, roll);
+    rig.position.set(walk.x, y, 0);
+    rig.rotation.set(pitch + look.y * .12, yaw + walk.face + look.x * (moving && mode === 'play' ? .15 : .55), roll);
+    shadow.position.x = walk.x;
     squash.scale.set(sxz, sy, sxz);
     shadow.scale.setScalar(1 - y * 1.2); shadow.material.opacity = 1 - y * 1.8;
     rimColor.lerp(rimTarget, .08); rim.color.copy(rimColor); rim2.color.copy(rimColor);
@@ -132,10 +190,10 @@ export async function mount({root, box, src}) {
   function frame(now) {
     raf = 0;
     const dt = Math.min(.05, (now - last) / 1000); last = now; t += dt;
-    pose(now);
+    pose(now, dt);
     renderer.render(scene, camera);
     dirty = false;
-    if (visible && !document.hidden && (!reduced.matches || hop || poke || rimColor.getHex() !== rimTarget.getHex())) raf = requestAnimationFrame(frame);
+    if (visible && !document.hidden && (!reduced.matches || hop || poke || dance || rimColor.getHex() !== rimTarget.getHex())) raf = requestAnimationFrame(frame);
   }
   function kick() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
 

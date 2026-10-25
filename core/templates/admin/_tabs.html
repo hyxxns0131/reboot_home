@@ -1,0 +1,4 @@
+<nav class="admin-tabs" aria-label="{{ tr('Admin sections') }}">
+  <a href="/admin/" {% if request.path.rstrip('/')=='/admin' %}aria-current="page"{% endif %}>{{ tr('Sales overview') }}</a>
+  <a href="/admin/manage" {% if request.path.startswith('/admin/manage') %}aria-current="page"{% endif %}>{{ tr('Homepage manager') }}</a>
+</nav>

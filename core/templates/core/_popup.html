@@ -1,0 +1,34 @@
+{% set pop = site_popup() %}{% if pop %}
+<div class="site-popup" id="site-popup" data-key="popup-{{ pop.id }}-{{ pop.version }}" hidden role="dialog" aria-modal="true" aria-labelledby="site-popup-title">
+  <div class="site-popup-card">
+    <button type="button" class="site-popup-x" data-popup-close aria-label="{{ tr('Close') }}">✕</button>
+    {% if pop.image_url %}<img src="{{ pop.image_url }}" alt="">{% endif %}
+    <div class="site-popup-body">
+      <h2 id="site-popup-title">{{ pop.title }}</h2>
+      {% if pop.body %}<p>{{ pop.body }}</p>{% endif %}
+      {% if pop.button_label and pop.button_link %}<a class="btn primary" href="{{ pop.button_link }}"{% if pop.button_link.startswith('https://') %} target="_blank" rel="noopener"{% endif %} data-popup-go>{{ pop.button_label }}</a>{% endif %}
+    </div>
+    <footer><button type="button" class="text-link" data-popup-today>{{ tr("Don’t show today") }}</button><button type="button" class="text-link" data-popup-close>{{ tr("Close") }}</button></footer>
+  </div>
+</div>
+<script>
+(function () {
+  var el = document.getElementById('site-popup'), key = el.dataset.key, today = new Date().toISOString().slice(0, 10), hidden = null;
+  try { hidden = localStorage.getItem(key); } catch (e) {}
+  try { if (sessionStorage.getItem(key)) return; } catch (e) {}
+  if (hidden === today) return;
+  var last = document.activeElement;
+  function close(forToday) {
+    el.hidden = true;
+    try { if (forToday) localStorage.setItem(key, today); sessionStorage.setItem(key, '1'); } catch (e) {}
+    if (last && last.focus) last.focus();
+  }
+  setTimeout(function () { el.hidden = false; var b = el.querySelector('[data-popup-close]'); if (b) b.focus(); }, 600);
+  el.querySelectorAll('[data-popup-close]').forEach(function (b) { b.addEventListener('click', function () { close(false); }); });
+  el.querySelector('[data-popup-today]').addEventListener('click', function () { close(true); });
+  var go = el.querySelector('[data-popup-go]'); if (go) go.addEventListener('click', function () { close(false); });
+  el.addEventListener('click', function (e) { if (e.target === el) close(false); });
+  el.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(false); });
+})();
+</script>
+{% endif %}

@@ -235,3 +235,7 @@
   .mh-side:hover,.mh-side:active,.mh-cta:hover{transform:none}
   .mh-videos{display:none}
 }
+
+/* side labels are part of the side button: clicking the words also slides to that product */
+.mh-side-label{pointer-events:auto;cursor:pointer}
+.mh-side:hover .mh-side-label b{color:var(--flavor)}

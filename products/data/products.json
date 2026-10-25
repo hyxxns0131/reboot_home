@@ -23,7 +23,7 @@
         "image": "product_image/web/jelly-original-package.webp"
       }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": false,
     "tagline": "TBD",
     "images": {
@@ -91,7 +91,7 @@
         "image": "product_image/web/jelly-balance-package.webp"
       }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": true,
     "tagline": "TBD",
     "images": {
@@ -181,7 +181,7 @@
         "image": "product_image/web/drink-original-cherry.webp"
       }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": false,
     "tagline": "TBD",
     "images": {
@@ -282,7 +282,7 @@
         "image": "product_image/web/drink-balance-cherry.webp"
       }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": true,
     "tagline": "TBD",
     "images": {

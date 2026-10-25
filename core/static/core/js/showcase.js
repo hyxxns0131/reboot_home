@@ -146,12 +146,4 @@
     tab.addEventListener('keydown',e=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;e.preventDefault();const target=tabs[e.key==='Home'?0:e.key==='End'?tabs.length-1:1-index];target.click();target.focus();});
   });
   document.querySelectorAll('.drink-select').forEach(b=>b.addEventListener('click',()=>{selected=b.closest('[data-flavor]').dataset.flavor;selectDrink();}));
-  document.querySelectorAll('[data-gummy]').forEach(b=>b.addEventListener('click',()=>{
-    document.querySelectorAll('[data-gummy]').forEach(t=>{t.setAttribute('aria-pressed',String(t===b));t.closest('.gummy-choice').dataset.selected=String(t===b);});
-    $('#gummy-scene').src=`/images/product_image/web/jelly-${b.dataset.gummy}-scene-wide.webp`;
-    $('#gummy-scene').alt=`${b.dataset.gummy} gummy package with cherry, lemon and lime candies`;
-    $('#gummy-scene-link').href=`/products/jelly-${b.dataset.gummy}`;
-    $('#gummy-name').textContent=`${b.dataset.gummy.toUpperCase()} GUMMY`;
-    document.querySelectorAll('[data-gummy-flavor]').forEach(img=>{img.src=`/images/product_image/web/cutout/jelly-${b.dataset.gummy}-${img.dataset.gummyFlavor}.webp`;img.alt=`${b.dataset.gummy} ${img.dataset.gummyFlavor} gummy`;img.closest('a').href=`/products/jelly-${b.dataset.gummy}`;});
-  }));
 })();

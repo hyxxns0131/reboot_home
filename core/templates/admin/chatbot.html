@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("CUSTOMER CARE") }}</span>
+  <div class="section-heading"><h1>{{ tr("CHATBOT.") }}</h1></div>
+  <p class="muted">{{ tr("The Ask Reboot chat uses OpenAI with the customer-care persona below. Product facts, prices and live sales are filled in automatically from the site.") }}</p>
+  <div class="chatbot-status">
+    <article><span>OPENAI_API_KEY</span><strong class="{{ 'ok' if config.key_set else 'bad' }}">{{ ('Set ('~config.key_hint~')') if config.key_set else 'Missing' }}</strong></article>
+    <article><span>{{ tr("MODEL") }}</span><strong>{{ config.model }}</strong></article>
+    <article><span>{{ tr("CONNECTION TEST") }}</span>{% if result %}<strong class="{{ 'ok' if result.ok else 'bad' }}">{{ 'OK' if result.ok else tr('Failed') }}</strong>{% else %}<strong>—</strong>{% endif %}</article>
+  </div>
+  {% if not config.key_set %}<p class="admin-alert">{{ tr("No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.") }}</p>{% endif %}
+  {% if result %}<p class="{{ 'admin-ok' if result.ok else 'admin-alert' }}">{{ result.detail }}</p>{% endif %}
+  <form method="post" action="{{ url_for('admin.chatbot_test') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn primary">{{ tr("Run connection test ↗") }}</button></form>
+  <h2>{{ tr("PERSONA & KNOWLEDGE") }}</h2>
+  <p class="muted">{{ tr("What the chatbot is told before every conversation (edit in support/__init__.py).") }}</p>
+  <div class="prompt-view">{{ prompt }}</div>
+</section></div>{% endblock %}

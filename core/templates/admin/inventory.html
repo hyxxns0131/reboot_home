@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
+  <div class="section-heading"><h1>{{ tr("INVENTORY.") }}</h1><span class="badge">{{ tr("DUMMY OPENING STOCK") }}</span></div>
+  <p class="muted">{{ tr("Stock per sales option (SKU). Orders on the site take stock automatically; shoppers can't buy more than is on hand. Low = at or below the reorder level.") }}</p>
+  <div class="stats"><article><span>{{ tr("SKUS") }}</span><strong>{{ stats.skus }}</strong></article><article><span>{{ tr("UNITS ON HAND") }}</span><strong>{{ '{:,}'.format(stats.units) }}</strong></article><article><span>{{ tr("LOW STOCK") }}</span><strong class="{{ 'warn' if stats.low }}">{{ stats.low }}</strong></article><article><span>{{ tr("SOLD OUT") }}</span><strong class="{{ 'bad' if stats.out }}">{{ stats.out }}</strong></article></div>
+
+  <h2 id="stock">{{ tr("STOCK BY OPTION") }}</h2>
+  <form method="post" action="{{ url_for('admin.inventory_save') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="table-wrap"><table class="inventory-table">
+      <thead><tr><th>{{ tr("Product") }}</th><th>{{ tr("Option") }}</th><th>SKU</th><th class="num">{{ tr("On hand") }}</th><th class="num">{{ tr("Reorder level") }}</th><th>{{ tr("Status") }}</th><th>{{ tr("Updated (UTC)") }}</th></tr></thead>
+      <tbody>{% for o,i in rows %}{% set on = i.on_hand if i else 0 %}{% set lvl = i.reorder_level if i else 50 %}<tr>
+        <td>{{ o.product.name }}</td><td>{{ o.label }}</td><td><code>{{ o.sku }}</code></td>
+        <td class="num"><input name="on_hand_{{ o.id }}" type="number" min="0" max="100000" value="{{ on }}" aria-label="{{ o.sku }} on hand"></td>
+        <td class="num"><input name="reorder_{{ o.id }}" type="number" min="0" max="100000" value="{{ lvl }}" aria-label="{{ o.sku }} reorder level"></td>
+        <td>{% if on<=0 %}<span class="stock-tag out">{{ tr("Sold out") }}</span>{% elif on<=lvl %}<span class="stock-tag">{{ tr("Low") }}</span>{% else %}<span class="badge">OK</span>{% endif %}</td>
+        <td>{{ i.updated_at.strftime('%Y-%m-%d %H:%M') if i else '—' }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+    <div class="admin-filters admin-form"><label>{{ tr("Note for the stock log (optional)") }}<input name="note" maxlength="200" placeholder="Weekly count"></label><button class="btn primary">{{ tr("Save inventory ↗") }}</button></div>
+  </form>
+
+  <h2 id="upload">{{ tr("CSV UPLOAD") }}</h2>
+  <p class="muted">{{ tr("Columns: sku, on_hand, reorder_level (optional). Other columns are ignored, so you can edit the downloaded file and upload it back. If any row has a problem, nothing is changed.") }}</p>
+  <div class="export-bar"><span>{{ tr("DOWNLOAD") }}</span><a class="btn" href="{{ url_for('admin.inventory_csv') }}">{{ tr("Current inventory / template") }} ↓ CSV</a></div>
+  <form method="post" action="{{ url_for('admin.inventory_upload') }}" enctype="multipart/form-data" class="admin-filters admin-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>{{ tr("CSV file") }}<input type="file" name="file" accept=".csv,text/csv" required></label>
+    <label>{{ tr("on_hand means") }}<select name="mode"><option value="set">{{ tr("New count (stocktake)") }}</option><option value="add">{{ tr("Add to stock (delivery received)") }}</option></select></label>
+    <button class="btn primary">{{ tr("Upload CSV ↗") }}</button>
+  </form>
+
+  <h2 id="moves">{{ tr("STOCK LOG") }}</h2>
+  <div class="table-wrap"><table><thead><tr><th>{{ tr("Time (UTC)") }}</th><th>SKU</th><th class="num">{{ tr("Change") }}</th><th class="num">{{ tr("After") }}</th><th>{{ tr("Reason") }}</th><th>{{ tr("Note") }}</th></tr></thead>
+  <tbody>{% for m in moves %}<tr><td>{{ m.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td><code>{{ m.option.sku }}</code></td><td class="num {{ 'neon' if m.change>0 }}">{{ '+' if m.change>0 }}{{ m.change }}</td><td class="num">{{ m.on_hand_after }}</td><td>{{ {'seed':'Opening stock','manual':'Manual edit','csv_set':'CSV · new count','csv_add':'CSV · added','order':'Order'}.get(m.reason,m.reason)|tr }}</td><td>{{ m.note }}</td></tr>{% else %}<tr><td colspan="6">{{ tr("No stock changes yet.") }}</td></tr>{% endfor %}</tbody></table></div>
+</section></div>{% endblock %}

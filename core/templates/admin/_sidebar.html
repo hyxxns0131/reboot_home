@@ -1,0 +1,45 @@
+{# Admin sidebar: every section one click away. Same links on every admin page. #}
+{% set new_inbox = admin_inbox_count() %}
+<aside class="admin-side" aria-label="{{ tr('Admin sections') }}">
+  <a class="admin-side-title" href="/admin/">{{ tr('ADMIN') }}</a>
+  <p class="admin-side-group">{{ tr('Sales overview') }}</p>
+  <nav>
+    {% for anchor,label in [('summary','Summary'),('product-performance','Product performance'),('sales-by-option','Sales by option'),('influencer-sales','Influencer sales by platform'),('creator-performance','Creator performance'),('direct-sales','Direct store sales'),('product-reviews','Product reviews'),('account-activity','Account activity'),('point-transactions','Point transactions')] %}
+    <a href="/admin/#{{ anchor }}" data-anchor="{{ anchor }}" {% if request.path.rstrip('/')=='/admin' and loop.first %}aria-current="true"{% endif %}>{{ label|tr }}</a>
+    {% endfor %}
+  </nav>
+  <p class="admin-side-group">{{ tr('Homepage manager') }}</p>
+  <nav>
+    <a href="/admin/manage#discounts" data-anchor="discounts">{{ tr('Product discounts') }}</a>
+    <a href="/admin/manage#creators" data-anchor="creators">{{ tr('Creator codes & links') }}</a>
+    <a href="/admin/manage#popups" data-anchor="popups">{{ tr('Site popups') }}</a>
+  </nav>
+  <p class="admin-side-group">{{ tr('Store operations') }}</p>
+  <nav>
+    <a href="/admin/inventory" {% if request.path.startswith('/admin/inventory') %}aria-current="page"{% endif %}>{{ tr('Inventory') }}</a>
+    <a href="/admin/products" {% if request.path=='/admin/products' %}aria-current="page"{% endif %}>{{ tr('Products & photos') }}</a>
+    <a href="/admin/products/new" {% if request.path.startswith('/admin/products/new') %}aria-current="page"{% endif %}>{{ tr('Add product') }}</a>
+  </nav>
+  <p class="admin-side-group">{{ tr('Customer care') }}</p>
+  <nav>
+    <a href="/admin/inbox" {% if request.path.startswith('/admin/inbox') %}aria-current="page"{% endif %}>{{ tr('Inbox') }}{% if new_inbox %} <b class="admin-count">{{ new_inbox }}</b>{% endif %}</a>
+    <a href="/admin/chatbot" {% if request.path.startswith('/admin/chatbot') %}aria-current="page"{% endif %}>{{ tr('Chatbot') }}</a>
+  </nav>
+</aside>
+<script>
+(function () {
+  // Highlight the section being viewed (and the one just clicked) on Sales overview / Homepage manager.
+  var links = Array.prototype.slice.call(document.querySelectorAll('.admin-side [data-anchor]'));
+  var here = links.filter(function (a) { return a.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, ''); });
+  if (!here.length) return;
+  function mark(id) { here.forEach(function (a) { if (a.dataset.anchor === id) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
+  if (location.hash) mark(location.hash.slice(1));
+  here.forEach(function (a) { a.addEventListener('click', function () { mark(a.dataset.anchor); }); });
+  window.addEventListener('hashchange', function () { mark(location.hash.slice(1)); });
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
+  }, { rootMargin: '-90px 0px -65% 0px' });
+  here.forEach(function (a) { var t = document.getElementById(a.dataset.anchor); if (t) io.observe(t); });
+})();
+</script>

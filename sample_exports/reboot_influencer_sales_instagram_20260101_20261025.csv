@@ -1,4 +1,4 @@
 ﻿platform,influencer_name,discount_code,link_path,discount_rate,commission_rate,clicks,order_count,conversion_rate,units_sold,gross_sales_usd,discount_usd,net_sales_usd,commission_usd,top_product
-Instagram,Brunch Club (Fictional),BRUNCHCLUB,/r/BRUNCHCLUB,0.0500,0.1000,1200,114,0.0950,516,6655.34,332.83,6322.51,632.29,drink-original
-Instagram,K-Party LA (Fictional),KPARTYLA,/r/KPARTYLA,0.1000,0.1200,1200,114,0.0950,448,5888.02,589.25,5298.77,635.81,drink-balance
-Instagram,Morning Reset (Fictional),MORNINGRESET,/r/MORNINGRESET,0.1500,0.1500,1200,109,0.0908,431,5672.69,851.38,4821.31,723.28,drink-original
+Instagram,Brunch Club (Fictional),BRUNCHCLUB,/r/BRUNCHCLUB,0.0500,0.1000,6240,114,0.0183,516,6655.34,332.83,6322.51,632.29,drink-original
+Instagram,K-Party LA (Fictional),KPARTYLA,/r/KPARTYLA,0.1000,0.1200,6600,114,0.0173,448,5888.02,589.25,5298.77,635.81,drink-balance
+Instagram,Morning Reset (Fictional),MORNINGRESET,/r/MORNINGRESET,0.1500,0.1500,6600,109,0.0165,431,5672.69,851.38,4821.31,723.28,drink-original

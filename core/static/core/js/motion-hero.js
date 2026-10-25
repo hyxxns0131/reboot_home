@@ -205,7 +205,7 @@
   // Rebu reacts to taps even before (or without) 3D
   rebu.querySelector('.mh-rebu-hit').addEventListener('click', () => {
     root.dispatchEvent(new CustomEvent('mh:poke'));
-    const lines = ['Howdy!', 'Restart your day!', 'Pick one, partner.', current.bubble];
+    const lines = ['Lead the way, partner!', 'Right behind you!', 'Where are we going?', current.bubble];
     el.bubble.textContent = lines[Math.floor(Math.random() * lines.length)];
     el.bubble.classList.remove('is-pop'); void el.bubble.offsetWidth; el.bubble.classList.add('is-pop');
   });

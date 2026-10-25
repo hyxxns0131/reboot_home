@@ -123,3 +123,32 @@ if (pointInput) {
   pointInput.addEventListener('input',previewPoints);
   document.getElementById('use-max-points').addEventListener('click',()=>{pointInput.value=pointInput.max;previewPoints();});
 }
+
+// Rebu-face arrows for text that scripts add after load (the server already converts the page HTML).
+(() => {
+  const SKIP = new Set(['SCRIPT', 'STYLE', 'TEXTAREA', 'OPTION', 'TITLE']);
+  const face = () => {
+    const img = document.createElement('img');
+    img.className = 'rebu-arrow'; img.src = '/static/core/img/rebu-face.png';
+    img.srcset = '/static/core/img/rebu-face.png 1x, /static/core/img/rebu-face@2x.png 2x';
+    img.alt = ''; img.setAttribute('aria-hidden', 'true'); img.width = img.height = 20; img.decoding = 'async';
+    return img;
+  };
+  const convert = node => {
+    if (node.nodeType !== 3 || !node.nodeValue.includes('↗') || !node.parentNode || SKIP.has(node.parentNode.nodeName)) return;
+    const frag = document.createDocumentFragment();
+    node.nodeValue.split('↗').forEach((text, i) => { if (i) frag.append(face()); if (text) frag.append(text); });
+    node.parentNode.replaceChild(frag, node);
+  };
+  const scan = root => {
+    if (root.nodeType === 3) return convert(root);
+    if (root.nodeType !== 1 || SKIP.has(root.nodeName)) return;
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode: n => n.nodeValue.includes('↗') ? 1 : 3});
+    const found = []; while (walker.nextNode()) found.push(walker.currentNode);
+    found.forEach(convert);
+  };
+  scan(document.body);
+  new MutationObserver(list => list.forEach(m => {
+    if (m.type === 'characterData') convert(m.target); else m.addedNodes.forEach(scan);
+  })).observe(document.body, {childList: true, subtree: true, characterData: true});
+})();

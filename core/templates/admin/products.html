@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
+  <div class="section-heading"><h1>{{ tr("PRODUCTS.") }}</h1><a class="btn primary" href="/admin/products/new">{{ tr("+ Add product") }}</a></div>
+  <p class="muted">{{ tr("Rename products and replace or re-crop any product photo. Photos: JPG, PNG or WEBP up to 10 MB, cropped in your browser, saved as WEBP (transparent backgrounds are kept). Changes show everywhere the name or photo is used. Reset brings back the original.") }}</p>
+  {% for item in catalog if not (item.row and item.row.is_deleted) %}{% set p = item.p %}
+  <div class="product-admin{{ ' is-hidden' if item.row and not item.row.is_active }}" id="p-{{ p.slug }}">
+    <div class="product-status">
+      <span class="status-pill {{ 'live' if not item.row or item.row.is_active else 'hidden' }}">{{ tr('On the site') if not item.row or item.row.is_active else tr('Hidden') }}</span>
+      {% if p.custom %}<span class="badge">{{ tr('Added by admin') }}{% if p.badge %} · {{ p.badge }}{% endif %}</span>{% endif %}
+      {% if item.row %}<form method="post" action="{{ url_for('admin.product_status',slug=p.slug) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {% if item.row.is_active %}<button class="btn" name="action" value="hide">{{ tr('Hide') }}</button>{% else %}<button class="btn primary" name="action" value="show">{{ tr('Show') }}</button>{% endif %}
+        <button class="btn btn-danger" name="action" value="delete" onclick='return confirm({{ ("Delete " ~ item.name ~ "? Products with past orders are archived (you can restore them).")|tojson }})'>{{ tr('Delete') }}</button>
+      </form>{% endif %}
+    </div>
+    <form method="post" action="{{ url_for('admin.product_name') }}" class="product-name-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}">
+      <label for="name-{{ p.slug }}">{{ tr("Product name") }}{% if item.renamed %} <span class="badge">{{ tr("Renamed") }}</span>{% endif %}</label>
+      <div><input id="name-{{ p.slug }}" name="name" value="{{ item.name }}" minlength="3" maxlength="80" required placeholder="{{ p.name }}">
+      <button class="btn primary">{{ tr("Save name") }}</button>{% if item.renamed %}<button class="btn" name="reset" value="1" formnovalidate>{{ tr("Reset name") }}</button>{% endif %}</div>
+      <small class="muted">{{ tr("Original") }}: {{ p.name }} · {{ p.line }} · {{ 'Zero Sugar' if p.is_balance else 'Original' }} · <a class="text-link" href="/products/{{ p.slug }}" target="_blank" rel="noopener">{{ tr("View product page ↗") }}</a></small>
+    </form>
+    <div class="photo-grid">{% for s in item.slots %}
+      <article class="photo-slot{{ ' replaced' if s.replaced }}">
+        <div class="photo-preview"><img src="{{ s.url }}" alt="" loading="lazy"></div>
+        <p class="photo-used">{{ s.used|join(' · ') }}</p>
+        {% if s.replaced %}<span class="badge">{{ tr("Replaced") }}</span>{% endif %}
+        <form method="post" action="{{ url_for('admin.product_photo_upload') }}" enctype="multipart/form-data" data-crop-form>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}"><input type="hidden" name="src" value="{{ s.src }}">
+          <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" hidden data-crop-file>
+          <div class="photo-actions">
+            <button type="button" class="btn primary" data-crop-pick>{{ tr("Upload & crop") }}</button>
+            <button type="button" class="btn" data-crop-current="{{ s.url }}">{{ tr("Crop current") }}</button>
+          </div>
+        </form>
+        {% if s.replaced %}<form method="post" action="{{ url_for('admin.product_photo_reset') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}"><input type="hidden" name="src" value="{{ s.src }}"><button class="btn">{{ tr("Reset to original") }}</button></form>{% endif %}
+      </article>{% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+  {% set archived = catalog|selectattr('row')|selectattr('row.is_deleted')|list %}
+  <h2 id="archived">{{ tr("ARCHIVED") }}</h2>
+  <p class="muted">{{ tr("Deleted products that are kept because past orders use them. They are not shown anywhere on the site.") }}</p>
+  {% for item in archived %}<div class="archived-row"><strong>{{ item.name }}</strong><form method="post" action="{{ url_for('admin.product_status',slug=item.p.slug) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn" name="action" value="restore">{{ tr('Restore') }}</button></form></div>{% else %}<p class="muted">{{ tr("Nothing archived.") }}</p>{% endfor %}
+</section></div>
+{% endblock %}
+{% block extra_js %}<script src="{{ url_for('static',filename='core/js/cropper.js') }}"></script><script src="{{ url_for('static',filename='core/js/admin-photos.js') }}"></script>{% endblock %}

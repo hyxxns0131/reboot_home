@@ -8,9 +8,45 @@ from auth.models import User
 from rewards.models import CartItem, PointEntry, CheckoutReceipt
 from rewards.services import record
 from sqlalchemy.exc import IntegrityError
-from shop.services import cart_lines, totals, referral as active_referral, create_order
+from flask import current_app
+from shop.models import ReferralLink
+from shop.services import cart_lines, totals, breakdown, referral as active_referral, create_order, sale_price, money
 
 bp=Blueprint('shop',__name__,url_prefix='/shop')
+
+
+@bp.record_once
+def ensure_tables(state):
+    """Add shop_product_discount / referral landing column to older local DBs on startup (additive)."""
+    with state.app.app_context():
+        from core.migrations import upgrade_database
+        upgrade_database()
+
+
+def sale_for(sku):
+    """Template helper: {'price','old','label','tag'} when an admin sale applies to this SKU, else None."""
+    option=db.session.scalar(db.select(ProductOption).filter_by(sku=sku,is_active=True))
+    if not option: return None
+    price,rule=sale_price(option)
+    if not rule: return None
+    tag=f"{rule.value.normalize():f}% OFF" if rule.kind=='percent' else f"${rule.value:.2f} OFF"
+    return dict(price=price,old=option.price,label=rule.label,tag=tag)
+
+
+def from_price(p):
+    """Lowest current price of a products.json item and its sale info (or None)."""
+    best=None
+    for o in p['options']:
+        s=sale_for(o['sku']); now=s['price'] if s else money(o['price_usd'])
+        if best is None or now<best[0]: best=(now,s)
+    return best
+
+
+@bp.record_once
+def register_helpers(state):
+    # globals (not a context processor) so imported macros can use them too
+    from shop.inventory import stock_for
+    state.app.jinja_env.globals.update(sale_for=sale_for,from_price=from_price,stock_for=stock_for)
 @bp.get('/')
 def index():
     return redirect('/products/')
@@ -26,6 +62,11 @@ def cart():
         except ValueError: abort(400)
         if not 0<=qty<=10: abort(400)
         row=db.session.scalar(db.select(CartItem).filter_by(user_id=current_user.id,option_id=option.id))
+        from shop.inventory import stock_for
+        stock=stock_for(option.sku)
+        if qty and stock is not None and qty>stock['on_hand']:
+            flash(f"Sorry, only {stock['on_hand']} left of {option.product.name} · {option.label}." if stock['on_hand'] else f"{option.product.name} · {option.label} is out of stock.",'error')
+            return redirect(request.referrer if (request.referrer or '').startswith(request.host_url) else '/shop/cart')
         if qty:
             if row: row.quantity=qty
             else: db.session.add(CartItem(user_id=current_user.id,option_id=option.id,quantity=qty))
@@ -35,8 +76,26 @@ def cart():
         session.pop('checkout_nonce',None)
         flash('Your bag has been updated.')
         return redirect('/shop/cart')
-    lines=cart_lines()
-    return render_template('shop/cart.html',title='Your bag',lines=lines,totals=totals(lines,active_referral()))
+    lines=cart_lines(); link=active_referral()
+    return render_template('shop/cart.html',title='Your bag',lines=lines,totals=totals(lines,link),bd=breakdown(lines,link),link=link,prices={o.id:sale_price(o) for o,_ in lines})
+
+
+@bp.post('/code')
+@customer_required
+def apply_code():
+    """Type a creator's discount code in the bag (same effect as opening their /r/CODE link)."""
+    response=redirect('/shop/cart')
+    if request.form.get('remove'):
+        response.delete_cookie('ref_code'); flash('Discount code removed.'); return response
+    code=''.join(c for c in request.form.get('code','').upper() if c.isalnum())[:40]
+    link=db.session.scalar(db.select(ReferralLink).filter_by(code=code,is_active=True)) if code else None
+    if not link:
+        flash('That discount code is not valid.','error'); return response
+    response.set_cookie('ref_code',link.code,max_age=30*86400,httponly=True,samesite='Lax',secure=current_app.config['SESSION_COOKIE_SECURE'])
+    record('discount_code_applied',{'code':link.code})
+    db.session.commit()
+    flash(f'Discount code {link.code} applied.')
+    return response
 
 @bp.route('/checkout',methods=['GET','POST'])
 @customer_required
@@ -67,6 +126,12 @@ def checkout():
                         if result.rowcount!=1:
                             db.session.rollback()
                             abort(409)
+                    from shop.inventory import take
+                    short=[o for o,q in lines if not take(o,q,'checkout')]
+                    if short:
+                        db.session.rollback()
+                        flash('Sorry, '+', '.join(f'{o.product.name} · {o.label}' for o in short)+' just sold out or has fewer items left. Please update your bag.','error')
+                        return redirect('/shop/cart')
                     order=create_order(lines,link,points_used=points,user_id=current_user.id,ship_name=name,ship_city=city,ship_state=state)
                     db.session.flush()
                     receipt.order_id=order.id
@@ -82,7 +147,7 @@ def checkout():
                     flash('This order has already been processed.')
                     return redirect('/shop/orders')
     session['checkout_nonce']=secrets.token_urlsafe(24)
-    return render_template('shop/checkout.html',title='One more step',totals=totals(lines,link),link=link,max_points=min(current_user.points,int(totals(lines,link)[2]*100)))
+    return render_template('shop/checkout.html',title='One more step',totals=totals(lines,link),bd=breakdown(lines,link),link=link,max_points=min(current_user.points,int(totals(lines,link)[2]*100)))
 
 @bp.get('/orders')
 @customer_required

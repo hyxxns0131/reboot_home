@@ -21,7 +21,7 @@ def setup():
         email=credentials[role.upper()+'_EMAIL'].lower()
         if not db.session.scalar(db.select(User).filter_by(email=email)):
             db.session.add(User(email=email,password_hash=generate_password_hash(credentials[role.upper()+'_PASSWORD'], method='pbkdf2:sha256:1000000'),role=role,name='Administrator' if role=='admin' else 'Reboot Member'))
-    for data in get_all_products():
+    for data in get_all_products(include_hidden=True):
         product=db.session.scalar(db.select(Product).filter_by(slug=data['slug']))
         if not product:
             product=Product(slug=data['slug'],name=data['name']); db.session.add(product); db.session.flush()
@@ -29,7 +29,7 @@ def setup():
         for item in data['options']:
             option=db.session.scalar(db.select(ProductOption).filter_by(sku=item['sku']))
             if not option: option=ProductOption(sku=item['sku'],product_id=product.id); db.session.add(option)
-            option.label=item['label']; option.unit_count=item['unit_count']; option.price=Decimal(str(item['price_usd'])); option.is_active=True
+            option.label=item['label']; option.unit_count=item['unit_count']; option.price=Decimal(str(item['price_usd'])); option.is_active=not product.is_deleted
         # Options dropped from products.json stop selling but stay in the DB for past orders.
         db.session.flush()
         for option in db.session.scalars(db.select(ProductOption).filter(ProductOption.product_id==product.id,ProductOption.sku.not_in([o['sku'] for o in data['options']]))):
@@ -39,7 +39,7 @@ def setup():
         existing=db.session.scalar(db.select(ReferralLink).filter_by(code=code))
         if existing: existing.platform=platform  # influencer links are split into Instagram / TikTok only
         else:
-            db.session.add(ReferralLink(code=code,influencer_name=name+' (Fictional)',platform=platform,discount_rate=Decimal(discount)/100,commission_rate=Decimal(commission)/100,clicks=1200))
+            db.session.add(ReferralLink(code=code,influencer_name=name+' (Fictional)',platform=platform,discount_rate=Decimal(discount)/100,commission_rate=Decimal(commission)/100,clicks=120*random.Random(code).randint(30,60)))  # ~1.7–3.3% conversion
     db.session.flush()
     if os.getenv('SEED_DUMMY_DATA','1')=='1' and not db.session.scalar(db.select(Order).filter_by(is_dummy=True).limit(1)):
         rng=random.Random(42); products=db.session.scalars(db.select(Product).order_by(Product.id)).all(); links=db.session.scalars(db.select(ReferralLink).order_by(ReferralLink.id)).all()
@@ -61,6 +61,12 @@ def setup():
         active_skus={o.sku for p in products for o in p.options if o.is_active}
         assert all(n>=100 for n in counts.values()) and all(n>=100 for n in link_counts.values())
         assert all(option_counts.get(sku,0)>=100 for sku in active_skus) and all(platform_counts[name]>=100 for name in ('Instagram','TikTok'))
+    from products.models import Review
+    from shop.inventory import seed_inventory
+    db.session.flush(); seed_inventory()
+    from products.reviews import seed_dummy_reviews
+    if os.getenv('SEED_DUMMY_DATA','1')=='1' and not db.session.scalar(db.select(Review).filter_by(is_dummy=True).limit(1)):
+        seed_dummy_reviews(db.session.scalars(db.select(Product).order_by(Product.id)).all())
     db.session.commit()
     click.echo('Database ready. Accounts, catalog, and sample data initialized (existing records preserved).')
 

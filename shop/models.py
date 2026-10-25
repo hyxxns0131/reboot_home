@@ -6,7 +6,8 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(80), unique=True, nullable=False)
     name = db.Column(db.String(120), nullable=False)
-    is_active = db.Column(db.Boolean, default=True)
+    is_active = db.Column(db.Boolean, default=True)    # False = hidden from the site (admin "Hide")
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)  # archived by admin "Delete" (kept for past orders)
     options = db.relationship('ProductOption', backref='product', lazy=True)
 
 class ProductOption(db.Model):
@@ -29,7 +30,24 @@ class ReferralLink(db.Model):
     commission_rate = db.Column(db.Numeric(5, 4))
     clicks = db.Column(db.Integer, default=0)
     is_active = db.Column(db.Boolean, default=True)
+    landing = db.Column(db.String(120), nullable=False, default='')  # page the link opens ('' = home)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+class ProductDiscount(db.Model):
+    """Store-wide sale set on the admin Homepage manager. option_id NULL = every option of the product."""
+    __tablename__ = 'shop_product_discount'
+    id = db.Column(db.Integer, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('shop_product.id'), nullable=False)
+    option_id = db.Column(db.Integer, db.ForeignKey('shop_product_option.id'))
+    kind = db.Column(db.String(10), nullable=False)  # 'percent' or 'amount' (USD off per unit)
+    value = db.Column(db.Numeric(10, 2), nullable=False)
+    label = db.Column(db.String(60), nullable=False, default='')
+    starts_on = db.Column(db.Date)
+    ends_on = db.Column(db.Date)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    product = db.relationship('Product')
+    option = db.relationship('ProductOption')
 
 class Order(db.Model):
     __tablename__ = 'shop_order'
