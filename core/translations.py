@@ -39,3 +39,6 @@ KO.update({'All three shapes': '세 가지 모양', 'In the pack': '패키지 �
 
 # Admin: option sales + Instagram / TikTok influencer exports
 KO.update({'Sales by option':'옵션별 매출','SALES BY OPTION':'판매 옵션별 실적','Every sales option, including zero-sale options. Jelly is sold only as a line package (all three flavors). Pieces = bottles or packages.':'판매 중인 모든 옵션을 표시합니다(판매 0건 포함). 젤리는 라인별 패키지(3가지 맛 구성)로만 판매합니다. 개수 = 병 또는 패키지 수.','Option':'옵션','Price':'가격','Qty':'수량','Pieces':'개수','INFLUENCER SALES BY PLATFORM':'플랫폼별 인플루언서 매출','Orders placed through an influencer’s dedicated link (its discount code is applied automatically at checkout). Retail partner sales are not included.':'인플루언서 전용 링크(전용 할인코드가 주문 시 자동 적용)로 들어온 주문만 집계합니다. 유통사 매출은 포함하지 않습니다.','Links':'링크 수','INFLUENCER CSV':'인플루언서 CSV','by influencer':'인플루언서별','order lines':'주문 상세'})
+
+# Motion hero gummy packs
+KO.update({'Cowboy boots, lassos and hats in one pouch.': '카우보이 부츠, 올가미, 모자가 한 봉지에.', 'Three flavors, one pouch!': '세 가지 맛, 한 봉지!', 'Zero sugar, partner!': '제로 슈가야, 파트너!', 'with lime, lemon and cherry gummies': '라임·레몬·체리 젤리와 함께', 'Gummy packs': '젤리 패키지'})

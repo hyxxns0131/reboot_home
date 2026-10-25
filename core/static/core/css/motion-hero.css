@@ -70,15 +70,18 @@
 .mh-shot img{position:absolute; display:block; max-width:none}
 .mh-bottle{left:50%; top:0; height:calc(560 * var(--u)); width:auto; transform:translateX(-50%);
   filter:drop-shadow(0 calc(30 * var(--u)) calc(30 * var(--u)) #0009)}
-.mh-pack{left:50%; top:calc(56 * var(--u)); width:calc(470 * var(--u)); height:auto; transform:translateX(-50%) rotate(-4deg);
+/* gummy pack: one generated image = pouch + boot, lasso and hat in front */
+.mh-packshot{left:50%; top:calc(18 * var(--u)); width:calc(590 * var(--u)); height:auto; transform:translateX(-50%);
   filter:drop-shadow(0 calc(26 * var(--u)) calc(30 * var(--u)) #000a)}
-.mh-candy{right:calc(-58 * var(--u)); bottom:calc(36 * var(--u)); width:calc(250 * var(--u)); height:auto;
-  filter:drop-shadow(0 calc(18 * var(--u)) calc(18 * var(--u)) #0008)}
+.mh[data-kind=gummy] .mh-title{font-size:calc(150 * var(--u)); top:calc(96 * var(--u))}
+.mh[data-kind=drink] .mh-cluster[data-kind=gummy],.mh[data-kind=gummy] .mh-cluster[data-kind=drink]{display:none}
+.mh-packs{padding-left:calc(4 * var(--u)); gap:calc(8 * var(--u))}
+.mh-chip-pack{padding-right:calc(20 * var(--u))}
+.mh-chip-pack .mh-chip-name{display:grid; gap:calc(3 * var(--u)); text-align:left}
+.mh-chip-pack .mh-chip-name small{font-size:calc(9 * var(--u)); letter-spacing:calc(1.2 * var(--u)); opacity:.75}
 /* idle float lives on an inner wrapper so switch animations can own .mh-shot transforms */
-.mh-shot-drink .mh-bottle,.mh-shot-gummy .mh-pack{animation:mh-float 6s ease-in-out infinite}
-.mh-shot-gummy .mh-candy{animation:mh-candy 7s ease-in-out infinite}
+.mh-shot-drink .mh-bottle,.mh-shot-gummy .mh-packshot{animation:mh-float 6s ease-in-out infinite}
 @keyframes mh-float{50%{translate:0 calc(-14 * var(--u))}}
-@keyframes mh-candy{0%,100%{transform:rotate(-14deg) translateY(0)}50%{transform:rotate(10deg) translateY(calc(-22 * var(--u)))}}
 .mh-product:hover .mh-shot.is-on{scale:1.02; transition:scale .5s cubic-bezier(.22,1,.36,1)}
 
 /* side slots: previous / next, cropped by the screen edges */
@@ -154,8 +157,7 @@
 .mh-chip[aria-pressed=true]{background:var(--chip); color:#11140c}
 .mh-chip-thumb{position:relative; width:calc(36 * var(--u)); height:calc(36 * var(--u)); border-radius:50%; background:#ffffff18; overflow:hidden; flex:none}
 .mh-chip[aria-pressed=true] .mh-chip-thumb{background:#ffffff70}
-.mh-chip-thumb img{position:absolute; inset:12%; width:76%; height:76%; object-fit:contain; display:none}
-.mh[data-kind=drink] .mh-chip-thumb img[data-kind=drink],.mh[data-kind=gummy] .mh-chip-thumb img[data-kind=gummy]{display:block}
+.mh-chip-thumb img{position:absolute; inset:12%; width:76%; height:76%; object-fit:contain; display:block}
 
 .mh-scroll{position:absolute; z-index:4; left:calc(36 * var(--u)); bottom:calc(30 * var(--u)); width:calc(52 * var(--u)); height:calc(52 * var(--u));
   border-radius:50%; display:grid; place-items:center; color:var(--ink); background:#181e14b3; border:1px solid #ffffff22;
@@ -177,8 +179,8 @@
   .mh-title{top:calc(26 * var(--u)); font-size:calc(108 * var(--u)); letter-spacing:calc(4 * var(--u)); text-indent:calc(4 * var(--u))}
   .mh-product{left:50%; width:calc(320 * var(--u)); margin-left:calc(-160 * var(--u)); top:calc(100 * var(--u)); height:calc(440 * var(--u))}
   .mh-bottle{height:calc(390 * var(--u)); top:calc(14 * var(--u))}
-  .mh-pack{top:calc(50 * var(--u)); width:calc(300 * var(--u))}
-  .mh-candy{width:calc(150 * var(--u)); right:calc(-10 * var(--u)); bottom:calc(40 * var(--u))}
+  .mh-packshot{top:calc(10 * var(--u)); width:calc(380 * var(--u))}
+  .mh[data-kind=gummy] .mh-title{font-size:calc(62 * var(--u)); top:calc(44 * var(--u))}
   .mh-side{top:calc(250 * var(--u)); width:calc(120 * var(--u)); height:calc(160 * var(--u))}
   .mh-side-l{left:calc(-62 * var(--u))} .mh-side-r{right:calc(-62 * var(--u))}
   .mh-side-label{display:none}

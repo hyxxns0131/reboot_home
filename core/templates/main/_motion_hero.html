@@ -1,6 +1,6 @@
 {#- Motion hero: one featured product at a time, Rebu (3D) beside it.
-    Drinks: 6 single bottles. Gummies: 2 packs (Original / Balance), each shown by flavor —
-    the purchase is always the whole pack. Every image is in the DOM up front; switching
+    Drinks: 6 single bottles. Gummies: 2 packs (Original / Balance) — jelly is only sold
+    as a whole pack, so each pack is one product with its three shapes in front of it. Every image is in the DOM up front; switching
     only toggles classes, so a new product never waits on a download. -#}
 {%- set flavor_copy = {
   'lime':   {'color':'#b0ef38','pastel':'#d6f0a8','drink':'Bright lime with a crisp citrus finish.','gummy':'Lime comes shaped like a little cowboy boot.','shape':'boot'},
@@ -13,7 +13,7 @@
 } -%}
 {%- set bubbles = {'lime':'Lime time, partner!','lemon':'Squeeze the day!','cherry':'Cherry on top!'} -%}
 {%- set items = [] -%}
-{%- for kind in ['drink','gummy'] -%}{%- for line in ['original','balance'] -%}{%- for flavor in ['lime','lemon','cherry'] -%}
+{%- for kind in ['drink'] -%}{%- for line in ['original','balance'] -%}{%- for flavor in ['lime','lemon','cherry'] -%}
 {%- set f = flavor_copy[flavor] -%}{%- set l = lines[line] -%}
 {%- set _ = items.append({
   'id': kind ~ '-' ~ line ~ '-' ~ flavor, 'kind': kind, 'line': line, 'flavor': flavor,
@@ -28,6 +28,20 @@
   'video': ''
 }) -%}
 {%- endfor -%}{%- endfor -%}{%- endfor -%}
+{%- set packs = {
+  'original': {'color':'#ff87bd','bubble':'Three flavors, one pouch!','tag':'One pouch. Lime, lemon and cherry inside.'},
+  'balance':  {'color':'#c8b5ff','bubble':'Zero sugar, partner!','tag':'Zero sugar. Lime, lemon and cherry inside.'}
+} -%}
+{%- for line in ['original','balance'] -%}{%- set k = packs[line] -%}
+{%- set _ = items.append({
+  'id': 'gummy-' ~ line, 'kind': 'gummy', 'line': line, 'flavor': 'pack', 'color': k.color,
+  'eyebrow': 'GUMMY PACK · LIME · LEMON · CHERRY',
+  'title': line|upper,
+  'lede': tr('Cowboy boots, lassos and hats in one pouch.') ~ ' ' ~ tr(k.tag),
+  'price': '$' ~ lines[line].gummy_price ~ ' · ' ~ tr('Sold as a pack only'),
+  'cta': tr('SHOP THE PACK'), 'href': '/products/jelly-' ~ line, 'bubble': tr(k.bubble), 'video': ''
+}) -%}
+{%- endfor -%}
 <section class="mh" data-motion-hero data-kind="drink" aria-roledescription="carousel" aria-label="{{ tr('Reboot products') }}" style="--flavor:#b0ef38">
   <div class="mh-sky" aria-hidden="true">
     <span class="mh-glow"></span><span class="mh-blob mh-blob-a"></span><span class="mh-blob mh-blob-b"></span>
@@ -46,14 +60,14 @@
         {%- for it in items %}
         <span class="mh-shot mh-shot-{{ it.kind }}{% if loop.first %} is-on{% endif %}" data-id="{{ it.id }}">
           {%- if it.kind=='drink' %}<img class="mh-bottle" src="/images/showcase/{{ it.line }}_{{ it.flavor }}-front.webp" alt="REBOOT {{ it.line|title }} {{ it.flavor|title }} {{ tr('drink') }}" width="394" height="720"{% if loop.first %} fetchpriority="high"{% else %} decoding="async"{% endif %}>
-          {%- else %}<img class="mh-pack" src="/images/product_image/web/cutout/jelly-{{ it.line }}-package.webp" alt="REBOOT {{ it.line|title }} {{ tr('gummy pack') }}" width="1000" height="1000" decoding="async"><img class="mh-candy" src="/images/product_image/web/cutout/jelly-{{ it.line }}-{{ it.flavor }}.webp" alt="" width="1000" height="1000" decoding="async">{% endif -%}
+          {%- else %}<img class="mh-packshot" src="/images/product_image/web/cutout/jelly-{{ it.line }}-packshot.webp" alt="REBOOT {{ it.line|title }} {{ tr('gummy pack') }} {{ tr('with lime, lemon and cherry gummies') }}" width="1200" height="1200" decoding="async">{% endif -%}
         </span>
         {%- endfor %}
       </a>
 
       {%- for side in ['l','r'] %}
       <button class="mh-side mh-side-{{ side }}" type="button" data-slot="{{ side }}" aria-label="">
-        {%- for it in items %}<img data-id="{{ it.id }}" src="{{ '/images/showcase/' ~ it.line ~ '_' ~ it.flavor ~ '-front.webp' if it.kind=='drink' else '/images/product_image/web/cutout/jelly-' ~ it.line ~ '-' ~ it.flavor ~ '.webp' }}" alt="" decoding="async">{% endfor -%}
+        {%- for it in items %}<img data-id="{{ it.id }}" src="{{ '/images/showcase/' ~ it.line ~ '_' ~ it.flavor ~ '-front.webp' if it.kind=='drink' else '/images/product_image/web/cutout/jelly-' ~ it.line ~ '-packshot.webp' }}" alt="" decoding="async">{% endfor -%}
         <span class="mh-side-label"><small></small><b></b></span>
       </button>
       {%- endfor %}
@@ -81,16 +95,24 @@
       </div>
       <div class="mh-chips" id="mh-chips" role="tabpanel" aria-labelledby="mh-tab-drink">
         {%- for line in ['original','balance'] %}
-        <div class="mh-cluster" role="group" aria-labelledby="mh-cl-{{ line }}">
-          <span class="mh-cluster-name" id="mh-cl-{{ line }}"><b>{{ line|upper }}</b><em data-label-drink="{{ tr('ZERO SUGAR') if line=='balance' else tr('CLASSIC') }}" data-label-gummy="{{ tr('PACK') }} · ${{ lines[line].gummy_price }}">{{ tr('ZERO SUGAR') if line=='balance' else tr('CLASSIC') }}</em></span>
+        <div class="mh-cluster" data-kind="drink" role="group" aria-labelledby="mh-cl-{{ line }}">
+          <span class="mh-cluster-name" id="mh-cl-{{ line }}"><b>{{ line|upper }}</b><em>{{ tr('ZERO SUGAR') if line=='balance' else tr('CLASSIC') }}</em></span>
           {%- for flavor in ['lime','lemon','cherry'] %}
-          <button type="button" class="mh-chip" data-line="{{ line }}" data-flavor="{{ flavor }}" aria-pressed="{{ 'true' if line=='original' and flavor=='lime' else 'false' }}" style="--chip:{{ flavor_copy[flavor].color if line=='original' else flavor_copy[flavor].pastel }}">
-            <span class="mh-chip-thumb"><img data-kind="drink" src="/images/showcase/{{ line }}_{{ flavor }}-front.webp" alt="" decoding="async"><img data-kind="gummy" src="/images/product_image/web/cutout/jelly-{{ line }}-{{ flavor }}.webp" alt="" decoding="async"></span>
+          <button type="button" class="mh-chip" data-kind="drink" aria-pressed="{{ 'true' if line=='original' and flavor=='lime' else 'false' }}" style="--chip:{{ flavor_copy[flavor].color if line=='original' else flavor_copy[flavor].pastel }}">
+            <span class="mh-chip-thumb"><img src="/images/showcase/{{ line }}_{{ flavor }}-front.webp" alt="" decoding="async"></span>
             <span class="mh-chip-name">{{ flavor|upper }}</span>
           </button>
           {%- endfor %}
         </div>
         {%- endfor %}
+        <div class="mh-cluster mh-packs" data-kind="gummy" role="group" aria-label="{{ tr('Gummy packs') }}">
+          {%- for line in ['original','balance'] %}
+          <button type="button" class="mh-chip mh-chip-pack" data-kind="gummy" aria-pressed="false" style="--chip:{{ packs[line].color }}">
+            <span class="mh-chip-thumb"><img src="/images/product_image/web/cutout/jelly-{{ line }}-package.webp" alt="" decoding="async"></span>
+            <span class="mh-chip-name">{{ line|upper }}<small>{{ tr('PACK') }} · ${{ lines[line].gummy_price }}</small></span>
+          </button>
+          {%- endfor %}
+        </div>
       </div>
     </div>
   </div>
