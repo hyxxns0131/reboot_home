@@ -1,0 +1,7 @@
+﻿creator,discount_code,platform,link_url,clicks,order_count,units_sold,net_sales_usd,conversion_rate_pct,commission_usd
+Brunch Club (Fictional),BRUNCHCLUB,Instagram,http://127.0.0.1:5000/r/BRUNCHCLUB,6240,114,516,6322.51,1.83,632.29
+Neon Nights (Fictional),NEONNIGHTS,TikTok,http://127.0.0.1:5000/r/NEONNIGHTS,4080,113,456,5398.59,2.77,809.84
+K-Party LA (Fictional),KPARTYLA,Instagram,http://127.0.0.1:5000/r/KPARTYLA,6600,114,448,5298.77,1.73,635.81
+Restart Crew (Fictional),RESTARTCREW,TikTok,http://127.0.0.1:5000/r/RESTARTCREW,5760,115,463,4917.27,2.00,983.48
+Morning Reset (Fictional),MORNINGRESET,Instagram,http://127.0.0.1:5000/r/MORNINGRESET,6600,109,431,4821.31,1.65,723.28
+Seoul Sip NYC (Fictional),SEOULSIPNYC,TikTok,http://127.0.0.1:5000/r/SEOULSIPNYC,4560,112,417,4786.98,2.46,478.84

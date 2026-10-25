@@ -29,6 +29,9 @@
 19. [개발 로드맵](#19-개발-로드맵)
 20. [카피 · 규제 · 보안 유의사항](#20-카피--규제--보안-유의사항)
 21. [회의 메모](#21-회의-메모)
+22. [게임 · 포인트 (Reboot Town)](#22-게임--포인트-reboot-town)
+23. [관리자 사이드바 · 재고 · 상품 사진 · 문의함 · 챗봇](#23-관리자-사이드바--재고--상품-사진--문의함--챗봇)
+24. [상품 등록 · 숨김/삭제 · 이름/사진 크롭 · 팝업](#24-상품-등록--숨김삭제--이름사진-크롭--팝업)
 
 ---
 
@@ -54,6 +57,11 @@
 | 장바구니 담기 · 주문 (자사몰) | ❌ → 로그인 페이지로 이동 | ✅ | ❌ (관리자는 구매 안 함) |
 | 내 주문 내역 | ❌ | ✅ | ❌ |
 | 관리자 대시보드 · 매출 CSV 다운로드 | ❌ | ❌ (403) | ✅ |
+| Game (Reboot Town) 플레이 | ✅ | ✅ | ✅ |
+| 문의하기 (이메일 입력 없이 계정으로 전송 · 답변 확인) | ❌ → 로그인 안내 | ✅ | 문의함에서 답변 |
+| 내 리뷰 작성 · 삭제 | ❌ | ✅ | — |
+| 재고 · 상품 사진 · 할인 · 크리에이터 링크 관리 | ❌ | ❌ (403) | ✅ |
+| 게임 점수 → 포인트 적립 (하루 최대 1,000P) · 결제 시 사용 | ❌ → 로그인 안내 | ✅ | ❌ (관리자는 적립 안 함) |
 
 > **로그인은 선택입니다.** 로그인하지 않아도 모든 소개 페이지를 볼 수 있고, 구매와 관리자 기능만 로그인이 필요합니다.
 
@@ -88,7 +96,7 @@
 | `form` | 개별 포장된 모양 젤리 (카우보이 부츠·카우보이 모자·올가미) | 같음 |
 | `flavors` | Lime, Lemon, Cherry (지금: 라임, 체리, 복숭아, 레몬) | Cherry, Lime, Lemon (지금: 레몬·라임) |
 | `pack` | 개별 포장된 젤리가 든 한 봉지 (봉지 안 개수 미정) | 같음 |
-| `price` | $16 | $18 |
+| `price` | $17.99 (패키지 단위로만 판매, 낱개 판매 없음) | $19.99 (패키지 단위로만 판매, 낱개 판매 없음) |
 | `direction` | 기본 젤리 | 제로슈가 젤리 (Zero Sugar 표기 조건을 충족했다고 가정) |
 | `sugar_reduced` | false | true |
 
@@ -103,9 +111,11 @@
 | `form` | 비탄산 음료 · 소형 유리병 | 같음 |
 | `flavors` | Lemon, Cherry, Lime (지금: 레몬·라임) | Lemon, Lime, Cherry (지금: 레몬·라임) |
 | `pack` | 소형 병 낱개 · 3병/박스 (지금: 6병/박스) | 같음 |
+| `pack_count` | 1 (낱개) · 3 (박스) | 같음 |
 | `volume` | 100ml (병 높이 108mm) | 같음 |
-| `price` | $7 (낱개). 박스(3병)는 $19 | $8 (낱개). 박스(3병)는 $22 |
-| `direction` | 기본 음료 | 제로슈가 음료 (Zero Sugar 표기 조건을 충족했다고 가정) |
+| `price` | $4.99 (낱개) | $5.49 (낱개) |
+| `price_box` | $12.99 (3병, 1병당 $4.33) | $14.49 (3병, 1병당 $4.83) |
+| `direction` | 기본 음료 | 제로슈가 음료 (ZERO SUGAR 표기 조건을 충족했다고 가정) |
 | `sugar_reduced` | false | true |
 
 ### 주의할 점
@@ -130,6 +140,7 @@
 | Vibe test | 성격 → 맛 추천 퀴즈 | **Vibe Test** (나이트 스타일 → 제품 추천) |
 | Feed | 음식 · 문화 콘텐츠 | **Feed** |
 | JINRO AGENT | 크리에이터 모집 | **Creators** (협업 신청 + 전용 링크 안내) |
+| — | (레퍼런스 없음) | **Game** — 젤리 마을 · 드링크 마을 미니게임 4종, 점수 → 포인트 (§22) |
 
 > 레퍼런스는 **구성 · 분위기만** 참고하며, 이미지 · 로고 · 문구는 가져오지 않습니다.
 
@@ -142,20 +153,26 @@ Reboot US (/)
 ├── /                 ........... Home                         공개
 ├── /about/story  .............. About (캐릭터 페이지는 확정 후 추가)  공개
 ├── /products/        ........... 제품 목록                     공개
-│   └── /products/<slug> ........ 제품 상세 (+ 장바구니 담기)  공개 (담기는 로그인)
+│   ├── /products/<slug> ........ 제품 상세 (+ 장바구니 담기 · 리뷰 목록)  공개 (담기는 로그인)
+│   └── /products/<slug>/reviews  리뷰 작성 (POST)             🔑 일반 사용자
 ├── /shop/            ........... 자사몰
 │   ├── /shop/cart    ........... 장바구니                     🔑 일반 사용자
 │   ├── /shop/checkout .......... 주문서 · 주문 완료           🔑 일반 사용자
 │   └── /shop/orders  ........... 내 주문 내역                 🔑 일반 사용자
-├── /r/<code>         ........... 인플루언서 전용 링크 (추적 후 이동)  공개
+├── /r/<code>[?to=/products/..] . 크리에이터 전용 링크 (접속 집계 · 할인코드 저장 후 이동)  공개
 ├── /feed/ · /feed/<slug> ....... Feed                         공개
 ├── /where-to-buy/    ........... 구매처                       공개
 ├── /vibe-test/       ........... Vibe Test                    공개
 ├── /creators/        ........... 크리에이터 협업              공개
-├── /contact/         ........... 문의 폼                      공개
+├── /game/            ........... Game (Reboot Town) — 상단 탭  공개 (포인트 적립은 🔑 일반 사용자)
+│   └── /game/api/...  .......... 게임 판 시작 · 점수 제출 (JSON)  🔑 일반 사용자
+├── /rewards/wallet   ........... 내 포인트 · 활동 내역          🔑 일반 사용자 (/rewards/ → /game/ 이동)
+├── /contact/         ........... 문의하기 (보내기는 🔑 일반 사용자, 이메일 입력 없음)  공개
 ├── /auth/register ............. 회원가입 (일반 사용자)        공개
 ├── /auth/login · /auth/logout .. 로그인 · 로그아웃            공개
 ├── /admin/           ........... 관리자 대시보드              🔑 관리자
+│   ├── /admin/creators (POST) .. 크리에이터 링크 발급 · /admin/creators/<id>/toggle 중지/재개  🔑 관리자
+│   ├── /admin/manage ........... 홈페이지 관리 (상품 할인 · 크리에이터 코드/링크)  🔑 관리자
 │   └── /admin/export/<type>.csv  CSV 다운로드                🔑 관리자
 └── /legal/           ........... Privacy · Terms · Cookie     공개
 ```
@@ -164,6 +181,17 @@ Reboot US (/)
 
 | # | 섹션 | 내용 |
 |---|---|---|
+| 1 | Hero | 모션 히어로 (`main/_motion_hero.html`), "Restart Your Day" |
+| 2 | Drink Collection | 음료 Original · Balance × 3맛 → 제품 페이지(shop) |
+| 3 | Gummy Collection | 젤리 Original · Balance **라인 패키지 2개만** → 제품 페이지(shop). 맛별 낱개 · 맛별 사진 홍보 영역 없음 |
+| 4 | Marquee | "RESTART YOUR DAY" |
+| 5 | Game | `/game/`과 같은 Reboot Town 게임 화면 (`game/_play.html` 공유) |
+| 6 | Instagram | 게시물 · 릴스 (`core/content.py`의 `REELS`) |
+| 7 | Footer | SNS · 약관 · 고지문 |
+
+> 2026-10-25: Home에서 About ALDICOM, Brand Intro("Life doesn't have a rewind"), Where to Buy 배너("Find your next favorite"), Reboot Moments, Vibe Test 배너, Feed 미리보기("Fresh Perspectives")를 뺐습니다. 각 페이지(`/about/story`, `/where-to-buy/`, `/vibe-test/`, `/feed/`)는 상단 탭으로 그대로 들어갑니다.
+
+---|---|---|
 | 1 | Hero | 제품 카드 스택 (캐릭터 확정 시 추가), "Restart Your Day", **Shop Now** 버튼 |
 | 2 | Marquee | "RESTART YOUR DAY" |
 | 3 | Brand Intro | 한국에서 온 after-party ritual 소개 (효능 표현 금지) |
@@ -268,17 +296,27 @@ customer_required = role_required("customer")
 | 항목 | 내용 |
 |---|---|
 | 링크 형식 | `https://<도메인>/r/<code>` (예: `/r/NEONNIGHTS`) |
-| 동작 | 클릭 수 +1 → 쿠키 `ref_code` 저장(유효 30일) → 홈 또는 지정 제품 페이지로 이동 |
+| 동작 | 접속량(`clicks`) +1 → 쿠키 `ref_code` 저장(유효 30일) → 홈, 또는 `?to=/products/<slug>`가 있으면 그 제품 페이지로 이동 (같은 사이트 경로만 허용) |
+| 할인코드 | **링크 코드 = 전용 할인코드.** 장바구니 · 주문서에 `Referral discount · CODE (10%)`로 자동 적용 표시 |
+| 접속량 | 크리에이터 전용 링크로 들어온 방문만 셉니다. 누적값이며 주문 · 매출만 기간 필터를 적용합니다. 전환율 = 주문 수 ÷ 접속량 |
 | 귀속 기준 | 주문 시점에 유효한 마지막 `ref_code` (last click) |
 | 할인 | 링크별 할인율(`discount_rate`) 주문서에 자동 적용 |
 | 수수료 | 링크별 수수료율(`commission_rate`)로 정산 예정액 계산 |
-| 관리 | 링크 등록 · 수정은 관리자 페이지에서 (Phase 3) — 초기엔 더미 데이터로 시드 |
+| 관리 | 관리자 **Homepage manager** 탭(`/admin/manage`) → **CREATOR CODES & LINKS** 에서 이름 · 플랫폼 · 할인율 · 수수료율(0–50%) · 할인코드(선택) · 도착 페이지를 넣어 발급합니다. 코드를 비우면 `이름 영문/숫자 앞 10자 + 할인율`(예: `TESTCREATO15`)로 만들어집니다. 표에서 할인율 · 수수료율 · 도착 페이지를 수정하고, **중지/재개**로 링크를 끄면 `/r/<code>`가 404가 됩니다. 배포 링크는 `SITE_URL` 기준으로 표시됩니다 (§8-1). |
+| 코드 직접 입력 | 링크 없이 장바구니에서 코드를 입력해도 같은 할인 · 같은 집계 |
 | 플랫폼 | 인플루언서는 **Instagram · TikTok 두 플랫폼으로만** 나눠 관리합니다. 링크 코드 = 전용 할인코드 |
 | 집계 범위 | **자사몰 주문만** 집계합니다. 유통사(Amazon · Weee · Yamibuy 등) 매출 데이터는 가져오지 않습니다. |
 
 ---
 
 ## 8. 관리자 매출 CSV 다운로드
+
+관리자 화면은 **탭 2개**로 나뉩니다.
+
+| 탭 | URL | 내용 |
+|---|---|---|
+| **Sales overview** (매출 현황) | `/admin/` | 매출 요약 · 표 · CSV (아래), 크리에이터 성과는 보기만 |
+| **Homepage manager** (홈페이지 관리) | `/admin/manage` | 상품 할인 설정, 인플루언서 전용 할인 코드 · 링크 만들기/수정/중지 (§8-1) |
 
 관리자로 로그인하면 `/admin/` 대시보드에서 **자사 홈페이지 매출**을 요약해 보고 CSV로 내려받습니다.
 
@@ -288,6 +326,9 @@ customer_required = role_required("customer")
 - 요약 카드: 총 주문 수, 판매 수량, 총 매출(Net), 링크 경유 매출 비중
 - 표: 상품별 매출 / **판매 옵션별 매출** / **플랫폼별(Instagram · TikTok) 인플루언서 매출** / 전용 링크별 매출
 - CSV 다운로드 버튼: 공통 4개 + 인플루언서 4개 (현재 필터 그대로 적용)
+- **크리에이터별 실적** 표 (크리에이터 · 할인코드 · 플랫폼 · 접속량 · 주문 수 · 판매량 · 매출 · 전환율 · 배포 링크 · 중지/재개) + 크리에이터 CSV(전체 / Instagram / TikTok) + 링크 발급 폼
+- **자사몰 직접 유입 매출** 요약 카드 (크리에이터 링크 없이 들어온 주문) + 직접 유입 CSV
+- **제품 리뷰** 요약 (리뷰 수 · 평균 별점 · 긍정 · 부정, 제품별 표) + 리뷰 CSV(긍정 / 부정 / 전체 / 월별 요약). 리뷰는 시작일–종료일로만 거르고 주문 상태 필터는 적용하지 않습니다.
 
 ### CSV 종류
 
@@ -299,6 +340,10 @@ customer_required = role_required("customer")
 | 판매 옵션별 매출 | `/admin/export/option-sales.csv?start=...&end=...` | `reboot_option_sales_20260101_20261022.csv` |
 | 인플루언서별 매출 (플랫폼) | `/admin/export/influencer-sales.csv?platform=instagram` (또는 `tiktok`, `all`) | `reboot_influencer_sales_instagram_20260101_20261022.csv` |
 | 인플루언서 주문 상세 (플랫폼) | `/admin/export/influencer-orders.csv?platform=tiktok` (또는 `instagram`, `all`) | `reboot_influencer_orders_tiktok_20260101_20261022.csv` |
+| 크리에이터별 실적 | `/admin/export/creator-performance.csv?platform=all` (또는 `instagram`, `tiktok`) | `reboot_creator_performance_all_20260101_20261022.csv` |
+| 자사몰 직접 유입 매출 | `/admin/export/direct-orders.csv?start=...&end=...` | `reboot_direct_orders_20260101_20261022.csv` |
+| 리뷰 (긍정 / 부정) | `/admin/export/reviews.csv?sentiment=positive` (또는 `negative`, `neutral`, `all`) | `reboot_reviews_positive_20260101_20261022.csv` |
+| 월별 리뷰 요약 | `/admin/export/review-summary.csv?start=...&end=...` | `reboot_review_summary_20260101_20261022.csv` |
 
 > `platform`은 `instagram` · `tiktok` · `all`만 허용합니다(그 외 400). 인플루언서 CSV에는 DIRECT(링크 없이 들어온 주문)가 포함되지 않습니다.
 
@@ -358,6 +403,33 @@ customer_required = role_required("customer")
 `order_id, ordered_at, status, platform, influencer_name, discount_code, link_path, discount_rate, product_slug, product_name, option_sku, option_label, quantity, unit_price_usd, gross_usd, discount_usd, line_total_usd, commission_rate, commission_usd, ship_state, is_dummy`
 (전용 링크로 들어온 주문의 품목 1줄 = 1행, `commission_usd = line_total_usd × commission_rate`)
 
+#### ⑦ 크리에이터별 실적 (`creator-performance.csv`)
+
+| 컬럼 | 설명 |
+|---|---|
+| `creator` | 크리에이터 이름 |
+| `discount_code` | 전용 할인코드 (= 링크 코드) |
+| `platform` | Instagram / TikTok |
+| `link_url` | 배포 링크 (`SITE_URL/r/<code>`) |
+| `clicks` | 접속량 (전용 링크 누적 방문 수) |
+| `order_count` · `units_sold` | 기간 내 주문 수 · 판매량 |
+| `net_sales_usd` | 매출 (할인 후) |
+| `conversion_rate_pct` | 전환율 % (주문 수 ÷ 접속량 × 100) |
+| `commission_usd` | 정산 예정 수수료 |
+
+매출 높은 순으로 정렬하고, 기간 내 주문이 없는 크리에이터도 0으로 나옵니다.
+
+#### ⑧ 자사몰 직접 유입 매출 (`direct-orders.csv`)
+
+`order_id, ordered_at, status, product_slug, product_name, option_sku, option_label, quantity, unit_price_usd, gross_usd, discount_usd, line_total_usd, ship_state, is_dummy`
+(크리에이터 링크 없이 들어온 주문의 품목 1줄 = 1행. 직접 유입 + 크리에이터 매출 = 전체 매출)
+
+#### ⑨ 리뷰 (`reviews.csv?sentiment=`) · 월별 리뷰 요약 (`review-summary.csv`)
+
+- `reviews.csv`: `review_id, created_at, product_slug, product_name, rating, sentiment, title, body, reviewer_name, status, is_dummy`
+- `review-summary.csv`: `month, product_slug, product_name, review_count, positive, neutral, negative, positive_pct, negative_pct, average_rating` (월 × 제품 1행)
+- 긍정/부정은 별점으로 정합니다: **4–5★ 긍정 · 3★ 중립 · 1–2★ 부정**
+
 #### ③ 주문 상세 (`orders.csv`)
 
 `order_id, ordered_at, status, product_slug, product_name, option_sku, option_label, quantity, unit_price_usd, discount_usd, line_total_usd, link_code, influencer_name, ship_state, is_dummy`
@@ -373,6 +445,23 @@ customer_required = role_required("customer")
 
 ---
 
+### 8-1. 홈페이지 관리 탭 (`/admin/manage`)
+
+**상품 할인**
+- 대상: 상품 전체(모든 옵션) 또는 옵션 하나 (예: Drink Original 믹스 박스만)
+- 방식: **% 할인 (1–90%)** 또는 **개당 $ 할인 (그 옵션 최저가 미만)**, 이름(예: Halloween sale), 시작일 · 종료일(선택, UTC)
+- 같은 상품에 할인이 여러 개면 **고객에게 더 큰 할인 1개**만 적용
+- 적용 위치: 제품 목록 카드(FROM 가격 + `15% OFF` 배지), 제품 상세 옵션(정가 취소선 + 할인가), 장바구니 · 주문서(`Sale discount` 줄), 주문 저장
+- 중지 / 재개 / 삭제 가능. 표 "Current prices on the site"에서 옵션별 현재 판매가 확인
+
+**인플루언서 전용 할인 코드 · 링크**
+- 만들기: 이름, 플랫폼(Instagram / TikTok), 코드(비우면 자동), 할인 %(0–50), 수수료 %(0–50), **링크 도착 페이지(홈 또는 제품 페이지)**
+- 전용 링크 `https://<도메인>/r/<CODE>` + 복사 버튼. 링크 클릭 → 코드 30일 저장 → 도착 페이지로 이동 (`?to=`가 있으면 그쪽 우선)
+- 고객이 **장바구니에서 코드를 직접 입력**해도 같은 할인 · 같은 매출 집계 (`POST /shop/code`)
+- 표에서 할인 % · 수수료 % · 도착 페이지 바로 수정, 중지 / 재개
+
+**가격 계산 순서 (서버에서만)**: 정가 → 상품 할인 → 크리에이터 코드 % (할인된 가격 기준) → 포인트. 주문 품목의 `unit_price`는 정가, `line_discount` = 상품 할인 + 코드 할인 + 포인트라서 CSV의 gross · discount · net 이 그대로 맞습니다.
+
 ## 9. DB 설계
 
 테이블 이름은 **파트 이름을 접두사**로 붙입니다.
@@ -387,11 +476,23 @@ shop_referral_link ──┐   ▼
 | 테이블 | 담당 파트 | 주요 컬럼 |
 |---|---|---|
 | `auth_user` | auth | `id`, `email`(unique), `password_hash`, `role`(`admin`/`customer`), `name`, `created_at` |
-| `shop_product` | shop | `id`, `slug`(unique), `name`, `is_active` — `products.json`에서 동기화 |
+| `shop_product` | shop | `id`, `slug`(unique), `name`, `is_active`(False = 숨김), `is_deleted`(삭제 · 보관) — `products.json` + 관리자 등록 상품에서 동기화 |
 | `shop_product_option` | shop | `id`, `product_id`(FK), `sku`(unique), `label`(`1 Pouch`/`1 Bottle`/`Box of 3`), `unit_count`, `price`(Numeric 10,2), `is_active` — `products.json`의 `options`에서 동기화 |
-| `shop_referral_link` | shop | `id`, `code`(unique), `influencer_name`, `platform`, `discount_rate`, `commission_rate`, `clicks`, `is_active`, `created_at` |
+| `shop_referral_link` | shop | `id`, `code`(unique), `influencer_name`, `platform`, `discount_rate`, `commission_rate`, `clicks`, `is_active`, `landing`(도착 페이지, '' = 홈), `created_at` |
 | `shop_order` | shop | `id`, `user_id`(nullable, FK), `referral_link_id`(nullable, FK), `status`(`paid`/`refunded`/`cancelled`), `subtotal`, `discount`, `total`, `ship_name`, `ship_state`, `ship_city`, `is_dummy`, `ordered_at` |
 | `shop_order_item` | shop | `id`, `order_id`(FK), `product_id`(FK), `option_id`(FK), `quantity`, `unit_price`, `line_discount`, `line_total` |
+| `shop_product_discount` | shop (관리자 탭에서 수정) | `id`, `product_id`(FK), `option_id`(FK, NULL = 전체 옵션), `kind`(`percent`/`amount`), `value`, `label`, `starts_on`, `ends_on`, `is_active` |
+| `game_run` | game | `id`, `user_id`(FK), `game`, `day`, `status`(`open`/`finished`/`rejected`/`expired`), `score`, `points`, `started_at`, `finished_at` — 게임 1판 |
+| `game_daily` | game | `id`, `user_id`(FK), `day`, `earned`(0–1000) — (user_id, day) unique, 하루 한도 관리 |
+| `rewards_point_entry` | rewards | 포인트 적립 · 사용 내역 (`game_reward` = `+`, `order_payment` = `-`), `reference` unique (`game_run:<id>`, `order:<id>`) |
+| `shop_inventory` | shop | `option_id`(FK, unique), `on_hand`(≥0), `reorder_level`, `updated_at` — 옵션(SKU)별 재고 |
+| `shop_stock_move` | shop | `option_id`, `change`, `on_hand_after`, `reason`(`seed`/`manual`/`csv_set`/`csv_add`/`order`), `note`, `user_id`, `created_at` — 재고 변동 기록 |
+| `products_image` | products | `slug`, `original`(products.json 이미지 경로, unique), `data`(WEBP), `version` — 관리자가 바꾼 상품 사진 |
+| `core_message` | core | `kind`(`contact`/`creators`), `name`, `email`(문의는 계정 이메일 자동), `body`, `user_id`, `topic`, `order_id`, `status`(`new`/`read`/`answered`), `reply`, `replied_at` |
+| `products_custom` | products | `slug`(unique), `data`(JSON, products.json과 같은 모양) — 관리자가 등록한 상품 |
+| `products_text` | products | `slug`(unique), `name` — 관리자가 바꾼 상품명 |
+| `core_popup` | core | `title`, `body`, `image`(WEBP), `version`, `button_label`, `button_link`, `placement`(`home`/`all`), `starts_on`, `ends_on`, `is_active` |
+| `products_review` | products | `id`, `product_id`(FK `shop_product`), `user_id`(FK, 더미는 NULL), `reviewer_name`, `rating`(1–5), `title`, `body`(≤1,000자), `sentiment`(`positive`/`neutral`/`negative`), `status`(`published`/`held`), `is_dummy`, `created_at` — 제품당 계정 1개 리뷰 (`product_id`+`user_id` unique) |
 
 > - 금액은 `Numeric(10, 2)`로 저장합니다. (float 금지)
 > - 더미 주문은 `is_dummy=True`, `user_id=NULL`이며 실제 일반 사용자 주문과 구분됩니다.
@@ -413,7 +514,8 @@ shop_referral_link ──┐   ▼
 | **전용 링크별** | 링크 **각각 주문 100건 이상** | 인플루언서 링크 6개 × 각 120건 = 720건 |
 | **플랫폼별** | Instagram · TikTok **각각 100건 이상** | Instagram 3명 × 120 = 360건 / TikTok 3명 × 120 = 360건 |
 | 링크 없는 주문 (DIRECT) | — | 280건 |
-| 링크 클릭 수 | 주문 수보다 큼 | 링크별 주문 수 × 8–20배 |
+| 링크 접속량 | 주문 수보다 큼 | 링크별 주문 수(120) × 30–60배 → 전환율 약 1.7–3.3% |
+| **제품 리뷰** | 제품 4종 **각각 100건 이상** | 제품당 110건 = 440건 (`2026-01-01 ~ 2026-10-22`), 별점 5★ 45% · 4★ 25% · 3★ 15% · 2★ 9% · 1★ 6% → 긍정 약 70% · 부정 약 15%. 리뷰 문구는 맛 · 패키지 · 배송만 다루고 효능 표현 없음, 리뷰어 이름은 가상 |
 
 ### 더미 인플루언서 링크 6개 (모두 가상 인물)
 
@@ -437,7 +539,7 @@ shop_referral_link ──┐   ▼
 
 ### 더미 CSV 샘플 파일 (`sample_exports/`)
 
-`2026-01-01 ~ 2026-10-25`, 주문 상태 `paid` 기준으로 관리자 CSV 8종을 뽑아 둔 파일입니다. (상품별 · 옵션별 · 링크별 · 주문 상세 + Instagram/TikTok 인플루언서별 · 인플루언서 주문 상세) 시드를 바꾸면 다시 뽑습니다.
+`2026-01-01 ~ 2026-10-25`, 주문 상태 `paid` 기준으로 관리자 CSV 16종을 뽑아 둔 파일입니다. (상품별 · 옵션별 · 링크별 · 주문 상세 · Instagram/TikTok 인플루언서별 · 인플루언서 주문 상세 · 크리에이터별 실적(전체/Instagram/TikTok) · 직접 유입 매출 · 리뷰(긍정/부정/전체) · 월별 리뷰 요약) 배포 링크는 `SITE_URL=http://127.0.0.1:5000` 기준입니다. 시드를 바꾸면 다시 뽑습니다.
 
 ```python
 # shop/seed.py (요약)
@@ -496,6 +598,15 @@ JINRO 사이트의 **어두운 배경 + 굵은 대문자 타이포 + 큰 제품 
 | 버튼 · 폼 · 표 | `.btn`, `.btn--neon`, `.form-field`, `.table` (`components.css`) |
 | 이미지 자리표시자 | `core/static/core/img/placeholder.svg` |
 
+### Rebu 디테일
+
+| 항목 | 규칙 |
+|---|---|
+| 화살표 아이콘 | 문구에 `↗`를 쓰면 화면에서는 **Rebu 얼굴**(`core/static/core/img/rebu-face.png`, @2x 포함)로 자동 표시됩니다. 서버가 HTML 텍스트를 바꾸고(`core/i18n.py`의 `rebu_arrows`), 스크립트가 나중에 넣는 글자는 `site.js`가 바꿉니다. 속성 · `<title>` · `<option>` 안의 `↗`는 그대로 둡니다. `←` `→` `↓`는 바꾸지 않습니다. |
+| 메인 히어로 Rebu | 평소에는 혼자 돌아다니며 놉니다(산책 · 점프 스핀 · 춤 · 모자 인사, 가끔 "Hehe!" 말풍선). **Rebu를 클릭하면 8초 동안 마우스를 따라오고**, 다시 클릭하면 시간이 연장됩니다. 동작 줄이기(`prefers-reduced-motion`) 설정에서는 움직이지 않습니다. (`core/static/core/js/rebu-3d.js`) |
+| 메인 히어로 제품 넘기기 | 양옆 제품 **그림과 글씨(← CHERRY / LEMON →) 어느 쪽을 눌러도** 그 제품으로 넘어갑니다. 가운데 제품은 상세 페이지 링크입니다. |
+| 제품 카드 가격 | `FROM $00.00`을 22px 굵게(모바일 19px) 표시하고, 옵션 중 **가장 낮은 가격**을 씁니다. |
+
 > 관리자 화면(`/admin`)도 같은 토큰을 쓰되, 데이터 표가 잘 보이도록 마키 · 큰 히어로 없이 단순한 레이아웃(`admin/base_admin.html`)을 씁니다.
 
 ---
@@ -550,6 +661,11 @@ aldicom-us-website/
 ├── feed/                     # 📰 Feed (/feed) .................... C
 ├── creators/                 # 🤝 Creators (/creators) ............ C
 ├── contact/                  # ✉️ Contact (/contact) .............. C
+├── game/                     # 🎮 Game · Reboot Town (/game) ........ (§22)
+│   ├── __init__.py           #    Blueprint · 페이지 · /game/api (판 시작 · 점수 제출)
+│   ├── models.py             #    game_run, game_daily
+│   └── services.py           #    게임 규칙 · 점수→포인트 · 하루/판 한도 · 점수 검증
+├── rewards/                  # 💰 포인트 지갑 (/rewards/wallet) · 활동 기록
 │
 ├── tests/                    # 파트별 하위 폴더 (tests/auth/, tests/shop/, tests/admin/ ...)
 └── instance/                 # 로컬 SQLite (Git 제외)
@@ -665,7 +781,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
 | **확장 객체는 한 곳에서만** | `db`, `login_manager`, `csrf`는 `core/extensions.py`에서만 만들고 `from core.extensions import db`로 가져옵니다. 파트에서 `SQLAlchemy()`를 새로 만들지 않습니다. |
 | **DB 테이블 이름** | 파트 접두사 필수: `auth_user`, `shop_order` … |
 | **모델 수정** | 테이블은 만든 파트만 수정합니다. C는 `shop.models`를 읽기만 합니다. 컬럼 추가가 필요하면 B에게 요청합니다. |
-| **URL 접두사 고정** | `/`, `/about`, `/legal`, `/auth`, `/products`, `/shop`, `/r`, `/where-to-buy`, `/admin`, `/vibe-test`, `/feed`, `/creators`, `/contact` |
+| **URL 접두사 고정** | `/`, `/about`, `/legal`, `/auth`, `/products`, `/shop`, `/r`, `/where-to-buy`, `/admin`, `/vibe-test`, `/feed`, `/creators`, `/contact`, `/game`, `/rewards` |
 | **템플릿 경로** | `render_template("파트명/파일.html")` |
 | **CSS 클래스 접두사** | `.shop-cart`, `.admin-table`, `.vibe-question` 등. 공통 클래스는 core에만 |
 | **CSS · JS 로드** | 자기 템플릿의 `{% block extra_css %}` · `{% block extra_js %}`에서만 |
@@ -694,9 +810,9 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lime", "Cherry", "Lemon"],
     "options": [
-      { "sku": "jelly-original-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 16.00 }
+      { "sku": "jelly-original-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 17.99 }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": false,
     "tagline": "TBD",
     "images": { "main": "jelly-original-main.webp", "gallery": [] },
@@ -712,9 +828,9 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Cherry", "Lime"],
     "options": [
-      { "sku": "jelly-balance-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 18.00 }
+      { "sku": "jelly-balance-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 19.99 }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": true,
     "tagline": "TBD",
     "images": { "main": "jelly-balance-main.webp", "gallery": [] },
@@ -731,10 +847,10 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Cherry", "Lime"],
     "options": [
-      { "sku": "drink-original-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 7.00 },
-      { "sku": "drink-original-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 19.00 }
+      { "sku": "drink-original-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 4.99 },
+      { "sku": "drink-original-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 12.99 }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": false,
     "tagline": "TBD",
     "images": { "main": "drink-original-main.webp", "gallery": [] },
@@ -751,10 +867,10 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Lime", "Cherry"],
     "options": [
-      { "sku": "drink-balance-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 8.00 },
-      { "sku": "drink-balance-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 22.00 }
+      { "sku": "drink-balance-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 5.49 },
+      { "sku": "drink-balance-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 14.49 }
     ],
-    "price_is_sample": true,
+    "price_is_sample": false,
     "is_balance": true,
     "tagline": "TBD",
     "images": { "main": "drink-balance-main.webp", "gallery": [] },
@@ -959,7 +1075,8 @@ services:
 - 성분(A-HAT, 헛개나무 열매)은 **원료 소개**까지만 하고 효능과 연결하지 않습니다.
 - 미성년자를 연상시키는 이미지 · 표현을 쓰지 않습니다.
 - Creators 페이지에는 협업 시 금지 표현 안내를 둡니다. (FTC 보증 가이드상 크리에이터 발언도 브랜드 책임) 인플루언서 전용 링크 게시물에는 협찬 표시(#ad 등)를 안내합니다.
-- 가격은 **가상값**이며 화면에 표시합니다. 결제는 모의 결제입니다.
+- 가격 · 맛 · 패키지는 **확정**입니다 ("Sample price" 문구 삭제, `price_is_sample: false`). 결제는 여전히 모의 결제입니다.
+- **고객 리뷰도 사이트 문구입니다.** hangover · cure · remedy · prevent · relieve · heal · detox · sober · flush가 들어간 리뷰는 DB에 저장하되 `status=held`로 제품 페이지에 노출하지 않습니다 (`products/reviews.py`의 `HELD_TERMS`). 관리자 리뷰 CSV에는 포함됩니다.
 
 ### 보안
 
@@ -968,7 +1085,9 @@ services:
 - 로그인 후 `next` 이동은 **같은 사이트 상대 경로만** 허용 (오픈 리다이렉트 방지)
 - 가격 · 할인은 서버에서만 계산
 - `/admin/*` 전부 `@admin_required`, CSV 수식 주입 방지 (§8)
-- 더미 데이터의 이름 · 주소 · 인플루언서는 모두 가상이며 실존 인물 · 계정과 무관합니다.
+- 더미 데이터의 이름 · 주소 · 인플루언서 · 리뷰어는 모두 가상이며 실존 인물 · 계정과 무관합니다.
+- 리뷰는 로그인한 일반 사용자만 쓸 수 있고(CSRF 보호), 화면에 출력할 때 HTML을 이스케이프합니다.
+- 운영 배포 시 `SITE_URL`을 실제 도메인으로 등록해야 관리자 화면 · CSV의 크리에이터 배포 링크가 올바르게 나옵니다.
 
 ---
 
@@ -992,3 +1111,157 @@ services:
 - 유저 안에 있으면 신뢰가 되는 건데 베타가 한 명 있으면 신뢰를 우선 물어봐 줘야 함
 - 시드라이브에 있으면 그런 거 안 물어봄
 - 바탕 화면을 만들어야 하는데 하고 아니면 그냥 옮기면 됨
+
+---
+
+## 22. 게임 · 포인트 (Reboot Town)
+
+헤더 탭 **Game** (`/game/`). 레퍼런스: [Boo Village](https://verdant-fudge-197cf7.netlify.app) — 픽셀 마을을 걸어 다니다 건물에 들어가 미니게임을 하는 구조만 참고했고, 그림 · 코드 · 문구는 새로 만들었습니다. **게임 화면 문구는 영어**입니다.
+
+### 구성
+
+리부(Rebu)를 방향키 / WASD (휴대폰은 탭)로 움직여 건물 앞에서 `E` 또는 클릭하면 입장합니다.
+
+| 마을 | 건물 | 게임 | 방법 | 포인트 |
+|---|---|---|---|---|
+| **Jelly Village** | 라임 부츠 모양 Boot Barn | **Lasso Leap** | Space · 클릭 = 점프. 올가미 게이트 통과 +1, 게이트 사이 젤리 +1 | 1 gate = 10 P |
+| Jelly Village | 체리 모자 지붕 Hat House | **Jelly Drop** | ← → · 마우스 · 드래그로 이동, 떨어지는 젤리를 봉지로 받기 +1. 부츠 · 올가미 · 모자를 하나씩 모으면 **PACK COMPLETE +5** (라인별 패키지 판매 반영). 회전초 3번 맞으면 끝 | 1 pt = 3 P |
+| Jelly Village | 젤리 패키지 모양 Jelly Store | (상점) | Jelly Original · Balance 패키지, 가격 · 포인트 환산, 제품 페이지 링크 | — |
+| **Drink Village** | 레몬 병 모양 Bottle Tower | **Bottle Pop** | 30초. 주문(Lemon · Lime · Cherry)과 같은 맛 병만 터치 +1, 틀리면 −1, Mixed Box +3. 키보드 `Q W E / A S D` | 1 pt = 5 P |
+| Drink Village | Balloon Port | **Sunrise Flight** | 누르고 있으면 상승, 떼면 하강. 먹구름 · 새를 피해 한밤 → 해돋이까지 비행, 맛 방울 +15 m | 5 m = 1 P |
+| Drink Village | Mixed Box 모양 Drink Store | (상점) | Drink Original · Balance (낱병 · 믹스 박스) | — |
+
+- 젤리 모양 · 색은 §2 기준: 라임 = 부츠, 레몬 = 올가미, 체리 = 모자 / Original = 진한 색, Balance = 연한 색 (패키지 사진에서 색 추출).
+- 제품 정보 · 이미지는 `products/data/products.json`에서 읽습니다. (게임용으로 따로 적지 않음)
+- 효능 표현 · 음주 장면 없음 (§20). 게임 콘셉트는 "Restart Your Day" (밤 → 아침).
+
+### 포인트 규칙
+
+| 항목 | 값 | 위치 |
+|---|---|---|
+| 게임 플레이 | 로그인 없이 누구나 | — |
+| 포인트 적립 | **로그인한 일반 사용자(`customer`)만**. 비로그인은 결과 화면에 "이 판은 N P" + 로그인 버튼, 관리자는 적립 안 함 | `game/__init__.py` |
+| 하루 한도 | **모든 게임 합쳐 1,000 P / 일 (UTC 자정 초기화)** | `DAILY_CAP` |
+| 한 판 한도 | 300 P | `RUN_CAP` |
+| 환산 | 100 P = $1, 결제(모의 주문) 화면에서 사용 (기존 `shop` 포인트 사용 기능 그대로) | `POINTS_PER_USD` |
+| 하루 판 수 | 최대 300판 (남용 방지) | `MAX_RUNS_PER_DAY` |
+
+### 점수 검증 (서버)
+
+점수는 브라우저에서 오기 때문에 서버가 그대로 믿지 않습니다.
+
+1. 게임 시작 시 `POST /game/api/runs {game}` → 서버 시각으로 `game_run` 생성
+2. 끝나면 `POST /game/api/runs/<id>/finish {score}` → 서버가 확인
+   - 경과 시간 대비 불가능한 점수 (`max_rate × 초 + slack` 초과, Bottle Pop은 28초 미만) → `rejected`, 0 P
+   - 20분 넘은 판 → `expired`, 0 P / 이미 끝난 판 다시 제출 → 409
+3. 통과하면 `points_for()`로 계산 → `game_daily`에 **조건부 UPDATE**로 하루 한도를 넘지 않게 더함 (동시에 여러 판을 끝내도 1,000 P 초과 불가)
+4. `rewards_point_entry`(`game_reward`, `game_run:<id>`) 기록 + `auth_user.points` 증가 + 활동 기록(`game_started` / `game_completed`)
+
+> 게임 규칙 · 한도 숫자는 `game/services.py`의 `GAMES`, `DAILY_CAP`, `RUN_CAP`만 고치면 됩니다. (화면 안내 문구는 템플릿 · `core/translations.py`도 같이 수정)
+
+### 파일
+
+| 파일 | 내용 |
+|---|---|
+| `game/` | Blueprint, 모델(`game_run`, `game_daily`), 규칙 |
+| `core/templates/game/index.html` | Game 페이지 (오늘 적립 현황 · 게임 화면 · 게임 4종 안내 · 포인트로 살 수 있는 제품) |
+| `core/templates/game/_play.html` | 오늘 적립 현황 + 게임 화면 + 게임 데이터. `/game/`과 Home이 같이 씀. 컨텍스트는 `game.play_context()` |
+| `core/static/core/js/game.js` | 캔버스 게임 (마을 · 미니게임 4종 · 상점 · 효과음). 외부 라이브러리 없음 |
+| `core/static/core/css/game.css` | `.game-` 접두사 스타일 (픽셀 폰트 Silkscreen은 Google Fonts) |
+| `tests/test_app.py` | `test_game_*` — 공개 접근 · 점수 검증 · 판/하루 한도 · 관리자 차단 |
+
+- 기존 `/rewards/` 카드 짝 맞추기 게임(하루 100 P)은 Reboot Town으로 바뀌었습니다. `/rewards/`는 `/game/`으로 이동하고, 이전 파일은 `_to_delete/old_memory_game/`에 있습니다. 기존 `rewards_game` 테이블은 데이터 보존을 위해 그대로 둡니다.
+- 새 테이블은 `flask setup-db` 때 자동으로 만들어집니다 (기존 데이터 유지).
+
+---
+
+## 23. 관리자 사이드바 · 재고 · 상품 사진 · 문의함 · 챗봇
+
+### 관리자 사이드바
+
+관리자 페이지 왼쪽에 **사이드바**가 있습니다. 화면이 좁으면 위쪽 가로 메뉴로 바뀝니다. 보고 있는 섹션은 자동으로 강조됩니다.
+
+| 그룹 | 메뉴 | 이동 위치 |
+|---|---|---|
+| Sales overview (매출 현황) | Summary · **Product performance(상품 실적)** · **Sales by option(판매 옵션별 실적)** · **Influencer sales by platform(플랫폼별 인플루언서 매출)** · Creator performance · Direct store sales · Product reviews · Account activity · Point transactions | `/admin/#<섹션>` |
+| Homepage manager (홈페이지 관리) | Product discounts · Creator codes & links · **Site popups** | `/admin/manage#…` (§8-1, §24) |
+| Store operations (스토어 운영) | **Inventory(재고 관리)** · **Products & photos(상품 · 사진 관리)** · **Add product(상품 등록)** | `/admin/inventory`, `/admin/products`, `/admin/products/new` |
+| Customer care (고객 지원) | **Inbox(문의함, 새 문의 수 표시)** · **Chatbot** | `/admin/inbox`, `/admin/chatbot` |
+
+파일: `core/templates/admin/_sidebar.html` (모든 관리자 페이지가 include)
+
+### 재고 관리 (`/admin/inventory`)
+
+- 판매 옵션(SKU) 10개마다 **보유 수량 · 재주문 기준**을 관리합니다. 요약 카드: SKU 수, 총 보유 수량, 재고 부족(재주문 기준 이하), 품절.
+- **더미 기초 재고**: `flask setup-db` 때 자동 생성 (`random.Random(11)`, 120–480개). 화면 확인용으로 `drink-balance-cherry`(18개), `jelly-balance-pouch`(35개)는 재고 부족 상태로 시작합니다.
+- **직접 수정**: 표에서 숫자를 바꾸고 *Save inventory* (바뀐 행만 기록, 메모 선택).
+- **CSV 업로드**: 열 `sku, on_hand, reorder_level(선택)`. 내려받은 파일(`Current inventory / template ↓ CSV`)을 고쳐서 그대로 올리면 됩니다.
+  - `New count (stocktake)` = on_hand를 새 수량으로 / `Add to stock (delivery received)` = on_hand만큼 더하기(입고)
+  - 모르는 SKU · 숫자 아님 · 중복 · 0 미만이 하나라도 있으면 **아무것도 바꾸지 않고** 행 번호와 함께 알려줍니다. UTF-8(엑셀 "CSV UTF-8") 파일.
+- **주문과 연동**: 주문하면 재고가 자동 차감(`order` 기록). 재고보다 많이 장바구니에 담을 수 없고, 결제 순간 재고가 모자라면 주문을 막고 장바구니로 돌려보냅니다. 제품 상세에 `Only N left` / `Sold out` 표시, 품절 옵션은 선택 불가.
+- **재고 변동 기록(Stock log)**: 최근 60건 (기초 재고 · 직접 수정 · CSV · 주문).
+- 파일: `shop/inventory.py` (모델 · 차감 · CSV 검증), `core/templates/admin/inventory.html`
+
+### 상품 · 사진 관리 (`/admin/products`)
+
+- 제품 4종의 **모든 사진**(메인 · 카드 · 옵션 · 갤러리)을 사용처와 함께 보여주고, 사진마다 **Upload / Reset to original**.
+- JPG · PNG · WEBP, 10MB까지 → 서버에서 Pillow로 확인 후 **1600px WEBP**로 변환(투명 배경 유지).
+- 사진은 **DB(`products_image`)에 저장**합니다. Render 디스크는 재배포 때 지워지기 때문입니다. `/media/products/<id>.webp?v=<버전>`으로 제공.
+- `products.json`의 원래 이미지 경로를 키로 바꿔치기하므로 그 사진을 쓰는 **모든 화면(목록 · 상세 · 게임 상점 등)에 한 번에 반영**됩니다. `products.services.get_all_products()`가 적용, 원본은 `load_original()`.
+- `requirements.txt`에 `Pillow==11.3.0` 추가(사진 검증 · 변환), `config.py`의 업로드 한도 `MAX_CONTENT_LENGTH` 1MB → 10MB.
+
+### 문의하기 → 관리자 문의함
+
+- `/contact/`에서 **이메일을 입력받지 않습니다.** 로그인한 회원이 문의 유형(Order · Product · Account & points · Partnership · Other), 관련 주문(선택), 내용을 보내면 **이름 · 계정 이메일이 자동으로 붙어 관리자 문의함(`/admin/inbox`)에 바로 들어갑니다.** 비로그인은 로그인 안내.
+- 관리자는 문의함에서 Open / Answered / All로 보고, **답장**을 쓰면 회원의 문의하기 페이지 "Your inquiries"에 답변이 표시됩니다. 사이드바에 새 문의 수가 뜹니다.
+- Creators 협업 신청(`/creators/`)은 외부 크리에이터용이라 이메일을 그대로 받고, 같은 문의함에 들어옵니다(이메일로 회신).
+
+### 리뷰 삭제
+
+- 회원은 제품 상세의 내 리뷰 박스에서 **Delete my review**로 자기 리뷰를 지울 수 있습니다(다른 사람 리뷰는 불가). 지운 뒤 다시 쓸 수 있습니다.
+
+### 챗봇 (Ask Reboot)
+
+- 페르소나: **Reboot 마스코트 "Rebu"가 고객센터 상담원으로 응대** (가끔 카우보이 말투 "Howdy, partner", 불만 · 환불 등 진지한 상황에선 사용 안 함, 물어보면 AI라고 밝힘) — 제품 4종 · 맛과 모양 · 라인 패키지 판매 규칙 · 가격 · 진행 중인 할인 · 구매 방법 · 크리에이터 코드 · 포인트 · 게임 · 리뷰 · 문의 방법을 알고, 짧고 친절하게 답합니다. 제품 · 가격 · 할인 · 로그인 회원의 포인트는 **사이트 데이터에서 자동으로** 채워집니다.
+- 지키는 규칙: 숙취 · 건강 효능 주장 금지(§20), 과음 조장 금지, 21세 이상, 모르는 것(배송 기간 · 영양 수치 등)은 지어내지 않고 문의하기로 안내, 비밀번호 · 카드 정보 요청 금지.
+- **OpenAI 키**: 로컬은 `.env`에 `OPENAI_API_KEY=sk-...`, Render는 Environment에 등록 후 재시작. (선택) `OPENAI_MODEL`, 기본 `gpt-4o-mini`.
+- **관리자 Chatbot 페이지**: 키 설정 여부 · 모델 · 연결 테스트 버튼(실패 시 401 키 오류 / 429 크레딧 · 한도 / 404 모델 이름 등 원인 표시), 챗봇에 전달되는 전체 페르소나 보기.
+- 파일: `support/__init__.py` (`system_prompt()`, `ask_openai()`), `core/templates/admin/chatbot.html`
+
+---
+
+## 24. 상품 등록 · 숨김/삭제 · 이름/사진 크롭 · 팝업
+
+### 상품 등록 (`/admin/products/new`) — 시즌 · 한정 상품
+
+- 입력: 상품명, 라인(Jelly / Drink), 버전(Original / Balance = Zero Sugar), **시즌 배지**(예: `HALLOWEEN LIMITED`, 상품 카드에 네온 배지로 표시), 형태, 포장, 용량(음료), 맛(쉼표), 한 줄 소개.
+- 판매 옵션 최대 4개: 옵션 이름 · 가격(USD) · 옵션당 개수 · **기초 재고** → SKU 자동 생성(`<slug>-<옵션>`), 재고 관리에 바로 연결.
+- 사진 1장 필수(1:1 크롭 권장) → 메인 · 카드 사진으로 사용. 사진은 나중에 상품 · 사진 관리에서 추가 교체.
+- 원료는 A-HAT + 헛개나무 열매로 자동 입력, 효능 문구 금지 안내(§20).
+- "숨김으로 저장"을 체크하면 미리 만들어 두고 나중에 **Show**로 공개.
+- 저장 위치: `products_custom`(JSON) + `shop_product` / `shop_product_option` / `shop_inventory`. `products.json`은 수정하지 않습니다. `products.services.load_original()`이 두 곳을 합칩니다.
+
+### 숨김 · 삭제 (`/admin/products`)
+
+| 버튼 | 동작 |
+|---|---|
+| **Hide / Show** | 사이트(목록 · 상세 · 홈 · 게임 상점 · 챗봇)에서 숨김/표시. 숨긴 상품 상세는 404, 장바구니에서도 빠집니다. |
+| **Delete** | 주문된 적 없는 관리자 등록 상품 → **완전 삭제**(재고 · 할인 · 사진 · 리뷰 포함). 기존 4종이나 주문 기록이 있는 상품 → **보관(Archived)**: 사이트에서 사라지고 매출 보고서는 유지. |
+| **Restore** | 보관함에서 복구(숨김 상태로 복구 → Show로 공개). |
+
+### 상품명 · 사진 크롭
+
+- 상품 · 사진 관리에서 **상품명 변경**(사이트 · 장바구니 · 주문 · 관리자 보고서 모두 반영, Reset name으로 원래 이름).
+- 사진마다 **Upload & crop**(새 파일 선택 → 크롭) / **Crop current**(지금 사진을 다시 크롭). 크롭 창: 박스 이동 · 모서리로 크기 조절, 비율 Free · 1:1 · 4:5 · 4:3 · 16:9, 90° 회전, 전체 사진, 방향키로 미세 이동. 결과는 최대 2000px WEBP(지원 안 되면 PNG)로 업로드 → 서버에서 다시 1600px WEBP로 저장.
+- 파일: `core/static/core/js/cropper.js`(크롭 창, 외부 라이브러리 없음), `core/static/core/js/admin-photos.js`(크롭 결과를 폼에 넣어 전송)
+
+### 사이트 팝업 (홈페이지 관리 → Site popups)
+
+- 제목 · 내용 · 사진(크롭) · 버튼(문구 + 링크: 사이트 내 경로 또는 https 주소만) · 표시 위치(홈페이지만 / 모든 페이지) · 시작일 · 종료일.
+- 방문자에게는 **가장 최근의 노출 중인 팝업 1개**를 방문(탭)당 한 번 표시, "오늘 하루 보지 않기" 지원(브라우저 저장). 팝업을 수정하면 다시 보입니다. 로그인 · 결제 · 관리자 페이지에는 표시 안 함.
+- 중지/재개 · 수정 · 삭제. 파일: `core/popups.py`, `core/templates/core/_popup.html`(base.html에 포함)
+
+### 관리자 화면 가독성
+
+관리자 페이지 전체 글자 크기 · 대비를 높였습니다(본문 15px, 표 14px, 표 머리 진한 배경, 짝수 행 구분, 흐린 회색 → 밝은 회색). `site.css`의 `/* admin readability */` 블록.
+

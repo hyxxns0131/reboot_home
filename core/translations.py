@@ -39,3 +39,97 @@ KO.update({'All three shapes': '세 가지 모양', 'In the pack': '패키지 �
 
 # Admin: option sales + Instagram / TikTok influencer exports
 KO.update({'Sales by option':'옵션별 매출','SALES BY OPTION':'판매 옵션별 실적','Every sales option, including zero-sale options. Jelly is sold only as a line package (all three flavors). Pieces = bottles or packages.':'판매 중인 모든 옵션을 표시합니다(판매 0건 포함). 젤리는 라인별 패키지(3가지 맛 구성)로만 판매합니다. 개수 = 병 또는 패키지 수.','Option':'옵션','Price':'가격','Qty':'수량','Pieces':'개수','INFLUENCER SALES BY PLATFORM':'플랫폼별 인플루언서 매출','Orders placed through an influencer’s dedicated link (its discount code is applied automatically at checkout). Retail partner sales are not included.':'인플루언서 전용 링크(전용 할인코드가 주문 시 자동 적용)로 들어온 주문만 집계합니다. 유통사 매출은 포함하지 않습니다.','Links':'링크 수','INFLUENCER CSV':'인플루언서 CSV','by influencer':'인플루언서별','order lines':'주문 상세'})
+
+# Motion hero gummy packs
+KO.update({'Cowboy boots, lassos and hats in one pouch.': '카우보이 부츠, 올가미, 모자가 한 봉지에.', 'Three flavors, one pouch!': '세 가지 맛, 한 봉지!', 'Zero sugar, partner!': '제로 슈가야, 파트너!', 'with lime, lemon and cherry gummies': '라임·레몬·체리 젤리와 함께', 'Gummy packs': '젤리 패키지'})
+
+# Product reviews + admin creator / direct / review sections
+KO.update({'REVIEWS':'리뷰','WHAT PEOPLE SAY.':'고객 리뷰.','reviews':'개 리뷰','No reviews yet. Be the first.':'아직 리뷰가 없어요. 첫 리뷰를 남겨주세요.','You reviewed this product.':'이 제품에 리뷰를 남기셨어요.','It is pending a quick check.':'확인 후 게시됩니다.','Your rating':'별점','Title (optional)':'제목 (선택)','Your review':'리뷰 내용','Tell us about taste, packaging and delivery. Reviews that describe health effects are held for a check.':'맛·패키지·배송 경험을 알려주세요. 건강 효과를 언급한 리뷰는 확인 후 게시됩니다.','Post review ↗':'리뷰 등록 ↗','Login to write a review ↗':'로그인하고 리뷰 쓰기 ↗',
+'Choose 1–5 stars and write 10–1,000 characters.':'별점(1–5)을 고르고 10–1,000자로 작성해주세요.','You have already reviewed this product.':'이미 이 제품에 리뷰를 남기셨어요.','Thanks! Your review is pending a quick check.':'감사합니다! 리뷰는 확인 후 게시됩니다.','Thanks! Your review is live.':'감사합니다! 리뷰가 등록되었어요.',
+'CREATOR PERFORMANCE':'크리에이터별 실적','DUMMY DATA':'더미 데이터','Visits come only from each creator’s dedicated link (/r/CODE). The link stores the creator’s discount code for 30 days and applies it at checkout. Visits are all-time; orders and sales use the selected period.':'접속량은 크리에이터 전용 링크(/r/코드)로 들어온 방문만 셉니다. 링크가 전용 할인코드를 30일간 저장해 주문 시 자동 적용합니다. 접속량은 누적, 주문·매출은 선택 기간 기준입니다.','Creator':'크리에이터','Discount code':'할인코드','Visits':'접속량','Sales':'매출','Conversion':'전환율','Share link':'배포 링크','Pause':'중지','Resume':'재개','No creator links yet.':'아직 발급한 크리에이터 링크가 없습니다.','CREATOR CSV':'크리에이터 CSV','All creators':'전체 크리에이터','+ Issue a new creator link':'+ 새 크리에이터 링크 발급','Creator name':'크리에이터 이름','Discount %':'할인율 %','Commission %':'수수료율 %','Discount code (optional)':'할인코드 (선택)','Create link ↗':'링크 만들기 ↗','Tip: add ?to=/products/drink-original to a link to land on a product page.':'팁: 링크 뒤에 ?to=/products/drink-original 을 붙이면 제품 페이지로 바로 연결됩니다.',
+'Enter a creator name, Instagram or TikTok, and discount/commission between 0 and 50%.':'크리에이터 이름, 플랫폼(Instagram/TikTok), 0–50% 사이의 할인율·수수료율을 입력해주세요.','That discount code is already used. Enter a different code.':'이미 사용 중인 할인코드입니다. 다른 코드를 입력해주세요.',
+'DIRECT STORE SALES':'자사몰 직접 유입 매출','Orders placed on our own store without a creator link.':'크리에이터 링크 없이 자사몰로 들어온 주문입니다.','GROSS':'할인 전 매출','DIRECT CSV':'직접 유입 CSV','Direct store sales':'자사몰 직접 유입 매출',
+'PRODUCT REVIEWS':'제품 리뷰','Reviews written between the start and end dates (order status filter does not apply). 4–5★ = positive, 3★ = neutral, 1–2★ = negative. Held = mentions a health effect, hidden from the product page.':'시작일–종료일에 작성된 리뷰입니다(주문 상태 필터는 적용되지 않음). 4–5★ 긍정, 3★ 중립, 1–2★ 부정. 보류 = 건강 효과를 언급해 제품 페이지에서 숨긴 리뷰.','AVERAGE':'평균 별점','POSITIVE':'긍정','NEGATIVE':'부정','Reviews':'리뷰 수','Average':'평균','Positive':'긍정','Neutral':'중립','Negative':'부정','No reviews in this period.':'선택한 기간에 리뷰가 없습니다.','REVIEW CSV':'리뷰 CSV','Positive reviews':'긍정 리뷰','Negative reviews':'부정 리뷰','All reviews':'전체 리뷰','Monthly review summary':'월별 리뷰 요약'})
+
+# Reboot Town game page (/game/). The game itself stays in English.
+KO.update({'Reboot Town':'리부트 타운','REBOOT TOWN · 2 VILLAGES · 4 MINI GAMES':'리부트 타운 · 마을 2곳 · 미니게임 4종','PLAY. EARN.':'놀고, 모으고,','RESTART.':'리스타트.',
+'Walk Rebu through Jelly Village and Drink Village, play mini games, and turn your score into points for the Reboot shop.':'리부와 함께 젤리 마을과 드링크 마을을 돌아다니며 미니게임을 하고, 점수를 리부트 쇼핑 포인트로 바꿔보세요.',
+'Today’s points':'오늘의 포인트','Earned today':'오늘 적립','Balance':'보유','Resets in':'초기화까지','Point history ↗':'포인트 내역 ↗','Admin account':'관리자 계정','Play mode':'플레이 전용',
+'Free to play':'누구나 무료','Log in to earn':'로그인하고 적립','Anyone can play. Only signed-in members turn scores into points — up to 1,000 P a day.':'게임은 누구나 할 수 있어요. 점수를 포인트로 바꾸려면 로그인해야 하며 하루 최대 1,000P까지 적립됩니다.',
+'Jelly Village':'젤리 마을','Drink Village':'드링크 마을','Back to town':'마을로 돌아가기','Sound on':'소리 켜짐',
+'Reboot Town game. Arrow keys or WASD to walk, E to enter a building, Space or click to play, Escape to go back.':'리부트 타운 게임. 방향키 또는 WASD로 이동, E로 건물 입장, 스페이스나 클릭으로 플레이, Esc로 돌아가기.',
+'Click to focus the game':'게임을 클릭하면 조작할 수 있어요','Play again':'다시 하기','Login to earn ↗':'로그인하고 적립하기 ↗','Close':'닫기',
+'walk':'이동','enter':'입장','click':'클릭','play':'플레이','back to town':'마을로','On a phone, tap where you want to go.':'휴대폰에서는 가고 싶은 곳을 탭하세요.',
+'FOUR GAMES.':'게임 4종.','ONE DAILY CAP.':'하루 한도는 하나.','Every run pays up to 300 P. Together, all games pay up to 1,000 P per day (UTC). 100 P = $1 at checkout.':'한 판에 최대 300P, 모든 게임 합쳐 하루(UTC) 최대 1,000P까지 적립됩니다. 결제 시 100P = $1.',
+'Tap to hop Rebu through the lasso gates. Grab boot, hat and lasso jellies for a bonus.':'탭해서 리부를 올가미 게이트 사이로 점프시키세요. 부츠·모자·올가미 젤리는 보너스!',
+'Catch falling jellies in the pouch. One boot, one hat and one lasso fill a pack for +5. Dodge the tumbleweeds.':'떨어지는 젤리를 봉지에 받으세요. 부츠·모자·올가미를 하나씩 모으면 패키지 완성 +5. 회전초는 피하세요.',
+'30 seconds behind the bar. Pop only the bottles that match the order. The Mixed Box is worth +3.':'30초 동안 주문과 같은 맛의 병만 터치하세요. 믹스 박스는 +3.',
+'Hold to rise in the balloon, release to drift down. Fly from midnight to sunrise and collect flavor drops.':'누르고 있으면 열기구가 올라가고 떼면 내려가요. 한밤에서 해 뜰 때까지 날며 맛 방울을 모으세요.',
+'Play':'플레이','SPEND YOUR':'모은 포인트,','POINTS.':'쇼핑에 쓰기.','Use points at checkout on any Reboot item. Jellies are sold only as line packages with all three shapes: lime boot, lemon lasso and cherry hat.':'모든 리부트 제품 결제 시 포인트를 쓸 수 있어요. 젤리는 라임 부츠·레몬 올가미·체리 모자 세 가지가 든 라인별 패키지로만 판매합니다.',
+'Line package':'라인 패키지','From':'최저','Jelly':'젤리','Drink':'음료',
+'Scores are checked on our server. Impossible scores earn 0 P.':'점수는 서버에서 확인하며, 불가능한 점수는 0P 처리됩니다.','Points are for signed-in members (21+). Guests can play for fun.':'포인트는 로그인한 회원(21세 이상)만 적립됩니다. 비회원은 게임만 즐길 수 있어요.',
+'Sample prices. The shop is a mock checkout with no real payment.':'샘플 가격이며, 실제 결제가 없는 모의 주문입니다.',
+'Earn up to 1,000 points a day (UTC) in Reboot Town. 100 points = $1 at mock checkout.':'리부트 타운에서 하루(UTC) 최대 1,000포인트를 모을 수 있어요. 모의 주문 시 100포인트 = $1.','Play in Reboot Town ↗':'리부트 타운에서 플레이 ↗'})
+
+# Admin tabs / Homepage manager / sale prices
+KO.update({'Admin sections':'관리자 메뉴','Sales overview':'매출 현황','Homepage manager':'홈페이지 관리','HOMEPAGE MANAGER.':'홈페이지 관리.',
+'Set product sales and creator discount codes. Changes go live on the site right away. Dates are UTC.':'상품 할인과 크리에이터 할인 코드를 설정합니다. 저장하면 바로 사이트에 반영됩니다. 날짜는 UTC 기준입니다.',
+'PRODUCT DISCOUNTS':'상품 할인','Choose a whole product (every option) or one option, then a % or $ amount off per item. If two sales fit the same item, the bigger one is used. A creator code is applied on top of the sale price.':'상품 전체(모든 옵션) 또는 옵션 하나를 고르고, 개당 % 또는 $ 할인을 정하세요. 같은 상품에 할인이 두 개면 더 큰 할인이 적용됩니다. 크리에이터 코드는 할인된 가격에 추가로 적용됩니다.',
+'Product / option':'상품 / 옵션','all options':'전체 옵션','Type':'할인 방식','off':'할인','off per item':'개당 할인','Amount':'할인값','Label (optional)':'이름 (선택)','Start (optional)':'시작일 (선택)','End (optional)':'종료일 (선택)','Save discount ↗':'할인 저장 ↗',
+'Discount':'할인','Applies to':'적용 대상','Label':'이름','Dates':'기간','Status':'상태','now':'지금','no end':'종료 없음','Live':'적용 중','Scheduled / ended':'예정 / 종료','Paused':'중지됨','Delete':'삭제',
+'No discounts yet. Every product sells at its list price.':'아직 할인이 없습니다. 모든 상품이 정가로 판매됩니다.','Current prices on the site':'현재 사이트 판매가','Option':'옵션','List price':'정가','Sale price':'할인가','Sale':'할인',
+'CREATOR CODES & LINKS':'크리에이터 코드 · 전용 링크','Each influencer gets one discount code. Their link /r/CODE saves the code for 30 days, and shoppers can also type the code in the bag. Sales are tracked per code on the Sales overview tab.':'인플루언서마다 전용 할인 코드가 하나씩 있습니다. 전용 링크(/r/코드)로 들어오면 30일간 코드가 저장되고, 장바구니에서 코드를 직접 입력할 수도 있습니다. 코드별 매출은 매출 현황 탭에서 확인합니다.',
+'Link opens':'링크 도착 페이지','Code':'코드','Discount % · Commission % · Link opens':'할인 % · 수수료 % · 도착 페이지','Copy':'복사','Save':'저장',
+'Create or edit creator codes & links → Homepage manager':'크리에이터 코드 · 링크 만들기/수정 → 홈페이지 관리','Sale discount':'상품 할인','Creator code':'크리에이터 코드','Remove':'삭제','Creator discount code':'크리에이터 할인 코드','Apply':'적용',
+'Discount code removed.':'할인 코드를 삭제했습니다.','That discount code is not valid.':'유효하지 않은 할인 코드입니다.','Discount saved. It shows on the product pages and is applied in the bag.':'할인을 저장했습니다. 상품 페이지에 표시되고 장바구니에 적용됩니다.','Discount deleted.':'할인을 삭제했습니다.',
+'Enter a valid discount and dates.':'올바른 할인값과 날짜를 입력하세요.','Choose a product or option and a discount type.':'상품 또는 옵션과 할인 방식을 고르세요.','Percent discounts must be between 1 and 90%.':'% 할인은 1~90% 사이여야 합니다.','The end date must be on or after the start date.':'종료일은 시작일과 같거나 뒤여야 합니다.','Discount and commission must be between 0 and 50%.':'할인과 수수료는 0~50% 사이여야 합니다.',
+'discount_created':'할인 생성','discount_code_applied':'할인 코드 입력'})
+
+# Admin sidebar, inbox, chatbot, inventory, product photos, contact, reviews
+KO.update({'ADMIN':'관리자','Summary':'요약','Product performance':'상품 실적','Sales by option':'판매 옵션별 실적','Influencer sales by platform':'플랫폼별 인플루언서 매출',
+'Creator performance':'크리에이터 성과','Direct store sales':'자사몰 직접 매출','Product reviews':'상품 리뷰','Account activity':'계정 활동','Point transactions':'포인트 내역',
+'Product discounts':'상품 할인','Creator codes & links':'크리에이터 코드 · 링크','Store operations':'스토어 운영','Inventory':'재고 관리','Products & photos':'상품 · 사진 관리',
+'Customer care':'고객 지원','Inbox':'문의함','Chatbot':'챗봇','CUSTOMER CARE':'고객 지원','INBOX.':'문의함.','new':'새 문의',
+'Inquiries from the Contact page arrive here automatically with the member’s account. Your reply appears on the member’s Contact page. Creator applications come with an email address.':'문의하기 페이지의 문의가 회원 계정 정보와 함께 자동으로 들어옵니다. 답장은 회원의 문의하기 페이지에 표시됩니다. 크리에이터 신청은 이메일 주소와 함께 들어옵니다.',
+'Open':'진행 중','Answered':'답변 완료','All':'전체','Contact':'문의','Your reply':'보낸 답장','Reply to member':'회원에게 답장','Send reply ↗':'답장 보내기 ↗','Email creator ↗':'크리에이터에게 이메일 ↗',
+'Mark answered':'답변 완료로 표시','Mark read':'읽음으로 표시','Reopen':'다시 열기','Nothing here. All caught up.':'처리할 문의가 없습니다.','read':'읽음','answered':'답변 완료',
+'CHATBOT.':'챗봇.','MODEL':'모델','CONNECTION TEST':'연결 테스트','Failed':'실패','Run connection test ↗':'연결 테스트 실행 ↗','PERSONA & KNOWLEDGE':'페르소나 · 학습 내용',
+'The Ask Reboot chat uses OpenAI with the customer-care persona below. Product facts, prices and live sales are filled in automatically from the site.':'Ask Reboot 채팅은 아래 고객센터 페르소나로 OpenAI를 사용합니다. 제품 정보·가격·진행 중인 할인은 사이트에서 자동으로 채워집니다.',
+'No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.':'API 키가 없습니다. 로컬은 .env 파일에, Render는 Environment에 OPENAI_API_KEY=sk-... 를 추가한 뒤 서버를 다시 시작하세요.',
+'What the chatbot is told before every conversation (edit in support/__init__.py).':'대화마다 챗봇에게 먼저 전달되는 내용입니다 (support/__init__.py에서 수정).',
+'STORE OPERATIONS':'스토어 운영','INVENTORY.':'재고 관리.','DUMMY OPENING STOCK':'더미 기초 재고',
+'Stock per sales option (SKU). Orders on the site take stock automatically; shoppers can’t buy more than is on hand. Low = at or below the reorder level.':'판매 옵션(SKU)별 재고입니다. 사이트 주문 시 자동으로 차감되고, 재고보다 많이 살 수 없습니다. 재주문 기준 이하이면 부족으로 표시됩니다.',
+'SKUS':'SKU 수','UNITS ON HAND':'보유 수량','LOW STOCK':'재고 부족','SOLD OUT':'품절','STOCK BY OPTION':'옵션별 재고','On hand':'보유','Reorder level':'재주문 기준','Updated (UTC)':'수정 (UTC)','Low':'부족','Sold out':'품절',
+'Note for the stock log (optional)':'재고 기록 메모 (선택)','Save inventory ↗':'재고 저장 ↗','CSV UPLOAD':'CSV 업로드',
+'Columns: sku, on_hand, reorder_level (optional). Other columns are ignored, so you can edit the downloaded file and upload it back. If any row has a problem, nothing is changed.':'열: sku, on_hand, reorder_level(선택). 다른 열은 무시되므로 내려받은 파일을 고쳐서 그대로 올리면 됩니다. 한 줄이라도 문제가 있으면 아무것도 바뀌지 않습니다.',
+'DOWNLOAD':'다운로드','Current inventory / template':'현재 재고 / 양식','CSV file':'CSV 파일','on_hand means':'on_hand 의미','New count (stocktake)':'새 수량으로 바꾸기 (실사)','Add to stock (delivery received)':'재고에 더하기 (입고)','Upload CSV ↗':'CSV 업로드 ↗',
+'STOCK LOG':'재고 변동 기록','After':'변경 후','Note':'메모','No stock changes yet.':'아직 재고 변동이 없습니다.','Opening stock':'기초 재고','Manual edit':'직접 수정','CSV · new count':'CSV · 수량 변경','CSV · added':'CSV · 입고','Order':'주문',
+'PRODUCTS.':'상품 관리.','Replace any product photo. JPG, PNG or WEBP up to 10 MB — it is resized to 1600 px and saved as WEBP (transparent backgrounds are kept). The new photo shows everywhere that image is used. Reset brings back the original.':'상품 사진을 바꿀 수 있습니다. JPG·PNG·WEBP 10MB까지, 1600px WEBP로 저장되며 투명 배경은 유지됩니다. 그 사진이 쓰이는 모든 곳에 반영되고, 되돌리기를 누르면 원래 사진으로 돌아갑니다.',
+'View product page ↗':'상품 페이지 보기 ↗','Replaced':'변경됨','Upload':'업로드','Reset to original':'원래 사진으로','New photo for':'새 사진:',
+'Only':'남은 수량','left':'개','Delete my review':'내 리뷰 삭제','Delete your review?':'리뷰를 삭제할까요?','Your review has been deleted.':'리뷰를 삭제했습니다.',
+'Topic':'문의 유형','Related order (optional)':'관련 주문 (선택)','Your inquiry goes straight to our team. The reply will appear below.':'문의는 바로 담당 팀에 전달되고, 답변은 아래에 표시됩니다.','Send inquiry ↗':'문의 보내기 ↗',
+'Your inquiries':'내 문의 내역','Waiting for reply':'답변 대기','Reboot team':'리부트 팀','No inquiries yet.':'아직 문의가 없습니다.','Log in to send an inquiry':'로그인하고 문의하기',
+'No email needed — your inquiry goes straight to our team with your account, and you can read the reply right here.':'이메일을 적을 필요 없이 계정으로 바로 문의가 전달되고, 답변도 이 페이지에서 확인할 수 있습니다.',
+'Admin accounts read inquiries in the admin inbox.':'관리자 계정은 관리자 문의함에서 확인합니다.','Open inbox ↗':'문의함 열기 ↗','Order ':'주문 ','Product':'상품','Account & points':'계정 · 포인트','Partnership':'제휴','Other':'기타',
+'Please log in to send an inquiry.':'문의하려면 로그인하세요.','Choose a topic and write a message (10–4,000 characters).':'문의 유형을 고르고 내용을 10~4,000자로 써 주세요.','Your inquiry was sent to our team. You will see the reply on this page.':'문의가 접수되었습니다. 답변은 이 페이지에서 확인할 수 있어요.',
+'No real payment is taken.':'실제 결제는 이루어지지 않습니다.','Mock checkout only — no real payment.':'모의 주문만 가능하며 실제 결제는 없습니다.','For adults 21+. Mock checkout only — no real payment.':'21세 이상 성인용. 모의 주문만 가능하며 실제 결제는 없습니다.',
+'Your order':'주문 내역','For adults 21+.':'21세 이상 성인용.','For adults 21+. Mock checkout only.':'21세 이상 성인용. 모의 주문만 가능합니다.','The shop is a mock checkout with no real payment.':'쇼핑은 실제 결제가 없는 모의 주문입니다.',
+'Messages are stored for the team.':'메시지는 팀에 저장됩니다.','Inventory saved':'재고 저장','review_deleted':'리뷰 삭제','product_photo_changed':'상품 사진 변경'})
+
+KO.update({'Howdy! I’m Rebu from Reboot customer care. Ask me about products, flavors, points, orders, or where to buy.':'안녕하세요, 파트너! 리부트 고객센터의 리부예요. 제품, 맛, 포인트, 주문, 구매처에 대해 물어보세요.'})
+
+# Products registration / names / crop, popups
+KO.update({'Add product':'상품 등록','+ Add product':'+ 상품 등록','ADD PRODUCT.':'상품 등록.','Product name':'상품명','Renamed':'이름 변경됨','Save name':'이름 저장','Reset name':'원래 이름으로','Original':'원래 이름',
+'Upload & crop':'업로드 · 크롭','Crop current':'현재 사진 크롭','On the site':'사이트에 표시 중','Hidden':'숨김','Added by admin':'관리자 등록','Hide':'숨기기','Show':'보이기','Restore':'복구','ARCHIVED':'보관함',
+'Deleted products that are kept because past orders use them. They are not shown anywhere on the site.':'지난 주문 기록 때문에 보관 중인 삭제 상품입니다. 사이트에는 표시되지 않습니다.','Nothing archived.':'보관된 상품이 없습니다.',
+'Rename products and replace or re-crop any product photo. Photos: JPG, PNG or WEBP up to 10 MB, cropped in your browser, saved as WEBP (transparent backgrounds are kept). Changes show everywhere the name or photo is used. Reset brings back the original.':'상품 이름을 바꾸고 사진을 교체하거나 다시 크롭할 수 있습니다. 사진은 JPG·PNG·WEBP 10MB까지, 브라우저에서 크롭 후 WEBP로 저장되며 투명 배경이 유지됩니다. 이름과 사진은 쓰이는 모든 곳에 반영되고, 되돌리기로 원래대로 돌릴 수 있습니다.',
+'Register a new or seasonal product. It appears on the Products page under its line, with its own page, bag, stock and sales reports. Prices are in USD.':'신상품·시즌 상품을 등록합니다. 상품 페이지의 해당 라인에 표시되고, 상세 페이지·장바구니·재고·매출 보고서가 모두 연결됩니다. 가격은 USD입니다.',
+'1. Basics':'1. 기본 정보','Line':'라인','Version':'버전','Season badge (optional)':'시즌 배지 (선택)','Format':'형태','Pack':'포장','Volume (drinks)':'용량 (음료)','Flavors (comma separated)':'맛 (쉼표로 구분)','Tagline (optional)':'한 줄 소개 (선택)',
+'Ingredients are filled in as A-HAT + Hovenia dulcis fruit, like every Reboot product. Don’t write health or hangover claims anywhere.':'원료는 다른 리부트 제품처럼 A-HAT + 헛개나무 열매로 자동 입력됩니다. 어디에도 건강·숙취 효능 문구를 쓰지 마세요.',
+'2. Sales options, prices and opening stock':'2. 판매 옵션 · 가격 · 기초 재고','At least one. Jelly: usually one line package. Drinks: single bottles and/or a box.':'최소 1개. 젤리는 보통 라인 패키지 1개, 음료는 낱병 또는 박스.','Option label':'옵션 이름','Price (USD)':'가격 (USD)','Pieces in option':'옵션당 개수','Opening stock':'기초 재고',
+'3. Photo':'3. 사진','Choose photo & crop':'사진 선택 · 크롭','Square (1:1) works best for product cards. A transparent PNG cutout looks great on the dark site. More photos can be added later on the Products page.':'상품 카드에는 정사각형(1:1)이 가장 좋습니다. 투명 배경 PNG가 어두운 사이트에 잘 어울립니다. 사진은 상품·사진 관리에서 더 바꿀 수 있습니다.',
+'Save as hidden — publish later with Show':'숨김으로 저장 — 나중에 보이기로 공개','Add product ↗':'상품 등록 ↗','Site popups':'사이트 팝업','SITE POPUPS':'사이트 팝업',
+'Show a popup with text and a photo to visitors. The newest live popup is shown, once per visit; visitors can hide it for the day. Never shown on login, checkout or admin pages.':'방문자에게 글과 사진이 있는 팝업을 띄웁니다. 가장 최근의 노출 중인 팝업이 방문당 한 번 표시되고, 방문자는 오늘 하루 숨길 수 있습니다. 로그인·결제·관리자 페이지에는 표시되지 않습니다.',
+'+ New popup':'+ 새 팝업','Choose image & crop':'이미지 선택 · 크롭','Re-crop image':'이미지 다시 크롭','Remove image':'이미지 삭제','Optional. 4:5 or 1:1 looks best.':'선택. 4:5 또는 1:1 비율이 잘 어울립니다.','Title':'제목','Text (optional)':'내용 (선택)',
+'Button label (optional)':'버튼 문구 (선택)','Button link':'버튼 링크','Show on':'표시 위치','Home page only':'홈페이지만','Every page':'모든 페이지','Save popup ↗':'팝업 저장 ↗','Save changes':'변경 저장','No image':'이미지 없음','Edit':'수정','No popups yet.':'아직 팝업이 없습니다.',
+'Don’t show today':'오늘 하루 보지 않기'})

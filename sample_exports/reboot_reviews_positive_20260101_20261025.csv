@@ -1,0 +1,314 @@
+﻿review_id,created_at,product_slug,product_name,rating,sentiment,title,body,reviewer_name,status,is_dummy
+281,2026-10-22T22:18:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Mia L.,published,True
+150,2026-10-19T23:02:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Liam T.,published,True
+139,2026-10-19T12:56:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Zoe H.,published,True
+357,2026-10-18T17:02:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ryan O.,published,True
+30,2026-10-18T11:34:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+113,2026-10-18T11:00:00,jelly-balance,Reboot Jelly Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lucas W.,published,True
+4,2026-10-17T10:14:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Jordan K.,published,True
+60,2026-10-14T09:15:00,jelly-original,Reboot Jelly Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Ethan R.,published,True
+14,2026-10-13T18:50:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mia L.,published,True
+238,2026-10-12T17:37:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Grace Y.,published,True
+210,2026-10-10T11:41:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+22,2026-10-09T13:45:00,jelly-original,Reboot Jelly Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Aiden F.,published,True
+349,2026-10-07T18:03:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Lily D.,published,True
+239,2026-10-02T19:54:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Zoe H.,published,True
+247,2026-10-01T12:26:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Mason B.,published,True
+106,2026-09-30T19:15:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+84,2026-09-29T21:13:00,jelly-original,Reboot Jelly Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Lucas W.,published,True
+192,2026-09-27T12:41:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Nora J.,published,True
+108,2026-09-27T10:47:00,jelly-original,Reboot Jelly Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Mia L.,published,True
+148,2026-09-25T19:06:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Chloe P.,published,True
+430,2026-09-24T23:28:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mason B.,published,True
+242,2026-09-22T13:19:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lucas W.,published,True
+196,2026-09-20T22:11:00,jelly-balance,Reboot Jelly Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mason B.,published,True
+227,2026-09-19T19:02:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Nora J.,published,True
+419,2026-09-19T11:28:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Emma C.,published,True
+120,2026-09-18T13:56:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+92,2026-09-17T19:18:00,jelly-original,Reboot Jelly Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lily D.,published,True
+61,2026-09-17T16:35:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ethan R.,published,True
+397,2026-09-17T15:11:00,drink-balance,Reboot Drink Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Mia L.,published,True
+294,2026-09-17T12:17:00,drink-original,Reboot Drink Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Liam T.,published,True
+142,2026-09-15T17:40:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+278,2026-09-15T16:54:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Emma C.,published,True
+301,2026-09-14T19:18:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Liam T.,published,True
+56,2026-09-14T11:34:00,jelly-original,Reboot Jelly Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Aiden F.,published,True
+289,2026-09-14T11:24:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Caleb V.,published,True
+186,2026-09-13T20:28:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Aiden F.,published,True
+365,2026-09-13T16:42:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Caleb V.,published,True
+121,2026-09-12T23:56:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Liam T.,published,True
+136,2026-09-12T17:14:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Nora J.,published,True
+423,2026-09-11T21:17:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mia L.,published,True
+162,2026-09-11T18:11:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Ethan R.,published,True
+88,2026-09-11T17:53:00,jelly-original,Reboot Jelly Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Aiden F.,published,True
+439,2026-09-10T18:32:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Grace Y.,published,True
+253,2026-09-10T12:10:00,drink-original,Reboot Drink Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Nora J.,published,True
+158,2026-09-10T09:44:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Liam T.,published,True
+286,2026-09-09T21:44:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mia L.,published,True
+309,2026-09-08T23:06:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lily D.,published,True
+224,2026-09-08T16:15:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Dylan Q.,published,True
+245,2026-09-08T12:39:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Chloe P.,published,True
+395,2026-09-07T22:58:00,drink-balance,Reboot Drink Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Grace Y.,published,True
+368,2026-09-07T18:03:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Noah S.,published,True
+33,2026-09-07T16:30:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ethan R.,published,True
+307,2026-09-05T16:01:00,drink-original,Reboot Drink Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Aiden F.,published,True
+184,2026-09-04T17:34:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+234,2026-09-03T12:37:00,drink-original,Reboot Drink Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Nora J.,published,True
+258,2026-09-02T20:34:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Jordan K.,published,True
+312,2026-09-01T17:01:00,drink-original,Reboot Drink Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Sofia G.,published,True
+87,2026-09-01T12:59:00,jelly-original,Reboot Jelly Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Nora J.,published,True
+50,2026-08-31T19:59:00,jelly-original,Reboot Jelly Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Chloe P.,published,True
+360,2026-08-30T12:57:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mia L.,published,True
+280,2026-08-29T20:03:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mason B.,published,True
+369,2026-08-29T19:10:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Grace Y.,published,True
+405,2026-08-28T20:58:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Ava M.,published,True
+321,2026-08-28T13:48:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Aiden F.,published,True
+167,2026-08-28T09:19:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Nora J.,published,True
+388,2026-08-26T21:05:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mason B.,published,True
+48,2026-08-26T15:47:00,jelly-original,Reboot Jelly Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lily D.,published,True
+187,2026-08-24T18:57:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Aiden F.,published,True
+382,2026-08-24T17:05:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lily D.,published,True
+221,2026-08-22T17:54:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Dylan Q.,published,True
+10,2026-08-21T14:19:00,jelly-original,Reboot Jelly Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Grace Y.,published,True
+410,2026-08-20T17:56:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Noah S.,published,True
+63,2026-08-20T17:34:00,jelly-original,Reboot Jelly Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Zoe H.,published,True
+131,2026-08-19T18:48:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Aiden F.,published,True
+147,2026-08-18T12:50:00,jelly-balance,Reboot Jelly Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Grace Y.,published,True
+42,2026-08-17T21:59:00,jelly-original,Reboot Jelly Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Mason B.,published,True
+223,2026-08-17T17:28:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Mason B.,published,True
+433,2026-08-17T17:01:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Ryan O.,published,True
+172,2026-08-17T12:20:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Caleb V.,published,True
+407,2026-08-17T10:59:00,drink-balance,Reboot Drink Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+66,2026-08-15T14:04:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lily D.,published,True
+241,2026-08-15T12:11:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mia L.,published,True
+57,2026-08-14T21:11:00,jelly-original,Reboot Jelly Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Ava M.,published,True
+404,2026-08-14T12:51:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Noah S.,published,True
+333,2026-08-13T19:56:00,drink-balance,Reboot Drink Balance,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Mia L.,published,True
+244,2026-08-10T15:32:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Dylan Q.,published,True
+144,2026-08-10T13:54:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Grace Y.,published,True
+416,2026-08-10T13:15:00,drink-balance,Reboot Drink Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Mason B.,published,True
+374,2026-08-08T23:15:00,drink-balance,Reboot Drink Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Hannah N.,published,True
+102,2026-08-08T20:44:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Nora J.,published,True
+325,2026-08-08T18:40:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Ryan O.,published,True
+137,2026-08-07T11:35:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Grace Y.,published,True
+303,2026-08-04T22:14:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Hannah N.,published,True
+316,2026-08-03T23:26:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mia L.,published,True
+411,2026-08-03T15:15:00,drink-balance,Reboot Drink Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Zoe H.,published,True
+334,2026-08-03T12:52:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Zoe H.,published,True
+6,2026-08-03T11:34:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Lucas W.,published,True
+3,2026-08-03T10:15:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Aiden F.,published,True
+123,2026-08-02T14:24:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+133,2026-08-01T14:18:00,jelly-balance,Reboot Jelly Balance,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ryan O.,published,True
+140,2026-07-31T20:33:00,jelly-balance,Reboot Jelly Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Lily D.,published,True
+256,2026-07-31T12:33:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Chloe P.,published,True
+279,2026-07-31T09:27:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Ava M.,published,True
+173,2026-07-30T12:51:00,jelly-balance,Reboot Jelly Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Ava M.,published,True
+425,2026-07-28T22:46:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Nora J.,published,True
+134,2026-07-27T19:15:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Zoe H.,published,True
+302,2026-07-27T09:47:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Zoe H.,published,True
+251,2026-07-25T21:16:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Zoe H.,published,True
+28,2026-07-25T09:12:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ryan O.,published,True
+218,2026-07-24T17:10:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Jordan K.,published,True
+5,2026-07-23T09:14:00,jelly-original,Reboot Jelly Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Jordan K.,published,True
+159,2026-07-22T12:00:00,jelly-balance,Reboot Jelly Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mason B.,published,True
+126,2026-07-21T15:55:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mia L.,published,True
+183,2026-07-20T21:10:00,jelly-balance,Reboot Jelly Balance,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Sofia G.,published,True
+100,2026-07-19T21:20:00,jelly-original,Reboot Jelly Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Chloe P.,published,True
+46,2026-07-18T21:45:00,jelly-original,Reboot Jelly Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Ethan R.,published,True
+118,2026-07-18T12:58:00,jelly-balance,Reboot Jelly Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Zoe H.,published,True
+179,2026-07-17T21:16:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Grace Y.,published,True
+73,2026-07-16T14:33:00,jelly-original,Reboot Jelly Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Ava M.,published,True
+273,2026-07-16T10:15:00,drink-original,Reboot Drink Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Mia L.,published,True
+229,2026-07-13T19:50:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Nora J.,published,True
+240,2026-07-12T14:36:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Zoe H.,published,True
+174,2026-07-12T09:29:00,jelly-balance,Reboot Jelly Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Jordan K.,published,True
+129,2026-07-11T21:27:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Sofia G.,published,True
+194,2026-07-11T09:56:00,jelly-balance,Reboot Jelly Balance,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Grace Y.,published,True
+343,2026-07-07T14:30:00,drink-balance,Reboot Drink Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Ethan R.,published,True
+182,2026-07-05T21:50:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Grace Y.,published,True
+226,2026-07-03T15:23:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Chloe P.,published,True
+324,2026-07-03T12:41:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Zoe H.,published,True
+287,2026-07-02T10:25:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Emma C.,published,True
+55,2026-07-01T23:29:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Jordan K.,published,True
+322,2026-07-01T21:54:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ryan O.,published,True
+284,2026-06-27T22:32:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ryan O.,published,True
+389,2026-06-26T13:33:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Ava M.,published,True
+138,2026-06-25T17:05:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Noah S.,published,True
+313,2026-06-25T15:47:00,drink-original,Reboot Drink Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Nora J.,published,True
+13,2026-06-25T11:59:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Noah S.,published,True
+96,2026-06-21T15:05:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ava M.,published,True
+168,2026-06-19T16:10:00,jelly-balance,Reboot Jelly Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mason B.,published,True
+200,2026-06-17T15:43:00,jelly-balance,Reboot Jelly Balance,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ava M.,published,True
+124,2026-06-16T21:21:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Ava M.,published,True
+62,2026-06-16T18:32:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Grace Y.,published,True
+54,2026-06-16T13:34:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Hannah N.,published,True
+292,2026-06-15T11:29:00,drink-original,Reboot Drink Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Caleb V.,published,True
+384,2026-06-14T16:32:00,drink-balance,Reboot Drink Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Nora J.,published,True
+235,2026-06-13T14:02:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Liam T.,published,True
+26,2026-06-13T11:44:00,jelly-original,Reboot Jelly Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Hannah N.,published,True
+413,2026-06-12T16:57:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Ethan R.,published,True
+228,2026-06-10T21:46:00,drink-original,Reboot Drink Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Mia L.,published,True
+305,2026-06-10T13:40:00,drink-original,Reboot Drink Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Aiden F.,published,True
+205,2026-06-09T20:36:00,jelly-balance,Reboot Jelly Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Jordan K.,published,True
+17,2026-06-08T19:36:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+222,2026-06-07T18:15:00,drink-original,Reboot Drink Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Aiden F.,published,True
+326,2026-06-05T22:24:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+99,2026-06-05T19:14:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lucas W.,published,True
+154,2026-06-04T16:17:00,jelly-balance,Reboot Jelly Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Caleb V.,published,True
+332,2026-06-02T12:31:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Caleb V.,published,True
+338,2026-06-01T22:29:00,drink-balance,Reboot Drink Balance,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Ryan O.,published,True
+412,2026-06-01T14:51:00,drink-balance,Reboot Drink Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Hannah N.,published,True
+276,2026-05-31T14:21:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Sofia G.,published,True
+345,2026-05-29T13:22:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Jordan K.,published,True
+12,2026-05-28T18:04:00,jelly-original,Reboot Jelly Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Grace Y.,published,True
+115,2026-05-27T16:29:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Nora J.,published,True
+41,2026-05-24T16:16:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+236,2026-05-23T19:20:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Noah S.,published,True
+421,2026-05-22T18:11:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Sofia G.,published,True
+177,2026-05-22T13:00:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Emma C.,published,True
+233,2026-05-21T23:52:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Dylan Q.,published,True
+127,2026-05-21T22:03:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Aiden F.,published,True
+371,2026-05-20T21:48:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Grace Y.,published,True
+204,2026-05-19T15:18:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Lily D.,published,True
+85,2026-05-19T14:51:00,jelly-original,Reboot Jelly Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Noah S.,published,True
+189,2026-05-18T14:16:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Hannah N.,published,True
+262,2026-05-16T13:41:00,drink-original,Reboot Drink Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Nora J.,published,True
+75,2026-05-16T13:02:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mia L.,published,True
+317,2026-05-16T10:14:00,drink-original,Reboot Drink Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Mason B.,published,True
+94,2026-05-15T14:21:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Ava M.,published,True
+376,2026-05-15T13:27:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Emma C.,published,True
+260,2026-05-14T12:41:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ethan R.,published,True
+277,2026-05-12T23:18:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mason B.,published,True
+403,2026-05-12T15:07:00,drink-balance,Reboot Drink Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mason B.,published,True
+323,2026-05-10T15:43:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lily D.,published,True
+32,2026-05-10T14:38:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Chloe P.,published,True
+151,2026-05-09T17:40:00,jelly-balance,Reboot Jelly Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+97,2026-05-08T17:49:00,jelly-original,Reboot Jelly Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Sofia G.,published,True
+219,2026-05-07T20:52:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Chloe P.,published,True
+363,2026-05-05T16:46:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Hannah N.,published,True
+265,2026-05-03T15:58:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Emma C.,published,True
+398,2026-05-01T20:14:00,drink-balance,Reboot Drink Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Mason B.,published,True
+375,2026-04-30T21:28:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lily D.,published,True
+383,2026-04-30T15:37:00,drink-balance,Reboot Drink Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mia L.,published,True
+380,2026-04-30T13:38:00,drink-balance,Reboot Drink Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Sofia G.,published,True
+293,2026-04-29T11:21:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Hannah N.,published,True
+23,2026-04-29T11:05:00,jelly-original,Reboot Jelly Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Lily D.,published,True
+422,2026-04-28T20:11:00,drink-balance,Reboot Drink Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Nora J.,published,True
+304,2026-04-28T19:11:00,drink-original,Reboot Drink Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Hannah N.,published,True
+320,2026-04-26T22:09:00,drink-original,Reboot Drink Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Caleb V.,published,True
+80,2026-04-24T10:16:00,jelly-original,Reboot Jelly Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mia L.,published,True
+318,2026-04-23T21:25:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Nora J.,published,True
+406,2026-04-23T10:59:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Noah S.,published,True
+285,2026-04-20T20:14:00,drink-original,Reboot Drink Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Lucas W.,published,True
+391,2026-04-20T13:59:00,drink-balance,Reboot Drink Balance,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Hannah N.,published,True
+67,2026-04-19T19:19:00,jelly-original,Reboot Jelly Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mia L.,published,True
+381,2026-04-16T23:16:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Grace Y.,published,True
+9,2026-04-16T16:43:00,jelly-original,Reboot Jelly Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Dylan Q.,published,True
+390,2026-04-15T22:55:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+44,2026-04-15T16:39:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Emma C.,published,True
+248,2026-04-15T14:39:00,drink-original,Reboot Drink Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Chloe P.,published,True
+282,2026-04-14T13:48:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Nora J.,published,True
+272,2026-04-13T22:52:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Mason B.,published,True
+116,2026-04-13T13:05:00,jelly-balance,Reboot Jelly Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Caleb V.,published,True
+39,2026-04-10T21:15:00,jelly-original,Reboot Jelly Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Liam T.,published,True
+175,2026-04-10T20:04:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Zoe H.,published,True
+424,2026-04-09T18:19:00,drink-balance,Reboot Drink Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Dylan Q.,published,True
+385,2026-04-09T10:11:00,drink-balance,Reboot Drink Balance,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Sofia G.,published,True
+195,2026-04-08T18:52:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+191,2026-04-07T14:04:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Hannah N.,published,True
+420,2026-04-06T14:27:00,drink-balance,Reboot Drink Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Lucas W.,published,True
+165,2026-04-05T15:28:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Jordan K.,published,True
+308,2026-04-04T23:41:00,drink-original,Reboot Drink Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Nora J.,published,True
+339,2026-04-03T19:23:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mia L.,published,True
+7,2026-04-03T10:37:00,jelly-original,Reboot Jelly Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Caleb V.,published,True
+225,2026-04-02T21:30:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Grace Y.,published,True
+257,2026-03-31T17:19:00,drink-original,Reboot Drink Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Aiden F.,published,True
+19,2026-03-28T18:07:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mason B.,published,True
+331,2026-03-27T18:57:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Caleb V.,published,True
+21,2026-03-27T16:25:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mia L.,published,True
+370,2026-03-25T19:51:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Mason B.,published,True
+29,2026-03-25T10:21:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Grace Y.,published,True
+337,2026-03-24T22:20:00,drink-balance,Reboot Drink Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Ava M.,published,True
+310,2026-03-24T20:50:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Sofia G.,published,True
+70,2026-03-24T20:27:00,jelly-original,Reboot Jelly Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Liam T.,published,True
+216,2026-03-24T19:50:00,jelly-balance,Reboot Jelly Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Dylan Q.,published,True
+264,2026-03-23T20:58:00,drink-original,Reboot Drink Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Sofia G.,published,True
+208,2026-03-22T15:07:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Aiden F.,published,True
+295,2026-03-21T20:09:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Dylan Q.,published,True
+359,2026-03-21T16:49:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Dylan Q.,published,True
+128,2026-03-18T12:17:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lucas W.,published,True
+298,2026-03-17T21:19:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Chloe P.,published,True
+112,2026-03-17T14:16:00,jelly-balance,Reboot Jelly Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Dylan Q.,published,True
+212,2026-03-16T14:18:00,jelly-balance,Reboot Jelly Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Noah S.,published,True
+418,2026-03-15T19:01:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lucas W.,published,True
+98,2026-03-15T15:37:00,jelly-original,Reboot Jelly Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mia L.,published,True
+377,2026-03-14T21:56:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Lucas W.,published,True
+58,2026-03-14T16:39:00,jelly-original,Reboot Jelly Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Noah S.,published,True
+327,2026-03-13T17:53:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Emma C.,published,True
+51,2026-03-09T09:00:00,jelly-original,Reboot Jelly Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Caleb V.,published,True
+20,2026-03-08T20:15:00,jelly-original,Reboot Jelly Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Lucas W.,published,True
+188,2026-03-04T21:53:00,jelly-balance,Reboot Jelly Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Caleb V.,published,True
+362,2026-03-04T11:30:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Sofia G.,published,True
+135,2026-03-03T11:41:00,jelly-balance,Reboot Jelly Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Lily D.,published,True
+347,2026-03-02T14:12:00,drink-balance,Reboot Drink Balance,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Ryan O.,published,True
+74,2026-02-27T23:50:00,jelly-original,Reboot Jelly Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Mia L.,published,True
+269,2026-02-27T10:39:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+230,2026-02-26T12:08:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Dylan Q.,published,True
+213,2026-02-25T15:31:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Mia L.,published,True
+197,2026-02-24T19:38:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Ava M.,published,True
+105,2026-02-23T15:53:00,jelly-original,Reboot Jelly Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Mason B.,published,True
+255,2026-02-23T09:39:00,drink-original,Reboot Drink Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Jordan K.,published,True
+34,2026-02-22T20:21:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Chloe P.,published,True
+435,2026-02-22T13:16:00,drink-balance,Reboot Drink Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Noah S.,published,True
+297,2026-02-22T11:42:00,drink-original,Reboot Drink Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Zoe H.,published,True
+353,2026-02-21T19:11:00,drink-balance,Reboot Drink Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Noah S.,published,True
+329,2026-02-21T18:09:00,drink-original,Reboot Drink Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Dylan Q.,published,True
+401,2026-02-21T11:20:00,drink-balance,Reboot Drink Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Jordan K.,published,True
+114,2026-02-20T20:13:00,jelly-balance,Reboot Jelly Balance,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Zoe H.,published,True
+436,2026-02-19T23:44:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+8,2026-02-19T17:45:00,jelly-original,Reboot Jelly Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Mason B.,published,True
+250,2026-02-19T10:40:00,drink-original,Reboot Drink Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Grace Y.,published,True
+69,2026-02-18T15:56:00,jelly-original,Reboot Jelly Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Liam T.,published,True
+16,2026-02-17T13:30:00,jelly-original,Reboot Jelly Original,4,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Mia L.,published,True
+348,2026-02-14T21:02:00,drink-balance,Reboot Drink Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Chloe P.,published,True
+352,2026-02-12T12:02:00,drink-balance,Reboot Drink Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Dylan Q.,published,True
+259,2026-02-11T20:41:00,drink-original,Reboot Drink Original,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Grace Y.,published,True
+11,2026-02-11T18:19:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Liam T.,published,True
+169,2026-02-11T14:26:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Zoe H.,published,True
+157,2026-02-11T13:14:00,jelly-balance,Reboot Jelly Balance,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Aiden F.,published,True
+367,2026-02-10T15:19:00,drink-balance,Reboot Drink Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Dylan Q.,published,True
+201,2026-02-09T12:02:00,jelly-balance,Reboot Jelly Balance,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Lucas W.,published,True
+185,2026-02-06T13:39:00,jelly-balance,Reboot Jelly Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Ethan R.,published,True
+152,2026-02-06T13:33:00,jelly-balance,Reboot Jelly Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ethan R.,published,True
+319,2026-02-05T21:51:00,drink-original,Reboot Drink Original,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Chloe P.,published,True
+107,2026-02-05T20:59:00,jelly-original,Reboot Jelly Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Grace Y.,published,True
+271,2026-02-04T20:02:00,drink-original,Reboot Drink Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Jordan K.,published,True
+372,2026-02-01T18:41:00,drink-balance,Reboot Drink Balance,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Zoe H.,published,True
+141,2026-02-01T16:17:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Emma C.,published,True
+399,2026-01-31T23:35:00,drink-balance,Reboot Drink Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Mason B.,published,True
+2,2026-01-30T23:32:00,jelly-original,Reboot Jelly Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Hannah N.,published,True
+414,2026-01-30T19:57:00,drink-balance,Reboot Drink Balance,4,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Nora J.,published,True
+335,2026-01-30T16:29:00,drink-balance,Reboot Drink Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Caleb V.,published,True
+156,2026-01-29T09:12:00,jelly-balance,Reboot Jelly Balance,5,positive,Fun packaging,The design is playful and the flavors are spot on. Ordering again.,Lucas W.,published,True
+261,2026-01-27T13:40:00,drink-original,Reboot Drink Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Zoe H.,published,True
+132,2026-01-26T23:59:00,jelly-balance,Reboot Jelly Balance,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Ryan O.,published,True
+1,2026-01-25T10:52:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Lily D.,published,True
+340,2026-01-24T19:47:00,drink-balance,Reboot Drink Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+111,2026-01-24T18:40:00,jelly-balance,Reboot Jelly Balance,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lucas W.,published,True
+93,2026-01-24T16:11:00,jelly-original,Reboot Jelly Original,4,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Lucas W.,published,True
+350,2026-01-24T12:52:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Ava M.,published,True
+199,2026-01-20T18:46:00,jelly-balance,Reboot Jelly Balance,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Zoe H.,published,True
+274,2026-01-18T22:58:00,drink-original,Reboot Drink Original,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+53,2026-01-15T13:13:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Sofia G.,published,True
+31,2026-01-14T10:55:00,jelly-original,Reboot Jelly Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Dylan Q.,published,True
+356,2026-01-11T15:36:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Emma C.,published,True
+434,2026-01-11T12:05:00,drink-balance,Reboot Drink Balance,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Chloe P.,published,True
+72,2026-01-10T14:35:00,jelly-original,Reboot Jelly Original,5,positive,Worth trying,I was curious about this Korean brand and it did not disappoint. Tastes great.,Mason B.,published,True
+86,2026-01-08T09:46:00,jelly-original,Reboot Jelly Original,5,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Jordan K.,published,True
+24,2026-01-07T16:53:00,jelly-original,Reboot Jelly Original,5,positive,New go-to,Great taste and the cowboy shapes are so cute. My friends keep asking where I got it.,Liam T.,published,True
+328,2026-01-06T12:04:00,drink-original,Reboot Drink Original,5,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Ava M.,published,True
+25,2026-01-03T11:26:00,jelly-original,Reboot Jelly Original,4,positive,Really tasty,"Smooth, not too sweet, and the little bottle looks great on my shelf.",Lucas W.,published,True
+361,2026-01-03T09:43:00,drink-balance,Reboot Drink Balance,5,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Aiden F.,published,True
+246,2026-01-02T18:22:00,drink-original,Reboot Drink Original,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Jordan K.,published,True
+122,2026-01-02T16:43:00,jelly-balance,Reboot Jelly Balance,4,positive,Love the flavors,"The lime and cherry are my favorites. Bright, fun and easy to keep in my bag.",Noah S.,published,True
+243,2026-01-01T20:02:00,drink-original,Reboot Drink Original,4,positive,Perfect size,Small enough to carry anywhere. The lemon is super refreshing.,Emma C.,published,True

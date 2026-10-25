@@ -1,0 +1,65 @@
+﻿review_id,created_at,product_slug,product_name,rating,sentiment,title,body,reviewer_name,status,is_dummy
+267,2026-10-20T23:19:00,drink-original,Reboot Drink Original,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Liam T.,published,True
+27,2026-10-14T15:25:00,jelly-original,Reboot Jelly Original,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Grace Y.,published,True
+149,2026-10-10T21:02:00,jelly-balance,Reboot Jelly Balance,1,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Mia L.,published,True
+130,2026-10-09T12:46:00,jelly-balance,Reboot Jelly Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Caleb V.,published,True
+378,2026-10-08T19:49:00,drink-balance,Reboot Drink Balance,2,negative,Shipping took long,Product was fine but it took a long time to arrive.,Zoe H.,published,True
+36,2026-10-06T23:01:00,jelly-original,Reboot Jelly Original,1,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Chloe P.,published,True
+351,2026-10-06T18:24:00,drink-balance,Reboot Drink Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Nora J.,published,True
+38,2026-09-30T17:49:00,jelly-original,Reboot Jelly Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Liam T.,published,True
+254,2026-09-30T09:25:00,drink-original,Reboot Drink Original,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Jordan K.,published,True
+266,2026-09-29T20:00:00,drink-original,Reboot Drink Original,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Ryan O.,published,True
+155,2026-09-27T12:35:00,jelly-balance,Reboot Jelly Balance,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Ryan O.,published,True
+296,2026-09-25T14:10:00,drink-original,Reboot Drink Original,1,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Dylan Q.,published,True
+400,2026-09-20T20:47:00,drink-balance,Reboot Drink Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Zoe H.,published,True
+341,2026-09-19T16:31:00,drink-balance,Reboot Drink Balance,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Ethan R.,published,True
+263,2026-09-17T09:10:00,drink-original,Reboot Drink Original,2,negative,Shipping took long,Product was fine but it took a long time to arrive.,Mia L.,published,True
+336,2026-09-13T11:34:00,drink-balance,Reboot Drink Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Liam T.,published,True
+180,2026-09-12T11:00:00,jelly-balance,Reboot Jelly Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Chloe P.,published,True
+117,2026-08-23T10:52:00,jelly-balance,Reboot Jelly Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Lucas W.,published,True
+408,2026-08-20T14:20:00,drink-balance,Reboot Drink Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Mia L.,published,True
+71,2026-08-04T12:22:00,jelly-original,Reboot Jelly Original,1,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Emma C.,published,True
+207,2026-07-20T20:25:00,jelly-balance,Reboot Jelly Balance,1,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Sofia G.,published,True
+314,2026-07-20T17:48:00,drink-original,Reboot Drink Original,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Noah S.,published,True
+300,2026-07-18T16:02:00,drink-original,Reboot Drink Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Sofia G.,published,True
+18,2026-07-17T23:42:00,jelly-original,Reboot Jelly Original,1,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Lucas W.,published,True
+431,2026-07-02T20:15:00,drink-balance,Reboot Drink Balance,1,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Ethan R.,published,True
+252,2026-06-29T18:41:00,drink-original,Reboot Drink Original,1,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Caleb V.,published,True
+15,2026-06-29T18:31:00,jelly-original,Reboot Jelly Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Emma C.,published,True
+311,2026-06-28T10:54:00,drink-original,Reboot Drink Original,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Nora J.,published,True
+330,2026-06-27T21:09:00,drink-original,Reboot Drink Original,2,negative,Shipping took long,Product was fine but it took a long time to arrive.,Grace Y.,published,True
+45,2026-06-26T21:41:00,jelly-original,Reboot Jelly Original,1,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Ryan O.,published,True
+81,2026-06-23T17:26:00,jelly-original,Reboot Jelly Original,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Ava M.,published,True
+417,2026-05-29T15:57:00,drink-balance,Reboot Drink Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Lily D.,published,True
+426,2026-05-25T22:40:00,drink-balance,Reboot Drink Balance,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Emma C.,published,True
+176,2026-05-20T14:39:00,jelly-balance,Reboot Jelly Balance,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Mason B.,published,True
+153,2026-05-14T12:50:00,jelly-balance,Reboot Jelly Balance,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Lily D.,published,True
+315,2026-05-10T13:24:00,drink-original,Reboot Drink Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Jordan K.,published,True
+161,2026-04-29T16:14:00,jelly-balance,Reboot Jelly Balance,1,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Sofia G.,published,True
+89,2026-04-28T14:12:00,jelly-original,Reboot Jelly Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Sofia G.,published,True
+170,2026-04-17T15:22:00,jelly-balance,Reboot Jelly Balance,1,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Caleb V.,published,True
+65,2026-04-14T22:28:00,jelly-original,Reboot Jelly Original,1,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Caleb V.,published,True
+217,2026-04-11T22:30:00,jelly-balance,Reboot Jelly Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Dylan Q.,published,True
+231,2026-03-26T19:50:00,drink-original,Reboot Drink Original,1,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Lucas W.,published,True
+76,2026-03-08T22:27:00,jelly-original,Reboot Jelly Original,2,negative,Shipping took long,Product was fine but it took a long time to arrive.,Zoe H.,published,True
+82,2026-03-08T09:33:00,jelly-original,Reboot Jelly Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Dylan Q.,published,True
+49,2026-03-07T09:09:00,jelly-original,Reboot Jelly Original,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Noah S.,published,True
+290,2026-03-06T17:38:00,drink-original,Reboot Drink Original,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Grace Y.,published,True
+237,2026-02-28T21:33:00,drink-original,Reboot Drink Original,2,negative,Shipping took long,Product was fine but it took a long time to arrive.,Zoe H.,published,True
+396,2026-02-16T13:20:00,drink-balance,Reboot Drink Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Ethan R.,published,True
+119,2026-02-16T11:47:00,jelly-balance,Reboot Jelly Balance,1,negative,Shipping took long,Product was fine but it took a long time to arrive.,Mia L.,published,True
+78,2026-02-15T13:03:00,jelly-original,Reboot Jelly Original,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Emma C.,published,True
+379,2026-02-13T17:35:00,drink-balance,Reboot Drink Balance,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Caleb V.,published,True
+166,2026-02-10T23:10:00,jelly-balance,Reboot Jelly Balance,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Ethan R.,published,True
+163,2026-01-29T18:09:00,jelly-balance,Reboot Jelly Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Aiden F.,published,True
+215,2026-01-28T18:59:00,jelly-balance,Reboot Jelly Balance,1,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Emma C.,published,True
+220,2026-01-20T19:53:00,jelly-balance,Reboot Jelly Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Caleb V.,published,True
+95,2026-01-18T23:19:00,jelly-original,Reboot Jelly Original,1,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Liam T.,published,True
+366,2026-01-17T09:03:00,drink-balance,Reboot Drink Balance,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Jordan K.,published,True
+394,2026-01-15T09:02:00,drink-balance,Reboot Drink Balance,1,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Mia L.,published,True
+270,2026-01-15T09:02:00,drink-original,Reboot Drink Original,2,negative,Package arrived dented,One of the boxes was damaged in shipping. Taste was okay.,Chloe P.,published,True
+164,2026-01-13T18:09:00,jelly-balance,Reboot Jelly Balance,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Sofia G.,published,True
+288,2026-01-13T14:13:00,drink-original,Reboot Drink Original,2,negative,Too sweet for me,The flavor was stronger than I expected. Not for me.,Aiden F.,published,True
+206,2026-01-10T22:49:00,jelly-balance,Reboot Jelly Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Aiden F.,published,True
+427,2026-01-08T15:58:00,drink-balance,Reboot Drink Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Mia L.,published,True
+354,2026-01-07T14:55:00,drink-balance,Reboot Drink Balance,2,negative,Not my flavor,I did not enjoy the lemon. Might try the lime next time.,Ethan R.,published,True

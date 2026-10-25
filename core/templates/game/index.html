@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static',filename='core/css/game.css') }}">{% endblock %}
+{% block content %}
+<section class="section page-top game-page">
+{% include 'game/_play.html' %}
+</section>
+
+<section class="section game-guide" aria-labelledby="game-guide-title">
+  <div class="section-heading"><h2 id="game-guide-title">{{ tr('FOUR GAMES.') }}<br><span class="neon">{{ tr('ONE DAILY CAP.') }}</span></h2>
+    <p>{{ tr('Every run pays up to 300 P. Together, all games pay up to 1,000 P per day (UTC). 100 P = $1 at checkout.') }}</p></div>
+  <div class="game-cards">
+    {% for id, g in games.items() %}
+    <article class="game-info {{ g.village }}">
+      <span class="eyebrow">{{ (g.village|capitalize ~ ' Village')|tr }}</span>
+      <h3>{{ g.name }}</h3>
+      <p>{{ {'lasso-leap':'Tap to hop Rebu through the lasso gates. Grab boot, hat and lasso jellies for a bonus.','jelly-drop':'Catch falling jellies in the pouch. One boot, one hat and one lasso fill a pack for +5. Dodge the tumbleweeds.','bottle-pop':'30 seconds behind the bar. Pop only the bottles that match the order. The Mixed Box is worth +3.','sunrise-flight':'Hold to rise in the balloon, release to drift down. Fly from midnight to sunrise and collect flavor drops.'}[id]|tr }}</p>
+      <div class="game-info-foot"><b>{{ g.rule }}</b><button type="button" class="btn" data-play="{{ id }}">{{ tr('Play') }} ↗</button></div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section game-spend" aria-labelledby="game-spend-title">
+  <div class="section-heading"><h2 id="game-spend-title">{{ tr('SPEND YOUR') }}<br><span class="neon">{{ tr('POINTS.') }}</span></h2>
+    <p>{{ tr('Use points at checkout on any Reboot item. Jellies are sold only as line packages with all three shapes: lime boot, lemon lasso and cherry hat.') }}</p></div>
+  <div class="game-products">
+    {% for p in game_products %}
+    {% set price = p.options[0].price %}
+    <a class="game-product" href="/products/{{ p.slug }}">
+      <div class="game-product-art {{ p.line|lower }}"><img src="{{ p.image }}" alt="{{ p.name }}" loading="lazy"></div>
+      <span class="eyebrow">{{ p.line|tr }}{% if p.balance %} · Zero Sugar{% endif %}</span>
+      <h3>{{ p.name|tr }}</h3>
+      <p>{% if p.line == 'Jelly' %}{{ tr('Line package') }}{% else %}{{ tr('From') }}{% endif %} {{ price|usd }} <b>= {{ '{:,}'.format((price * points_per_usd)|round|int) }} P</b></p>
+    </a>
+    {% endfor %}
+  </div>
+  <ul class="game-fine">
+    <li>{{ tr('Scores are checked on our server. Impossible scores earn 0 P.') }}</li>
+    <li>{{ tr('Points are for signed-in members (21+). Guests can play for fun.') }}</li>
+    <li>{{ tr('The shop is a mock checkout with no real payment.') }}</li>
+  </ul>
+</section>
+{% endblock %}
+{% block extra_js %}<script defer src="{{ url_for('static',filename='core/js/game.js') }}"></script>{% endblock %}

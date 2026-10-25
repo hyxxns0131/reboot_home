@@ -10,7 +10,7 @@
   const items = JSON.parse($('#mh-data').textContent);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const byKind = k => items.filter(it => it.kind === k);
-  const nameOf = it => `${cap(it.line)} ${cap(it.flavor)} ${it.kind === 'drink' ? 'drink' : 'gummy (pack)'}`;
+  const nameOf = it => it.kind === 'drink' ? `${cap(it.line)} ${cap(it.flavor)} drink` : `${cap(it.line)} gummy pack`;
   const cap = s => s[0].toUpperCase() + s.slice(1);
 
   const el = {
@@ -21,7 +21,7 @@
   const shots = new Map($$('.mh-shot').map(s => [s.dataset.id, s]));
   const sides = {l: $('.mh-side-l'), r: $('.mh-side-r')};
   const tabs = $$('[role=tab]');
-  const chips = $$('.mh-chip');
+  const chipsOf = k => $$(`.mh-chip[data-kind="${k}"]`);
   let kind = 'drink', index = 0, current = items[0];
 
   // Every animation is owned by its element: starting a new one cancels whatever that
@@ -102,14 +102,15 @@
     el.bubble.textContent = next.bubble;
     el.bubble.classList.remove('is-pop'); void el.bubble.offsetWidth; el.bubble.classList.add('is-pop');
 
-    // side slots: previous on the left, next on the right
+    // side slots: previous on the left, next on the right (two packs: only the other one, on the right)
     const nb = {l: list[(index - 1 + list.length) % list.length], r: list[(index + 1) % list.length]};
+    sides.l.hidden = list.length < 3;
     for (const k of ['l', 'r']) {
       const b = sides[k], it = nb[k];
       b.querySelectorAll('img').forEach(img => img.classList.toggle('is-shown', img.dataset.id === it.id));
       b.dataset.index = list.indexOf(it);
       b.setAttribute('aria-label', `${k === 'l' ? 'Previous' : 'Next'}: ${nameOf(it)}`);
-      b.querySelector('small').textContent = it.line.toUpperCase();
+      b.querySelector('small').textContent = it.kind === 'drink' ? it.line.toUpperCase() : 'GUMMY PACK';
       b.querySelector('b').textContent = it.title;
       if (!initial) animate(b, [{opacity: 0, transform: `translateY(14px)`}, {opacity: 1, transform: 'none'}], {duration: 520, delay: 160, easing: 'cubic-bezier(.22,1,.36,1)'});
     }
@@ -117,13 +118,9 @@
     // picker
     tabs.forEach(t => { const on = t.dataset.kind === kind; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; });
     el.chips.setAttribute('aria-labelledby', `mh-tab-${kind}`);
-    chips.forEach((c, i) => {
-      const on = i === index;
-      c.setAttribute('aria-pressed', on);
-      c.setAttribute('aria-label', nameOf(byKind(kind)[i]));
-    });
-    $$('.mh-cluster-name em').forEach(em => {
-      em.textContent = kind === 'gummy' ? em.dataset.labelGummy : em.dataset.labelDrink;
+    for (const k of ['drink', 'gummy']) chipsOf(k).forEach((c, i) => {
+      c.setAttribute('aria-pressed', k === kind && i === index);
+      c.setAttribute('aria-label', nameOf(byKind(k)[i]));
     });
 
     // optional background clip per product (set item.video to a URL to use one)
@@ -148,17 +145,20 @@
   }
 
   // ── controls ──────────────────────────────────────────────────────────
-  chips.forEach((c, i) => c.addEventListener('click', () => show(kind, i, i >= index ? 1 : -1)));
+  for (const k of ['drink', 'gummy']) chipsOf(k).forEach((c, i) => c.addEventListener('click', () => show(k, i, i >= index ? 1 : -1)));
   el.chips.addEventListener('keydown', e => {
     if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
-    const i = chips.indexOf(document.activeElement); if (i < 0) return;
-    e.preventDefault(); chips[(i + (e.key === 'ArrowRight' ? 1 : -1) + chips.length) % chips.length].focus();
+    const list = chipsOf(kind), i = list.indexOf(document.activeElement); if (i < 0) return;
+    e.preventDefault(); list[(i + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length].focus();
   });
   for (const k of ['l', 'r']) {
     sides[k].addEventListener('click', () => show(kind, +sides[k].dataset.index, k === 'r' ? 1 : -1));
   }
   tabs.forEach((t, i) => {
-    t.addEventListener('click', () => show(t.dataset.kind, index, t.dataset.kind === 'gummy' ? 1 : -1));
+    t.addEventListener('click', () => {
+      const k = t.dataset.kind; if (k === kind) return;
+      show(k, k === 'gummy' ? (index < 3 ? 0 : 1) : index * 3, k === 'gummy' ? 1 : -1);
+    });
     t.addEventListener('keydown', e => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
       e.preventDefault(); const o = tabs[(i + 1) % 2]; o.focus(); o.click();
@@ -205,7 +205,7 @@
   // Rebu reacts to taps even before (or without) 3D
   rebu.querySelector('.mh-rebu-hit').addEventListener('click', () => {
     root.dispatchEvent(new CustomEvent('mh:poke'));
-    const lines = ['Howdy!', 'Restart your day!', 'Pick one, partner.', current.bubble];
+    const lines = ['Lead the way, partner!', 'Right behind you!', 'Where are we going?', current.bubble];
     el.bubble.textContent = lines[Math.floor(Math.random() * lines.length)];
     el.bubble.classList.remove('is-pop'); void el.bubble.offsetWidth; el.bubble.classList.add('is-pop');
   });

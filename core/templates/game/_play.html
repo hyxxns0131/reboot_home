@@ -1,0 +1,73 @@
+{# Reboot Town player: today's points, the game screen and its data. Used on /game/ and on the home page.
+   Needs the context from game.play_context(); set game_heading='h2' when the page already has an h1. #}
+  <div class="game-intro">
+    <div>
+      <span class="eyebrow">{{ tr('REBOOT TOWN · 2 VILLAGES · 4 MINI GAMES') }}</span>
+      <{{ game_heading|default('h1') }}>{{ tr('PLAY. EARN.') }}<br><span class="neon">{{ tr('RESTART.') }}</span></{{ game_heading|default('h1') }}>
+      <p>{{ tr('Walk Rebu through Jelly Village and Drink Village, play mini games, and turn your score into points for the Reboot shop.') }}</p>
+    </div>
+    {% if game_status %}
+    <aside class="game-today" aria-label="{{ tr('Today’s points') }}">
+      <span>{{ tr('Earned today') }}</span>
+      <strong><span data-game-today>{{ game_status.today_earned }}</span> / {{ '{:,}'.format(daily_cap) }} P</strong>
+      <div class="game-meter" role="progressbar" aria-valuemin="0" aria-valuemax="{{ daily_cap }}" aria-valuenow="{{ game_status.today_earned }}" data-game-meter><i style="width:{{ (game_status.today_earned / daily_cap * 100)|round(1) }}%"></i></div>
+      <small>{{ tr('Balance') }} <b><span data-point-balance>{{ game_status.balance }}</span> P</b> · {{ tr('Resets in') }} <span data-game-reset data-reset-at="{{ game_status.reset_at }}">—</span></small>
+      <a class="text-link" href="/rewards/wallet">{{ tr('Point history ↗') }}</a>
+    </aside>
+    {% elif current_user.is_authenticated %}
+    <aside class="game-today"><span>{{ tr('Admin account') }}</span><strong>{{ tr('Play mode') }}</strong><small>{{ tr('Administrator accounts cannot earn or spend shopping points.') }}</small></aside>
+    {% else %}
+    <aside class="game-today guest">
+      <span>{{ tr('Free to play') }}</span>
+      <strong>{{ tr('Log in to earn') }}</strong>
+      <small>{{ tr('Anyone can play. Only signed-in members turn scores into points — up to 1,000 P a day.') }}</small>
+      <a class="btn primary" href="{{ url_for('auth.login', next='/game/') }}">{{ tr('Login ↗') }}</a>
+    </aside>
+    {% endif %}
+  </div>
+
+  <div class="game-frame">
+    <div class="game-bar">
+      <button type="button" class="game-chip" data-goto="jelly">◐ {{ tr('Jelly Village') }}</button>
+      <button type="button" class="game-chip" data-goto="drink">◑ {{ tr('Drink Village') }}</button>
+      <button type="button" class="game-chip" id="game-back" hidden>← {{ tr('Back to town') }}</button>
+      <span class="game-bar-space"></span>
+      <button type="button" class="game-chip" id="game-sound" aria-pressed="true">♪ {{ tr('Sound on') }}</button>
+    </div>
+    <div class="game-stage" id="game-stage" tabindex="0" aria-label="{{ tr('Reboot Town game. Arrow keys or WASD to walk, E to enter a building, Space or click to play, Escape to go back.') }}">
+      <canvas id="game-canvas" width="480" height="270"></canvas>
+      <div class="game-hint" id="game-hint" hidden>{{ tr('Click to focus the game') }}</div>
+
+      <div class="game-overlay" id="game-result" hidden role="dialog" aria-labelledby="game-result-title">
+        <div class="game-card">
+          <span class="eyebrow" id="game-result-place"></span>
+          <h2 id="game-result-title">GAME OVER</h2>
+          <p class="game-score"><strong id="game-result-score">0</strong> <span id="game-result-unit"></span></p>
+          <p class="game-best" id="game-result-best"></p>
+          <p class="game-points" id="game-result-points" role="status" aria-live="polite"></p>
+          <div class="game-actions">
+            <button type="button" class="btn primary" id="game-retry">{{ tr('Play again') }} ↻</button>
+            <button type="button" class="btn" id="game-home">{{ tr('Back to town') }}</button>
+            <a class="btn" id="game-login" hidden href="{{ url_for('auth.login', next='/game/') }}">{{ tr('Login to earn ↗') }}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-overlay" id="game-store" hidden role="dialog" aria-labelledby="game-store-title">
+        <div class="game-card wide">
+          <button type="button" class="game-x" id="game-store-close" aria-label="{{ tr('Close') }}">✕</button>
+          <span class="eyebrow" id="game-store-eyebrow"></span>
+          <h2 id="game-store-title"></h2>
+          <p class="muted" id="game-store-note"></p>
+          <div class="game-store-grid" id="game-store-grid"></div>
+        </div>
+      </div>
+    </div>
+    <p class="game-keys"><kbd>← ↑ ↓ →</kbd> / <kbd>WASD</kbd> {{ tr('walk') }} · <kbd>E</kbd> {{ tr('enter') }} · <kbd>Space</kbd> / {{ tr('click') }} {{ tr('play') }} · <kbd>Esc</kbd> {{ tr('back to town') }} · {{ tr('On a phone, tap where you want to go.') }}</p>
+  </div>
+<script type="application/json" id="game-data">{{ {
+  'role': ('guest' if not current_user.is_authenticated else current_user.role),
+  'games': games, 'products': game_products, 'status': game_status,
+  'dailyCap': daily_cap, 'runCap': run_cap, 'pointsPerUsd': points_per_usd,
+  'loginUrl': url_for('auth.login', next='/game/')
+}|tojson }}</script>

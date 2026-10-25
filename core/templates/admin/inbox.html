@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("CUSTOMER CARE") }}</span>
+  <div class="section-heading"><h1>{{ tr("INBOX.") }}</h1><span class="badge">{{ admin_inbox_count() }} {{ tr("new") }}</span></div>
+  <p class="muted">{{ tr("Inquiries from the Contact page arrive here automatically with the member’s account. Your reply appears on the member’s Contact page. Creator applications come with an email address.") }}</p>
+  <nav class="inbox-filter">{% for v,l in [('open','Open'),('answered','Answered'),('all','All')] %}<a href="?view={{ v }}" {% if view==v %}aria-current="page"{% endif %}>{{ l|tr }}</a>{% endfor %}</nav>
+  {% for m in items %}
+  <article class="inbox-item {{ m.status }}" id="m{{ m.id }}">
+    <header><strong>{{ m.name }}</strong><span class="muted">{{ m.email }}</span><span class="badge">{{ ('Contact' if m.kind=='contact' else 'Creators')|tr }}{% if m.topic %} · {{ m.topic|tr }}{% endif %}{% if m.order_id %} · {{ tr('Order') }} #{{ m.order_id }}{% endif %}</span><small>{{ m.created_at.strftime('%Y-%m-%d %H:%M') }} UTC · {{ m.status|tr }}</small></header>
+    <p class="body">{{ m.body }}</p>
+    {% if m.reply %}<div class="inquiry-reply"><strong>{{ tr("Your reply") }}</strong><p>{{ m.reply }}</p><small>{{ m.replied_at.strftime('%Y-%m-%d %H:%M') if m.replied_at }} UTC</small></div>{% endif %}
+    <form method="post" action="{{ url_for('admin.answer',message_id=m.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="view" value="{{ view }}">
+      {% if m.kind=='contact' %}<label for="r{{ m.id }}">{{ tr("Reply to member") }}</label><textarea id="r{{ m.id }}" name="reply" maxlength="4000">{{ m.reply or '' }}</textarea>{% endif %}
+      <div class="inbox-actions">
+        {% if m.kind=='contact' %}<button class="btn primary" name="action" value="reply">{{ tr("Send reply ↗") }}</button>{% else %}<a class="btn" href="mailto:{{ m.email }}">{{ tr("Email creator ↗") }}</a><button class="btn" name="action" value="reply" onclick="this.form.insertAdjacentHTML('beforeend','<input type=hidden name=reply value=&quot;Replied by email&quot;>')">{{ tr("Mark answered") }}</button>{% endif %}
+        {% if m.status=='new' %}<button class="btn" name="action" value="read">{{ tr("Mark read") }}</button>{% elif m.status=='answered' %}<button class="btn" name="action" value="reopen">{{ tr("Reopen") }}</button>{% endif %}
+      </div>
+    </form>
+  </article>
+  {% else %}<p class="muted">{{ tr("Nothing here. All caught up.") }}</p>{% endfor %}
+</section></div>{% endblock %}

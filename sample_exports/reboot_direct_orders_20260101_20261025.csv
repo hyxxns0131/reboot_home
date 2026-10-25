@@ -1,0 +1,530 @@
+﻿order_id,ordered_at,status,product_slug,product_name,option_sku,option_label,quantity,unit_price_usd,gross_usd,discount_usd,line_total_usd,ship_state,is_dummy
+763,2026-10-21T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+861,2026-10-18T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+861,2026-10-18T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,CA,True
+793,2026-10-18T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,WA,True
+968,2026-10-17T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,NJ,True
+721,2026-10-17T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+909,2026-10-16T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+909,2026-10-16T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+909,2026-10-16T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+986,2026-10-16T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NY,True
+986,2026-10-16T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,NY,True
+854,2026-10-15T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,WA,True
+954,2026-10-15T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+954,2026-10-15T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,WA,True
+954,2026-10-15T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,WA,True
+994,2026-10-14T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+994,2026-10-14T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,TX,True
+994,2026-10-14T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,TX,True
+790,2026-10-13T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+938,2026-10-13T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+922,2026-10-13T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+922,2026-10-13T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,TX,True
+988,2026-10-10T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,NJ,True
+752,2026-10-09T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,TX,True
+900,2026-10-06T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,NJ,True
+792,2026-10-06T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+792,2026-10-06T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+997,2026-10-05T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+997,2026-10-05T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+803,2026-10-05T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,CA,True
+803,2026-10-05T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+803,2026-10-05T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+799,2026-10-05T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+799,2026-10-05T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+799,2026-10-05T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,CA,True
+884,2026-10-04T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,CA,True
+884,2026-10-04T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,CA,True
+852,2026-10-03T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,CA,True
+739,2026-10-02T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,TX,True
+814,2026-10-01T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+837,2026-09-29T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+837,2026-09-29T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,1,5.49,5.49,0.00,5.49,NY,True
+837,2026-09-29T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+961,2026-09-29T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,WA,True
+961,2026-09-29T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+959,2026-09-27T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,IL,True
+959,2026-09-27T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,IL,True
+822,2026-09-21T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+822,2026-09-21T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,WA,True
+838,2026-09-19T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+731,2026-09-19T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+731,2026-09-19T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+731,2026-09-19T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,TX,True
+726,2026-09-18T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+979,2026-09-12T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,IL,True
+979,2026-09-12T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,IL,True
+979,2026-09-12T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+893,2026-09-12T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+736,2026-09-11T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+736,2026-09-11T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+749,2026-09-10T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+749,2026-09-10T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,NJ,True
+749,2026-09-10T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NJ,True
+914,2026-09-08T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,IL,True
+844,2026-09-05T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,WA,True
+844,2026-09-05T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,WA,True
+844,2026-09-05T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,WA,True
+855,2026-09-04T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,NY,True
+865,2026-09-04T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NJ,True
+865,2026-09-04T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,NJ,True
+865,2026-09-04T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,NJ,True
+807,2026-09-04T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,NY,True
+807,2026-09-04T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NY,True
+771,2026-09-04T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,IL,True
+771,2026-09-04T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,IL,True
+948,2026-09-03T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,NJ,True
+948,2026-09-03T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+948,2026-09-03T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+983,2026-09-02T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,WA,True
+830,2026-08-29T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+830,2026-08-29T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+794,2026-08-29T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+794,2026-08-29T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+727,2026-08-26T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+765,2026-08-26T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+738,2026-08-23T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+738,2026-08-23T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,1,5.49,5.49,0.00,5.49,NY,True
+923,2026-08-22T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,WA,True
+923,2026-08-22T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,WA,True
+923,2026-08-22T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,WA,True
+779,2026-08-22T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+797,2026-08-21T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+797,2026-08-21T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+953,2026-08-15T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+953,2026-08-15T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+778,2026-08-15T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+778,2026-08-15T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,NY,True
+863,2026-08-14T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+863,2026-08-14T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+863,2026-08-14T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+919,2026-08-14T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+919,2026-08-14T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+919,2026-08-14T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+987,2026-08-14T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+842,2026-08-11T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+742,2026-08-08T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,WA,True
+742,2026-08-08T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,WA,True
+974,2026-08-08T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+974,2026-08-08T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,NY,True
+974,2026-08-08T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NY,True
+962,2026-08-07T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+962,2026-08-07T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+962,2026-08-07T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+737,2026-08-07T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NY,True
+885,2026-08-05T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,WA,True
+955,2026-08-02T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,IL,True
+955,2026-08-02T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+955,2026-08-02T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,IL,True
+791,2026-08-02T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+791,2026-08-02T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+791,2026-08-02T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+815,2026-08-02T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+815,2026-08-02T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+815,2026-08-02T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,NY,True
+964,2026-08-01T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,CA,True
+964,2026-08-01T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+964,2026-08-01T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+783,2026-08-01T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,NY,True
+783,2026-08-01T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,NY,True
+821,2026-08-01T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+897,2026-07-30T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+996,2026-07-25T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,NJ,True
+776,2026-07-24T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,5.49,0.00,5.49,NJ,True
+776,2026-07-24T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+750,2026-07-24T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+870,2026-07-23T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+870,2026-07-23T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,1,5.49,5.49,0.00,5.49,TX,True
+972,2026-07-23T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,NJ,True
+972,2026-07-23T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+972,2026-07-23T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+949,2026-07-23T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,TX,True
+949,2026-07-23T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+744,2026-07-20T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,WA,True
+744,2026-07-20T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+784,2026-07-18T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,IL,True
+746,2026-07-17T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+746,2026-07-17T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,WA,True
+780,2026-07-17T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,NJ,True
+847,2026-07-17T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+847,2026-07-17T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,IL,True
+828,2026-07-16T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+958,2026-07-15T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+958,2026-07-15T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,IL,True
+860,2026-07-14T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,NY,True
+860,2026-07-14T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+860,2026-07-14T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+933,2026-07-14T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+876,2026-07-13T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,TX,True
+876,2026-07-13T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+876,2026-07-13T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+982,2026-07-12T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+982,2026-07-12T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+982,2026-07-12T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+874,2026-07-11T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,IL,True
+874,2026-07-11T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,IL,True
+753,2026-07-10T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,WA,True
+753,2026-07-10T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,WA,True
+795,2026-07-10T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+795,2026-07-10T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+795,2026-07-10T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+880,2026-07-10T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+880,2026-07-10T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+981,2026-07-10T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+981,2026-07-10T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+981,2026-07-10T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+754,2026-07-09T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+740,2026-07-07T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,NJ,True
+740,2026-07-07T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+942,2026-07-04T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+928,2026-07-04T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,WA,True
+928,2026-07-04T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+928,2026-07-04T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,WA,True
+945,2026-07-03T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,TX,True
+945,2026-07-03T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+945,2026-07-03T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,TX,True
+963,2026-07-03T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,TX,True
+963,2026-07-03T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,TX,True
+963,2026-07-03T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,TX,True
+781,2026-07-01T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+781,2026-07-01T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+816,2026-07-01T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,1,5.49,5.49,0.00,5.49,NY,True
+816,2026-07-01T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NY,True
+816,2026-07-01T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+859,2026-06-27T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+984,2026-06-27T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+829,2026-06-26T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+829,2026-06-26T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,TX,True
+829,2026-06-26T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+943,2026-06-23T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,NJ,True
+943,2026-06-23T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,NJ,True
+943,2026-06-23T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+766,2026-06-20T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+906,2026-06-20T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+757,2026-06-19T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+757,2026-06-19T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+845,2026-06-18T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,WA,True
+845,2026-06-18T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+992,2026-06-17T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,IL,True
+992,2026-06-17T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+992,2026-06-17T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,IL,True
+941,2026-06-17T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+941,2026-06-17T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+991,2026-06-12T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+991,2026-06-12T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,CA,True
+991,2026-06-12T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+890,2026-06-12T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+890,2026-06-12T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,NJ,True
+890,2026-06-12T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NJ,True
+888,2026-06-10T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+888,2026-06-10T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+888,2026-06-10T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+868,2026-06-07T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,NJ,True
+868,2026-06-07T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NJ,True
+834,2026-06-06T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+834,2026-06-06T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+834,2026-06-06T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+817,2026-06-05T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+817,2026-06-05T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,IL,True
+911,2026-06-05T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+911,2026-06-05T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+929,2026-06-05T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+929,2026-06-05T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+975,2026-06-04T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,NY,True
+975,2026-06-04T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+975,2026-06-04T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NY,True
+856,2026-05-30T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,TX,True
+856,2026-05-30T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,TX,True
+856,2026-05-30T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+931,2026-05-30T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,TX,True
+931,2026-05-30T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,TX,True
+931,2026-05-30T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,TX,True
+973,2026-05-29T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+871,2026-05-27T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+871,2026-05-27T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+871,2026-05-27T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+917,2026-05-25T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+917,2026-05-25T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,IL,True
+926,2026-05-24T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+735,2026-05-23T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+857,2026-05-23T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+730,2026-05-22T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,WA,True
+730,2026-05-22T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,WA,True
+730,2026-05-22T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,WA,True
+801,2026-05-22T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,WA,True
+801,2026-05-22T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,WA,True
+801,2026-05-22T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+889,2026-05-21T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+877,2026-05-16T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+877,2026-05-16T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,NJ,True
+877,2026-05-16T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,NJ,True
+825,2026-05-16T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+732,2026-05-15T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,WA,True
+732,2026-05-15T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,WA,True
+732,2026-05-15T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,WA,True
+796,2026-05-15T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,WA,True
+978,2026-05-14T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,TX,True
+978,2026-05-14T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+927,2026-05-11T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+927,2026-05-11T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,NY,True
+927,2026-05-11T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+895,2026-05-10T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+895,2026-05-10T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,CA,True
+895,2026-05-10T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+985,2026-05-09T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,IL,True
+762,2026-05-09T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+762,2026-05-09T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+762,2026-05-09T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+723,2026-05-08T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,NJ,True
+723,2026-05-08T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NJ,True
+904,2026-05-08T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+904,2026-05-08T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+798,2026-05-06T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+798,2026-05-06T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,WA,True
+798,2026-05-06T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,WA,True
+770,2026-05-06T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NJ,True
+970,2026-05-06T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+970,2026-05-06T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,1,5.49,5.49,0.00,5.49,CA,True
+970,2026-05-06T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+728,2026-05-05T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,5.49,0.00,5.49,TX,True
+728,2026-05-05T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+729,2026-05-05T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+841,2026-05-05T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+899,2026-05-02T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,TX,True
+934,2026-05-02T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+875,2026-05-02T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,WA,True
+875,2026-05-02T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,WA,True
+785,2026-05-02T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+785,2026-05-02T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+989,2026-05-02T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+989,2026-05-02T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+853,2026-04-28T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+853,2026-04-28T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+853,2026-04-28T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+901,2026-04-28T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+901,2026-04-28T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NY,True
+901,2026-04-28T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,5.49,0.00,5.49,NY,True
+969,2026-04-21T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+969,2026-04-21T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+969,2026-04-21T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+809,2026-04-19T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,IL,True
+800,2026-04-18T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,NJ,True
+800,2026-04-18T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+819,2026-04-17T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,IL,True
+819,2026-04-17T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,IL,True
+819,2026-04-17T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+956,2026-04-17T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,CA,True
+956,2026-04-17T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+820,2026-04-11T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,TX,True
+820,2026-04-11T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+866,2026-04-11T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+957,2026-04-11T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+957,2026-04-11T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+806,2026-04-11T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+806,2026-04-11T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,NJ,True
+873,2026-04-10T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+960,2026-04-10T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,IL,True
+960,2026-04-10T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,IL,True
+960,2026-04-10T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+908,2026-04-09T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,NY,True
+908,2026-04-09T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NY,True
+886,2026-04-07T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+886,2026-04-07T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+886,2026-04-07T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,TX,True
+883,2026-04-03T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,CA,True
+892,2026-04-03T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,NJ,True
+892,2026-04-03T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+913,2026-04-03T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+913,2026-04-03T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,NY,True
+839,2026-03-31T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+896,2026-03-31T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+813,2026-03-29T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+813,2026-03-29T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+813,2026-03-29T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,TX,True
+891,2026-03-29T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,IL,True
+891,2026-03-29T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+891,2026-03-29T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,IL,True
+843,2026-03-29T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+843,2026-03-29T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,CA,True
+843,2026-03-29T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+967,2026-03-28T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+967,2026-03-28T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+905,2026-03-27T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,WA,True
+905,2026-03-27T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,WA,True
+905,2026-03-27T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,WA,True
+946,2026-03-27T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+826,2026-03-27T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+850,2026-03-25T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+850,2026-03-25T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,NY,True
+850,2026-03-25T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NY,True
+835,2026-03-24T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,TX,True
+751,2026-03-22T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+751,2026-03-22T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+751,2026-03-22T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,5.49,0.00,5.49,TX,True
+745,2026-03-21T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NY,True
+745,2026-03-21T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,NY,True
+741,2026-03-20T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,CA,True
+864,2026-03-19T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,TX,True
+864,2026-03-19T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+864,2026-03-19T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+743,2026-03-19T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,TX,True
+743,2026-03-19T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,TX,True
+894,2026-03-18T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,TX,True
+894,2026-03-18T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+894,2026-03-18T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,TX,True
+812,2026-03-18T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,WA,True
+881,2026-03-17T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NJ,True
+932,2026-03-16T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,WA,True
+932,2026-03-16T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,WA,True
+924,2026-03-13T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,TX,True
+924,2026-03-13T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+811,2026-03-12T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,NY,True
+811,2026-03-12T23:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,NY,True
+811,2026-03-12T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+990,2026-03-12T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+867,2026-03-10T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,CA,True
+867,2026-03-10T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+758,2026-03-07T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+758,2026-03-07T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,NJ,True
+903,2026-03-07T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+903,2026-03-07T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,IL,True
+789,2026-03-06T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+947,2026-03-06T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,NY,True
+836,2026-03-06T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,IL,True
+887,2026-03-05T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,TX,True
+887,2026-03-05T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+907,2026-03-04T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+907,2026-03-04T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,TX,True
+823,2026-03-02T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,IL,True
+878,2026-02-28T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,IL,True
+878,2026-02-28T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,IL,True
+787,2026-02-27T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,NY,True
+787,2026-02-27T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+748,2026-02-27T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+748,2026-02-27T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+833,2026-02-27T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+833,2026-02-27T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,IL,True
+935,2026-02-23T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,WA,True
+935,2026-02-23T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,WA,True
+935,2026-02-23T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,5.49,0.00,5.49,WA,True
+910,2026-02-21T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,TX,True
+902,2026-02-20T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+724,2026-02-20T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,WA,True
+724,2026-02-20T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,WA,True
+724,2026-02-20T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,WA,True
+999,2026-02-20T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+999,2026-02-20T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NJ,True
+999,2026-02-20T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,NJ,True
+898,2026-02-20T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NY,True
+898,2026-02-20T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,NY,True
+898,2026-02-20T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+772,2026-02-19T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,CA,True
+772,2026-02-19T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+772,2026-02-19T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+831,2026-02-17T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+925,2026-02-17T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NY,True
+965,2026-02-16T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+965,2026-02-16T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+965,2026-02-16T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,IL,True
+995,2026-02-16T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",2,12.99,25.98,0.00,25.98,CA,True
+995,2026-02-16T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+995,2026-02-16T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,CA,True
+827,2026-02-14T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+827,2026-02-14T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NJ,True
+827,2026-02-14T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,NJ,True
+950,2026-02-14T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,IL,True
+756,2026-02-13T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,CA,True
+915,2026-02-13T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,CA,True
+879,2026-02-13T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,IL,True
+879,2026-02-13T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,IL,True
+879,2026-02-13T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,IL,True
+786,2026-02-13T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+786,2026-02-13T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,TX,True
+930,2026-02-13T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NY,True
+930,2026-02-13T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,NY,True
+939,2026-02-13T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+939,2026-02-13T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+939,2026-02-13T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+805,2026-02-13T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+805,2026-02-13T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+976,2026-02-11T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+976,2026-02-11T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+840,2026-02-11T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+788,2026-02-09T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,TX,True
+788,2026-02-09T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+849,2026-02-08T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+808,2026-02-07T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+808,2026-02-07T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+808,2026-02-07T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,CA,True
+775,2026-02-06T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,3,4.99,14.97,0.00,14.97,NY,True
+775,2026-02-06T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+725,2026-02-06T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NJ,True
+725,2026-02-06T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+977,2026-02-06T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,IL,True
+977,2026-02-06T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,IL,True
+777,2026-02-04T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+777,2026-02-04T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+777,2026-02-04T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+916,2026-02-03T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,TX,True
+916,2026-02-03T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+769,2026-02-02T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,WA,True
+769,2026-02-02T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",1,14.49,14.49,0.00,14.49,WA,True
+952,2026-02-02T20:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,WA,True
+952,2026-02-02T20:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,WA,True
+952,2026-02-02T20:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,WA,True
+846,2026-01-30T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,WA,True
+846,2026-01-30T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,WA,True
+846,2026-01-30T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,WA,True
+918,2026-01-28T20:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+937,2026-01-25T19:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,CA,True
+937,2026-01-25T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+937,2026-01-25T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+818,2026-01-24T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,NJ,True
+971,2026-01-23T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+971,2026-01-23T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,TX,True
+755,2026-01-22T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",1,12.99,12.99,0.00,12.99,NY,True
+966,2026-01-17T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+966,2026-01-17T23:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,NJ,True
+966,2026-01-17T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,NJ,True
+944,2026-01-17T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,WA,True
+764,2026-01-16T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,2,5.49,10.98,0.00,10.98,CA,True
+764,2026-01-16T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+764,2026-01-16T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,CA,True
+802,2026-01-16T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,TX,True
+802,2026-01-16T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,TX,True
+802,2026-01-16T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+768,2026-01-16T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,IL,True
+782,2026-01-16T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,CA,True
+858,2026-01-16T19:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NJ,True
+951,2026-01-14T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,1,4.99,4.99,0.00,4.99,NY,True
+951,2026-01-14T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,NY,True
+980,2026-01-14T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",2,14.49,28.98,0.00,28.98,TX,True
+980,2026-01-14T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lemon,Lemon · 1 Bottle,2,4.99,9.98,0.00,9.98,TX,True
+980,2026-01-14T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",3,19.99,59.97,0.00,59.97,TX,True
+767,2026-01-14T19:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,1,4.99,4.99,0.00,4.99,CA,True
+767,2026-01-14T19:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-cherry,Cherry · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+773,2026-01-11T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",3,17.99,53.97,0.00,53.97,IL,True
+761,2026-01-11T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+761,2026-01-11T21:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,CA,True
+733,2026-01-10T21:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,NJ,True
+733,2026-01-10T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,1,4.99,4.99,0.00,4.99,NJ,True
+862,2026-01-10T21:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",2,19.99,39.98,0.00,39.98,NJ,True
+862,2026-01-10T21:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,2,4.99,9.98,0.00,9.98,NJ,True
+921,2026-01-09T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NJ,True
+921,2026-01-09T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lime,Lime · 1 Bottle,1,5.49,5.49,0.00,5.49,NJ,True
+1000,2026-01-09T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,5.49,0.00,5.49,NJ,True
+1000,2026-01-09T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,38.97,0.00,38.97,NJ,True
+869,2026-01-07T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",2,17.99,35.98,0.00,35.98,WA,True
+869,2026-01-07T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,WA,True
+869,2026-01-07T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-cherry,Cherry · 1 Bottle,3,4.99,14.97,0.00,14.97,WA,True
+747,2026-01-03T22:00:00,paid,drink-original,Reboot Drink Original,drink-original-lime,Lime · 1 Bottle,2,4.99,9.98,0.00,9.98,CA,True
+747,2026-01-03T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,43.47,0.00,43.47,CA,True
+747,2026-01-03T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+936,2026-01-03T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,TX,True
+936,2026-01-03T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,TX,True
+936,2026-01-03T22:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,TX,True
+774,2026-01-02T23:00:00,paid,jelly-balance,Reboot Jelly Balance,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,19.99,0.00,19.99,CA,True
+774,2026-01-02T23:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,CA,True
+824,2026-01-02T22:00:00,paid,drink-balance,Reboot Drink Balance,drink-balance-lemon,Lemon · 1 Bottle,3,5.49,16.47,0.00,16.47,NY,True
+824,2026-01-02T22:00:00,paid,jelly-original,Reboot Jelly Original,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,17.99,0.00,17.99,NY,True

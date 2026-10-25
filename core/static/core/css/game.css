@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+/* Reboot Town (/game/) — prefix .game- ; colors from tokens in site.css */
+.game-page{max-width:1320px;margin:0 auto}
+.game-intro{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:34px}
+.game-intro h1{font-size:clamp(58px,7.4vw,118px);margin-top:18px}
+.game-intro p{max-width:560px;color:var(--color-muted)}
+.game-today{min-width:300px;display:flex;flex-direction:column;gap:6px;background:#1b2414;border:1px solid #496a2a;border-radius:12px;padding:22px 24px}
+.game-today>span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-muted)}
+.game-today>strong{font:800 40px/1 var(--font-display);color:var(--color-neon)}
+.game-today small{opacity:1;color:var(--color-muted)}.game-today small b{color:var(--color-text)}
+.game-today.guest{background:#211c2c;border-color:#5b4a86}.game-today.guest>strong{color:var(--color-neon-2)}
+.game-today .btn{margin-top:8px;align-self:start}
+.game-meter{height:10px;border-radius:99px;background:#0e130a;overflow:hidden;border:1px solid #33461f;margin:4px 0 2px}
+.game-meter i{display:block;height:100%;background:linear-gradient(90deg,#9cc10b,var(--color-neon));transition:width .6s}
+.game-frame{background:#0b0c09;border:1px solid var(--color-line);border-radius:18px;padding:14px;box-shadow:0 30px 80px #000a}
+.game-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+.game-bar-space{flex:1}
+.game-chip{border:1px solid var(--color-line);background:var(--color-surface);color:var(--color-text);border-radius:99px;padding:8px 15px;font-size:12px;font-weight:700;letter-spacing:.04em}
+.game-chip:hover{border-color:var(--color-neon);color:var(--color-neon)}
+.game-chip[aria-pressed="false"]{opacity:.6}
+.game-stage{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#140f24;outline:none;touch-action:none;user-select:none;-webkit-user-select:none}
+.game-stage:focus-visible{box-shadow:0 0 0 3px var(--color-neon)}
+.game-stage canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges;cursor:pointer}
+.game-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:#000c;color:var(--color-text);font-size:12px;padding:6px 12px;border-radius:99px;pointer-events:none}
+.game-overlay{position:absolute;inset:0;display:grid;place-items:center;background:#0a0814b3;backdrop-filter:blur(2px);padding:14px;overflow:auto}
+.game-overlay[hidden]{display:none}
+.game-card{position:relative;width:min(440px,100%);background:#f5f4e9;color:#14160f;border-radius:14px;padding:26px 28px;text-align:center;box-shadow:0 0 0 4px #14160f,0 16px 0 4px #b1ff3b}
+.game-card.wide{width:min(760px,100%);text-align:left}
+.game-card .eyebrow{color:#4c6b16}
+.game-card h2{font-size:clamp(34px,4.4vw,56px);margin-top:8px}
+.game-score{margin:12px 0 0}.game-score strong{font:800 64px/1 var(--font-display)}.game-score span{font-weight:700}
+.game-best{margin:6px 0 0;font-size:13px;color:#5a5d50}
+.game-points{margin:14px 0 0;padding:12px;border-radius:10px;background:#14160f;color:var(--color-neon);font-weight:700}
+.game-points.off{color:#c8b5ff}
+.game-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.game-card .btn:not(.primary){color:#14160f;border-color:#14160f}
+.game-x{position:absolute;right:14px;top:12px;background:none;border:0;font-size:20px;color:#14160f}
+.game-store-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:16px}
+.game-store-item{display:flex;gap:12px;align-items:center;border:2px solid #14160f;border-radius:12px;padding:10px;background:#fff}
+.game-store-item img{width:84px;height:84px;object-fit:contain;flex:none;border-radius:8px;background:#e8ead9}
+.game-store-item h3{font-size:16px}.game-store-item p{margin:4px 0;font-size:12px;color:#4a4d40}
+.game-store-item a{font-size:12px;font-weight:700;text-decoration:underline}
+.game-keys{margin:12px 4px 2px;font-size:12px;color:var(--color-muted)}
+.game-keys kbd{font:700 11px var(--font-body);border:1px solid var(--color-line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--color-text)}
+.game-guide,.game-spend{max-width:1320px;margin:0 auto}
+.game-guide .section-heading p,.game-spend .section-heading p{max-width:440px;color:var(--color-muted)}
+.game-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.game-info{display:flex;flex-direction:column;border:1px solid var(--color-line);border-radius:14px;padding:22px;background:var(--color-surface)}
+.game-info.jelly{border-top:4px solid #f9316e}.game-info.drink{border-top:4px solid #f8be14}
+.game-info h3{font:800 34px/1 var(--font-display);margin-top:12px;text-transform:uppercase}
+.game-info p{font-size:14px;color:var(--color-muted);flex:1}
+.game-info-foot{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.game-info-foot b{color:var(--color-neon);font-size:14px}
+.game-products{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.game-product{display:block;border-radius:14px;transition:transform .2s}
+.game-product:hover{transform:translateY(-4px)}
+.game-product-art{aspect-ratio:1;border-radius:14px;display:grid;place-items:center;overflow:hidden;margin-bottom:12px;background:radial-gradient(circle at 50% 40%,#3b4a25,#161b10)}
+.game-product-art.drink{background:#f3f3ef}
+.game-product-art img{width:82%;height:82%;object-fit:contain}
+.game-product h3{font-size:20px;margin-top:6px}
+.game-product p{margin:6px 0 0;font-size:14px;color:var(--color-muted)}.game-product p b{color:var(--color-neon)}
+.game-fine{margin:34px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px 28px;font-size:12px;color:var(--color-muted)}
+.game-fine li::before{content:'✳ ';color:var(--color-neon)}
+@media(max-width:1000px){.game-cards,.game-products{grid-template-columns:repeat(2,1fr)}.game-intro{flex-direction:column;align-items:stretch}.game-today{min-width:0}}
+@media(max-width:600px){.game-frame{padding:8px;border-radius:12px;margin:0 -2%}.game-stage{border-radius:8px}.game-cards,.game-products{grid-template-columns:1fr}.game-card{padding:20px 16px}.game-score strong{font-size:48px}.game-chip{padding:7px 11px;font-size:11px}.game-keys{font-size:11px}.lang-ko .game-intro h1{font-size:48px}}

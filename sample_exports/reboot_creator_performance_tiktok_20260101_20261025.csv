@@ -1,0 +1,4 @@
+﻿creator,discount_code,platform,link_url,clicks,order_count,units_sold,net_sales_usd,conversion_rate_pct,commission_usd
+Neon Nights (Fictional),NEONNIGHTS,TikTok,http://127.0.0.1:5000/r/NEONNIGHTS,4080,113,456,5398.59,2.77,809.84
+Restart Crew (Fictional),RESTARTCREW,TikTok,http://127.0.0.1:5000/r/RESTARTCREW,5760,115,463,4917.27,2.00,983.48
+Seoul Sip NYC (Fictional),SEOULSIPNYC,TikTok,http://127.0.0.1:5000/r/SEOULSIPNYC,4560,112,417,4786.98,2.46,478.84

@@ -6,6 +6,10 @@ ADDITIONS = {
     'auth_user': {'points': 'INTEGER NOT NULL DEFAULT 0', 'language': "VARCHAR(2) NOT NULL DEFAULT 'en'"},
     'shop_order_item': {'points_used': 'INTEGER NOT NULL DEFAULT 0'},
     'shop_order': {'points_used': 'INTEGER NOT NULL DEFAULT 0'},
+    'shop_product': {'is_deleted': 'BOOLEAN NOT NULL DEFAULT FALSE'},
+    'shop_referral_link': {'landing': "VARCHAR(120) NOT NULL DEFAULT ''"},
+    'core_message': {'user_id': 'INTEGER', 'topic': "VARCHAR(30) NOT NULL DEFAULT ''", 'order_id': 'INTEGER',
+                     'status': "VARCHAR(12) NOT NULL DEFAULT 'new'", 'reply': 'TEXT', 'replied_at': 'TIMESTAMP'},
 }
 
 def upgrade_database():
