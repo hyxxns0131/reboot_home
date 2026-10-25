@@ -1,4 +1,4 @@
 ﻿platform,influencer_name,discount_code,link_path,discount_rate,commission_rate,clicks,order_count,conversion_rate,units_sold,gross_sales_usd,discount_usd,net_sales_usd,commission_usd,top_product
-TikTok,Neon Nights (Fictional),NEONNIGHTS,/r/NEONNIGHTS,0.1000,0.1500,1200,113,0.0942,456,6251.00,625.10,5625.90,844.11,jelly-original
-TikTok,Restart Crew (Fictional),RESTARTCREW,/r/RESTARTCREW,0.2000,0.2000,1200,115,0.0958,463,6591.00,1318.20,5272.80,1054.56,drink-balance
-TikTok,Seoul Sip NYC (Fictional),SEOULSIPNYC,/r/SEOULSIPNYC,0.1000,0.1000,1200,112,0.0933,417,5722.00,572.20,5149.80,514.98,drink-original
+TikTok,Neon Nights (Fictional),NEONNIGHTS,/r/NEONNIGHTS,0.1000,0.1500,1200,113,0.0942,456,5998.94,600.35,5398.59,809.84,jelly-original
+TikTok,Restart Crew (Fictional),RESTARTCREW,/r/RESTARTCREW,0.2000,0.2000,1200,115,0.0958,463,6146.87,1229.60,4917.27,983.48,drink-balance
+TikTok,Seoul Sip NYC (Fictional),SEOULSIPNYC,/r/SEOULSIPNYC,0.1000,0.1000,1200,112,0.0933,417,5319.33,532.35,4786.98,478.84,drink-original

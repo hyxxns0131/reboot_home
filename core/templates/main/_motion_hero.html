@@ -8,8 +8,8 @@
   'cherry': {'color':'#ff4560','pastel':'#f7b3c8','drink':'Juicy cherry with a sweet, fruity finish.','gummy':'Cherry comes shaped like a cowboy hat.','shape':'hat'}
 } -%}
 {%- set lines = {
-  'original': {'drink_price':7,'gummy_price':16,'drink_tag':'A 100 ml little ritual, born in Seoul.','gummy_tag':'One pouch. Lime, lemon and cherry inside.'},
-  'balance':  {'drink_price':8,'gummy_price':18,'drink_tag':'Zero sugar. Same bright little ritual.','gummy_tag':'Zero sugar. Lime, lemon and cherry inside.'}
+  'original': {'drink_price':'4.99','gummy_price':'17.99','drink_tag':'A 100 ml little ritual, born in Seoul.','gummy_tag':'One pouch. Lime, lemon and cherry inside.'},
+  'balance':  {'drink_price':'5.49','gummy_price':'19.99','drink_tag':'Zero sugar. Same bright little ritual.','gummy_tag':'Zero sugar. Lime, lemon and cherry inside.'}
 } -%}
 {%- set bubbles = {'lime':'Lime time, partner!','lemon':'Squeeze the day!','cherry':'Cherry on top!'} -%}
 {%- set items = [] -%}
@@ -84,7 +84,7 @@
     <div class="mh-copy" aria-live="polite">
       <div class="mh-rule"><span></span></div>
       <p class="mh-lede" id="mh-lede">{{ tr('Bright lime with a crisp citrus finish.') }} {{ tr('A 100 ml little ritual, born in Seoul.') }}</p>
-      <p class="mh-price" id="mh-price">$7 · {{ tr('Single bottle') }}</p>
+      <p class="mh-price" id="mh-price">$4.99 · {{ tr('Single bottle') }}</p>
       <a class="mh-cta" id="mh-cta" href="/products/drink-original?sku=drink-original-lime"><span id="mh-cta-text">{{ tr('SHOP THIS BOTTLE') }}</span><span aria-hidden="true">↗</span></a>
     </div>
 

@@ -1,11 +1,11 @@
 ﻿product_slug,product_name,product_line,option_sku,option_label,pack_size,list_price_usd,order_count,quantity_sold,pieces_sold,gross_sales_usd,discount_usd,net_sales_usd,direct_sales_usd,instagram_sales_usd,tiktok_sales_usd
-jelly-original,Reboot Jelly Original,Jelly,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,16.00,464,921,921,14736.00,1219.20,13516.80,4096.00,4872.00,4548.80
-jelly-balance,Reboot Jelly Balance,Jelly,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,18.00,483,943,943,16974.00,1383.30,15590.70,5094.00,5534.10,4962.60
-drink-original,Reboot Drink Original,Drink,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,19.00,113,227,681,4313.00,388.55,3924.45,1102.00,1298.65,1523.80
-drink-original,Reboot Drink Original,Drink,drink-original-lemon,Lemon · 1 Bottle,1,7.00,114,234,234,1638.00,128.10,1509.90,525.00,502.60,482.30
-drink-original,Reboot Drink Original,Drink,drink-original-lime,Lime · 1 Bottle,1,7.00,133,273,273,1911.00,154.70,1756.30,504.00,703.50,548.80
-drink-original,Reboot Drink Original,Drink,drink-original-cherry,Cherry · 1 Bottle,1,7.00,129,261,261,1827.00,162.40,1664.60,427.00,582.40,655.20
-drink-balance,Reboot Drink Balance,Drink,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,22.00,142,289,867,6358.00,525.80,5832.20,1914.00,2147.20,1771.00
-drink-balance,Reboot Drink Balance,Drink,drink-balance-lemon,Lemon · 1 Bottle,1,8.00,103,212,212,1696.00,126.40,1569.60,560.00,516.80,492.80
-drink-balance,Reboot Drink Balance,Drink,drink-balance-lime,Lime · 1 Bottle,1,8.00,120,229,229,1832.00,153.20,1678.80,496.00,647.60,535.20
-drink-balance,Reboot Drink Balance,Drink,drink-balance-cherry,Cherry · 1 Bottle,1,8.00,112,224,224,1792.00,153.60,1638.40,464.00,646.40,528.00
+jelly-original,Reboot Jelly Original,Jelly,jelly-original-pouch,"1 Package · Lime, Lemon & Cherry",1,17.99,464,921,921,16568.79,1371.44,15197.35,4605.44,5477.63,5114.28
+jelly-balance,Reboot Jelly Balance,Jelly,jelly-balance-pouch,"1 Package · Lime, Lemon & Cherry",1,19.99,483,943,943,18850.57,1536.80,17313.77,5657.17,6145.59,5511.01
+drink-original,Reboot Drink Original,Drink,drink-original-box3,"Mixed Box · Lemon, Lime & Cherry",3,12.99,113,227,681,2948.73,265.78,2682.95,753.42,887.79,1041.74
+drink-original,Reboot Drink Original,Drink,drink-original-lemon,Lemon · 1 Bottle,1,4.99,114,234,234,1167.66,91.48,1076.18,374.25,358.20,343.73
+drink-original,Reboot Drink Original,Drink,drink-original-lime,Lime · 1 Bottle,1,4.99,133,273,273,1362.27,110.49,1251.78,359.28,501.39,391.11
+drink-original,Reboot Drink Original,Drink,drink-original-cherry,Cherry · 1 Bottle,1,4.99,129,261,261,1302.39,115.93,1186.46,304.39,415.08,466.99
+drink-balance,Reboot Drink Balance,Drink,drink-balance-box3,"Mixed Box · Lemon, Lime & Cherry",3,14.49,142,289,867,4187.61,346.37,3841.24,1260.63,1414.24,1166.37
+drink-balance,Reboot Drink Balance,Drink,drink-balance-lemon,Lemon · 1 Bottle,1,5.49,103,212,212,1163.88,86.78,1077.10,384.30,354.67,338.13
+drink-balance,Reboot Drink Balance,Drink,drink-balance-lime,Lime · 1 Bottle,1,5.49,120,229,229,1257.21,105.22,1151.99,340.38,444.41,367.20
+drink-balance,Reboot Drink Balance,Drink,drink-balance-cherry,Cherry · 1 Bottle,1,5.49,112,224,224,1229.76,105.47,1124.29,318.42,443.59,362.28

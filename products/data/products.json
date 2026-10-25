@@ -19,7 +19,7 @@
         "sku": "jelly-original-pouch",
         "label": "1 Package · Lime, Lemon & Cherry",
         "unit_count": 1,
-        "price_usd": 16.0,
+        "price_usd": 17.99,
         "image": "product_image/web/jelly-original-package.webp"
       }
     ],
@@ -87,7 +87,7 @@
         "sku": "jelly-balance-pouch",
         "label": "1 Package · Lime, Lemon & Cherry",
         "unit_count": 1,
-        "price_usd": 18.0,
+        "price_usd": 19.99,
         "image": "product_image/web/jelly-balance-package.webp"
       }
     ],
@@ -156,28 +156,28 @@
         "sku": "drink-original-box3",
         "label": "Mixed Box · Lemon, Lime & Cherry",
         "unit_count": 3,
-        "price_usd": 19.0,
+        "price_usd": 12.99,
         "image": "product_image/web/drink-original-box3.webp"
       },
       {
         "sku": "drink-original-lemon",
         "label": "Lemon · 1 Bottle",
         "unit_count": 1,
-        "price_usd": 7.0,
+        "price_usd": 4.99,
         "image": "product_image/web/drink-original-lemon.webp"
       },
       {
         "sku": "drink-original-lime",
         "label": "Lime · 1 Bottle",
         "unit_count": 1,
-        "price_usd": 7.0,
+        "price_usd": 4.99,
         "image": "product_image/web/drink-original-lime.webp"
       },
       {
         "sku": "drink-original-cherry",
         "label": "Cherry · 1 Bottle",
         "unit_count": 1,
-        "price_usd": 7.0,
+        "price_usd": 4.99,
         "image": "product_image/web/drink-original-cherry.webp"
       }
     ],
@@ -257,28 +257,28 @@
         "sku": "drink-balance-box3",
         "label": "Mixed Box · Lemon, Lime & Cherry",
         "unit_count": 3,
-        "price_usd": 22.0,
+        "price_usd": 14.49,
         "image": "product_image/web/drink-balance-box3.webp"
       },
       {
         "sku": "drink-balance-lemon",
         "label": "Lemon · 1 Bottle",
         "unit_count": 1,
-        "price_usd": 8.0,
+        "price_usd": 5.49,
         "image": "product_image/web/drink-balance-lemon.webp"
       },
       {
         "sku": "drink-balance-lime",
         "label": "Lime · 1 Bottle",
         "unit_count": 1,
-        "price_usd": 8.0,
+        "price_usd": 5.49,
         "image": "product_image/web/drink-balance-lime.webp"
       },
       {
         "sku": "drink-balance-cherry",
         "label": "Cherry · 1 Bottle",
         "unit_count": 1,
-        "price_usd": 8.0,
+        "price_usd": 5.49,
         "image": "product_image/web/drink-balance-cherry.webp"
       }
     ],

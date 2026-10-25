@@ -78,7 +78,7 @@ def test_order_referral_csv(client,app):
         orders=db.session.scalars(db.select(Order).filter_by(is_dummy=False)).all()
         assert len(orders)==1
         order=orders[0]
-        assert order.subtotal==Decimal('38.00') and order.discount==Decimal('3.80') and order.total==Decimal('34.20')
+        assert order.subtotal==Decimal('25.98') and order.discount==Decimal('2.60') and order.total==Decimal('23.38')
         assert order.referral.code=='NEONNIGHTS' and order.items[0].quantity==2
     assert client.get('/shop/orders').status_code==200
     client.post('/auth/logout',data={'csrf_token':token(client,'/auth/logout')})
@@ -90,7 +90,7 @@ def test_order_referral_csv(client,app):
         assert rows
         if kind=='orders':
             actual=[r for r in rows if r['is_dummy']=='False']
-            assert len(actual)==1 and actual[0]['line_total_usd']=='34.20'
+            assert len(actual)==1 and actual[0]['line_total_usd']=='23.38'
         if kind=='product-sales':
             product_total=sum(Decimal(r['net_sales_usd']) for r in rows)
         if kind=='link-sales': assert sum(Decimal(r['net_sales_usd']) for r in rows)==product_total

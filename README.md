@@ -88,7 +88,7 @@
 | `form` | 개별 포장된 모양 젤리 (카우보이 부츠·카우보이 모자·올가미) | 같음 |
 | `flavors` | Lime, Lemon, Cherry (지금: 라임, 체리, 복숭아, 레몬) | Cherry, Lime, Lemon (지금: 레몬·라임) |
 | `pack` | 개별 포장된 젤리가 든 한 봉지 (봉지 안 개수 미정) | 같음 |
-| `price` | $16 | $18 |
+| `price` | $17.99 (패키지 단위로만 판매, 낱개 판매 없음) | $19.99 (패키지 단위로만 판매, 낱개 판매 없음) |
 | `direction` | 기본 젤리 | 제로슈가 젤리 (Zero Sugar 표기 조건을 충족했다고 가정) |
 | `sugar_reduced` | false | true |
 
@@ -103,9 +103,11 @@
 | `form` | 비탄산 음료 · 소형 유리병 | 같음 |
 | `flavors` | Lemon, Cherry, Lime (지금: 레몬·라임) | Lemon, Lime, Cherry (지금: 레몬·라임) |
 | `pack` | 소형 병 낱개 · 3병/박스 (지금: 6병/박스) | 같음 |
+| `pack_count` | 1 (낱개) · 3 (박스) | 같음 |
 | `volume` | 100ml (병 높이 108mm) | 같음 |
-| `price` | $7 (낱개). 박스(3병)는 $19 | $8 (낱개). 박스(3병)는 $22 |
-| `direction` | 기본 음료 | 제로슈가 음료 (Zero Sugar 표기 조건을 충족했다고 가정) |
+| `price` | $4.99 (낱개) | $5.49 (낱개) |
+| `price_box` | $12.99 (3병, 1병당 $4.33) | $14.49 (3병, 1병당 $4.83) |
+| `direction` | 기본 음료 | 제로슈가 음료 (ZERO SUGAR 표기 조건을 충족했다고 가정) |
 | `sugar_reduced` | false | true |
 
 ### 주의할 점
@@ -694,7 +696,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lime", "Cherry", "Lemon"],
     "options": [
-      { "sku": "jelly-original-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 16.00 }
+      { "sku": "jelly-original-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 17.99 }
     ],
     "price_is_sample": true,
     "is_balance": false,
@@ -712,7 +714,7 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Cherry", "Lime"],
     "options": [
-      { "sku": "jelly-balance-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 18.00 }
+      { "sku": "jelly-balance-pouch", "label": "1 Pouch", "unit_count": 1, "price_usd": 19.99 }
     ],
     "price_is_sample": true,
     "is_balance": true,
@@ -731,8 +733,8 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Cherry", "Lime"],
     "options": [
-      { "sku": "drink-original-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 7.00 },
-      { "sku": "drink-original-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 19.00 }
+      { "sku": "drink-original-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 4.99 },
+      { "sku": "drink-original-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 12.99 }
     ],
     "price_is_sample": true,
     "is_balance": false,
@@ -751,8 +753,8 @@ B: shop/models.py 먼저 확정 → 더미 시드 ──▶ C: admin 집계 · C
     "ingredients": ["A-HAT", "Hovenia dulcis (Oriental raisin tree) fruit"],
     "flavors": ["Lemon", "Lime", "Cherry"],
     "options": [
-      { "sku": "drink-balance-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 8.00 },
-      { "sku": "drink-balance-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 22.00 }
+      { "sku": "drink-balance-single", "label": "1 Bottle", "unit_count": 1, "price_usd": 5.49 },
+      { "sku": "drink-balance-box3", "label": "Box of 3", "unit_count": 3, "price_usd": 14.49 }
     ],
     "price_is_sample": true,
     "is_balance": true,
