@@ -1,0 +1,22 @@
+{# Admin AI assistant "Rebu Operator" (README §27). Included once per admin page from _sidebar.html. #}
+<div class="admin-ai" data-admin-ai lang="{{ 'en' if session.get('lang_picked') and session.get('lang')=='en' else 'ko' }}"
+  data-greeting="{{ ai_tr('Hi! I’m Rebu Operator, your admin guide. Ask me where to do something or how the site works. To make a product, popup, creator link or detail page, I’ll take you to that tab’s Create with AI workspace.') }}"
+  data-thinking="{{ ai_tr('Working on it…') }}" data-error="{{ ai_tr('Something went wrong. Please try again.') }}"
+  data-unavailable="{{ ai_tr('The assistant needs an OpenAI key. Add OPENAI_API_KEY to .env (local) or Render Environment, then restart.') }}"
+  data-limit="{{ ai_tr('Too many messages. Please wait a few minutes.') }}"
+  data-save="{{ ai_tr('Save') }}" data-cancel="{{ ai_tr('Cancel') }}" data-saved="{{ ai_tr('Saved') }}" data-cancelled="{{ ai_tr('Cancelled') }}" data-open="{{ ai_tr('Open →') }}"
+  data-confirm-title="{{ ai_tr('Check before saving') }}" data-reset="{{ ai_tr('New chat') }}">
+  <section class="admin-ai-panel" id="admin-ai-panel" hidden aria-label="{{ ai_tr('Admin AI assistant') }}">
+    <header><strong>{{ ai_tr('REBU OPERATOR · ADMIN AI') }}</strong><span><button type="button" data-ai-reset>{{ ai_tr('New chat') }}</button><button type="button" data-ai-close aria-label="{{ ai_tr('Close') }}">✕</button></span></header>
+    <div class="admin-ai-log" aria-live="polite"></div>
+    <div class="admin-ai-attach" hidden></div>
+    <form>
+      <label class="admin-ai-file" title="{{ ai_tr('Attach image') }}">📎<input type="file" accept="image/jpeg,image/png,image/webp" hidden></label>
+      <textarea rows="2" maxlength="2000" required aria-label="{{ ai_tr('Message') }}" placeholder="{{ ai_tr('e.g. Where do I check this month’s creator sales?') }}"></textarea>
+      <button class="btn primary" type="submit">{{ ai_tr('Send') }}</button>
+    </form>
+    <p class="admin-ai-note">{{ ai_tr('Creating happens in each tab: ✳ Create with AI.') }} <a href="/admin/ai/product">{{ ai_tr('Product') }}</a> · <a href="/admin/ai/popup">{{ ai_tr('Popup') }}</a> · <a href="/admin/ai/creator">{{ ai_tr('Creator link') }}</a> · <a href="/admin/products/story">{{ ai_tr('Detail pages') }}</a></p>
+  </section>
+  <button class="admin-ai-toggle" type="button" aria-expanded="false" aria-controls="admin-ai-panel"><span aria-hidden="true">✳</span> {{ ai_tr('AI assistant') }}</button>
+</div>
+<script defer src="{{ url_for('static', filename='core/js/admin-assistant.js') }}"></script>

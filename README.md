@@ -32,6 +32,14 @@
 22. [게임 · 포인트 (Reboot Town)](#22-게임--포인트-reboot-town)
 23. [관리자 사이드바 · 재고 · 상품 사진 · 문의함 · 챗봇](#23-관리자-사이드바--재고--상품-사진--문의함--챗봇)
 24. [상품 등록 · 숨김/삭제 · 이름/사진 크롭 · 팝업](#24-상품-등록--숨김삭제--이름사진-크롭--팝업)
+25. [챗봇 컴플라이언스 가드 · 챗봇 질문 AI 분석 · 대시보드 연동](#25-챗봇-컴플라이언스-가드--챗봇-질문-ai-분석--대시보드-연동)
+26. [제품 상세 페이지 · 성분 표시](#26-제품-상세-페이지--성분-표시)
+27. [관리자 AI 비서 (리부 오퍼레이터)](#27-관리자-ai-비서-리부-오퍼레이터)
+28. [긴 상세페이지 · 리부 스튜디오 · 허락 후 AI 이미지](#28-긴-상세페이지-파티-필수품--리부-스튜디오--허락-후-ai-이미지)
+29. [관리자 화면 정리 · API 연결 · 헤더 순서](#29-관리자-화면-정리--api-연결--헤더-순서)
+30. [탭별 AI 생성 작업실 (채팅 + 실시간 초안)](#30-탭별-ai-생성-작업실-채팅--실시간-초안)
+31. [긴 상세 이미지를 상품 페이지에 올리기](#31-긴-상세-이미지를-상품-페이지에-올리기)
+32. [AI 페이지 오류 · 키 인식 문제 수정](#32-ai-페이지-오류--키-인식-문제-수정)
 
 ---
 
@@ -83,7 +91,7 @@
 **제품 4종 공통**
 
 - `ingredients`: `A-HAT + 헛개나무 열매`
-    - A-HAT은 알디콤의 특허 조성물입니다. 지구자(헛개나무) 추출물과 유산균 *Lactobacillus fermentum*을 결합한 것입니다.
+    - A-HAT은 알디콤의 조성물입니다. 지구자(헛개나무) 추출물과 유산균 *Lactobacillus fermentum*을 결합한 것입니다. 광고 문구에 '특허(patented)'는 쓰지 않고, 라벨에는 실제 원료명으로 적습니다 (§33).
     - 함량은 받지 못했습니다.
 - `flavor_status`: `confirmed`. 최종 패키지에 맛이 인쇄되어 있습니다.
 - `consumer_name`: `name`과 같은 값입니다. 미국 홈페이지에 쓰는 제품명이 이 이름입니다.
@@ -173,6 +181,7 @@ Reboot US (/)
 ├── /admin/           ........... 관리자 대시보드              🔑 관리자
 │   ├── /admin/creators (POST) .. 크리에이터 링크 발급 · /admin/creators/<id>/toggle 중지/재개  🔑 관리자
 │   ├── /admin/manage ........... 홈페이지 관리 (상품 할인 · 크리에이터 코드/링크)  🔑 관리자
+│   ├── /admin/chatbot/questions  챗봇 질문 분석 · AI 분석 · 가드 기록 · CSV (§25)  🔑 관리자
 │   └── /admin/export/<type>.csv  CSV 다운로드                🔑 관리자
 └── /legal/           ........... Privacy · Terms · Cookie     공개
 ```
@@ -490,6 +499,7 @@ shop_referral_link ──┐   ▼
 | `products_image` | products | `slug`, `original`(products.json 이미지 경로, unique), `data`(WEBP), `version` — 관리자가 바꾼 상품 사진 |
 | `core_message` | core | `kind`(`contact`/`creators`), `name`, `email`(문의는 계정 이메일 자동), `body`, `user_id`, `topic`, `order_id`, `status`(`new`/`read`/`answered`), `reply`, `replied_at` |
 | `products_custom` | products | `slug`(unique), `data`(JSON, products.json과 같은 모양) — 관리자가 등록한 상품 |
+| `products_detail` | products | `slug`(unique), `ingredients`(JSON 목록), `sweetened_with`, `confirmed` — 관리자가 고친 · 확정한 원재료 |
 | `products_text` | products | `slug`(unique), `name` — 관리자가 바꾼 상품명 |
 | `core_popup` | core | `title`, `body`, `image`(WEBP), `version`, `button_label`, `button_link`, `placement`(`home`/`all`), `starts_on`, `ends_on`, `is_active` |
 | `products_review` | products | `id`, `product_id`(FK `shop_product`), `user_id`(FK, 더미는 NULL), `reviewer_name`, `rating`(1–5), `title`, `body`(≤1,000자), `sentiment`(`positive`/`neutral`/`negative`), `status`(`published`/`held`), `is_dummy`, `created_at` — 제품당 계정 1개 리뷰 (`product_id`+`user_id` unique) |
@@ -508,25 +518,43 @@ shop_referral_link ──┐   ▼
 
 | 대상 | 기준 | 생성 계획 |
 |---|---|---|
-| 전체 주문 | — | **1,000건** (`2026-01-01 ~ 2026-10-22`) |
+| 전체 주문 | — | **3,635건** (`2026-01-01 ~ 2026-10-22`) = 크리에이터 링크 2,935건 + 직접 유입 700건 |
 | **상품별** | 4종 **각각 주문 100건 이상** | 주문당 1–3개 품목, 각 제품 최소 150건 보장 (음료는 개당 · 박스 옵션 섞어서) |
 | **판매 옵션별** | 옵션 10개 **각각 주문 100건 이상** | 주문의 첫 제품이 판매 옵션을 차례로 돌아가며 선택 → 옵션마다 100건 이상 보장 |
-| **전용 링크별** | 링크 **각각 주문 100건 이상** | 인플루언서 링크 6개 × 각 120건 = 720건 |
-| **플랫폼별** | Instagram · TikTok **각각 100건 이상** | Instagram 3명 × 120 = 360건 / TikTok 3명 × 120 = 360건 |
-| 링크 없는 주문 (DIRECT) | — | 280건 |
-| 링크 접속량 | 주문 수보다 큼 | 링크별 주문 수(120) × 30–60배 → 전환율 약 1.7–3.3% |
+| **전용 링크별** | 링크 **각각 주문 100건 이상** | 크리에이터 22명, 1명당 100–240건 (몇 명이 앞서가도록 치우치게 배분, 코드 기준 고정값) |
+| **플랫폼별** | Instagram · TikTok **각각 100건 이상** | Instagram 10명 = 1,263건 / TikTok 12명 = 1,672건 (YouTube 없음) |
+| 링크 없는 주문 (DIRECT) | — | 700건 |
+| 링크 접속량 | 주문 수보다 큼 | 링크별 주문 수 × 30–60배 → 전환율 약 1.7–3.3% |
 | **제품 리뷰** | 제품 4종 **각각 100건 이상** | 제품당 110건 = 440건 (`2026-01-01 ~ 2026-10-22`), 별점 5★ 45% · 4★ 25% · 3★ 15% · 2★ 9% · 1★ 6% → 긍정 약 70% · 부정 약 15%. 리뷰 문구는 맛 · 패키지 · 배송만 다루고 효능 표현 없음, 리뷰어 이름은 가상 |
 
-### 더미 인플루언서 링크 6개 (모두 가상 인물)
+### 더미 크리에이터 22명 (모두 가상 인물 · Instagram 10명 + TikTok 12명, YouTube 없음)
 
-| code | influencer_name | platform | 할인 | 수수료 |
-|---|---|---|---|---|
-| `NEONNIGHTS` | Neon Nights (가상) | TikTok | 10% | 15% |
-| `KPARTYLA` | K-Party LA (가상) | Instagram | 10% | 12% |
-| `MORNINGRESET` | Morning Reset (가상) | Instagram | 15% | 15% |
-| `SEOULSIPNYC` | Seoul Sip NYC (가상) | TikTok | 10% | 10% |
-| `BRUNCHCLUB` | Brunch Club (가상) | Instagram | 5% | 10% |
-| `RESTARTCREW` | Restart Crew (가상) | TikTok | 20% | 20% |
+| code | influencer_name | platform | 할인 | 수수료 | 더미 주문 | 접속량 |
+|---|---|---|---|---|---|---|
+| `KPARTYLA` | K-Party LA (가상) | Instagram | 10% | 12% | 125 | 6,875 |
+| `MORNINGRESET` | Morning Reset (가상) | Instagram | 15% | 15% | 117 | 6,435 |
+| `BRUNCHCLUB` | Brunch Club (가상) | Instagram | 5% | 10% | 137 | 7,124 |
+| `GLOWHOURLA` | Glow Hour LA (가상) | Instagram | 10% | 12% | 145 | 6,525 |
+| `SUNSETSIPS` | Sunset Sips (가상) | Instagram | 10% | 10% | 100 | 3,100 |
+| `PASTELPANTRY` | Pastel Pantry (가상) | Instagram | 5% | 8% | 103 | 3,605 |
+| `CITYBITESSF` | City Bites SF (가상) | Instagram | 10% | 10% | 145 | 5,365 |
+| `NIGHTOWLNYC` | Night Owl NYC (가상) | Instagram | 15% | 12% | 121 | 4,356 |
+| `SEOULSTYLE` | Seoul Style Diary (가상) | Instagram | 10% | 15% | 147 | 7,791 |
+| `WKNDWANDER` | Weekend Wanderer (가상) | Instagram | 5% | 10% | 123 | 6,888 |
+| `NEONNIGHTS` | Neon Nights (가상) | TikTok | 10% | 15% | 132 | 4,488 |
+| `SEOULSIPNYC` | Seoul Sip NYC (가상) | TikTok | 10% | 10% | 113 | 4,294 |
+| `RESTARTCREW` | Restart Crew (가상) | TikTok | 20% | 20% | 224 | 10,752 |
+| `PARTYPREP` | Party Prep Pro (가상) | TikTok | 15% | 15% | 193 | 10,808 |
+| `SNACKCHECK` | Snack Check Daily (가상) | TikTok | 10% | 12% | 160 | 6,880 |
+| `LATENIGHTBITES` | Late Night Bites (가상) | TikTok | 10% | 10% | 107 | 3,745 |
+| `KSNACKREVIEW` | K-Snack Review (가상) | TikTok | 10% | 15% | 129 | 4,257 |
+| `ROOFTOPHOURS` | Rooftop Hours (가상) | TikTok | 15% | 10% | 101 | 5,959 |
+| `ROADTRIPDUO` | Road Trip Duo (가상) | TikTok | 10% | 12% | 105 | 3,150 |
+| `GAMEDAYCREW` | Game Day Crew (가상) | TikTok | 20% | 15% | 122 | 4,636 |
+| `TASTETINA` | Taste Test Tina (가상) | TikTok | 10% | 10% | 167 | 9,519 |
+| `FESTIVALFAM` | Festival Fam (가상) | TikTok | 15% | 12% | 119 | 6,902 |
+
+> 크리에이터 이름은 실존 인물 · 계정 · 회사와 무관합니다. 21세 이상 성인 대상 브랜드라서 학교 · 기숙사처럼 미성년을 연상시키는 이름은 쓰지 않습니다.
 
 ### 생성 규칙
 
@@ -554,7 +582,7 @@ def seed_dummy_orders(n_orders=1000, seed=42):
 
 | 명령 | 내용 |
 |---|---|
-| `flask setup-db` | 테이블 생성 → 계정 2개 → 제품 4종 → 링크 6개 → 더미 주문 1,000건. **이미 있으면 건너뜀(중복 생성 안 함)** |
+| `flask setup-db` | 테이블 생성 → 계정 2개 → 제품 4종 → 크리에이터 링크 22개 → 더미 주문 3,635건. **이미 있으면 건너뜀(중복 생성 안 함)** |
 | `flask reset-db` | 전체 삭제 후 다시 생성 (로컬 전용, `FLASK_DEBUG=1`일 때만 동작) |
 
 `core/cli.py`는 각 파트의 시드 함수를 순서대로 **호출만** 합니다. (`auth.seed.seed_accounts()`, `shop.seed.seed_products()`, `shop.seed.seed_links()`, `shop.seed.seed_dummy_orders()`)
@@ -970,6 +998,11 @@ MAIL_PORT=587
 MAIL_USERNAME=
 MAIL_PASSWORD=
 CONTACT_RECEIVER=
+
+# OpenAI (Ask Reboot 챗봇 · 챗봇 질문 AI 분석 · 관리자 AI 비서) — 키만 붙여 넣고 서버 재시작
+# OPEN_API_KEY / open_api_key 이름으로 넣어도 읽습니다 (OPENAI_API_KEY가 우선)
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
 ```
 
 > ⚠️ `.env`는 절대 Git에 커밋하지 않습니다. 계정 비밀번호를 README · 코드 · PR · 슬랙에 적지 않고, 팀원끼리는 별도로 전달합니다.
@@ -997,7 +1030,7 @@ CONTACT_RECEIVER=
 
 | 방식 | 장점 | 주의 |
 |---|---|---|
-| **SQLite (기본)** | 설정 없음 | Render 파일시스템은 재배포 · 재시작 때 초기화됩니다. 시작할 때마다 `setup-db`가 계정 2개 + 더미 1,000건을 **다시 만들어** 시연에는 문제없지만, **회원가입한 계정과 일반 사용자가 실제로 넣은 주문은 사라집니다.** |
+| **SQLite (기본)** | 설정 없음 | Render 파일시스템은 재배포 · 재시작 때 초기화됩니다. 시작할 때마다 `setup-db`가 계정 2개 + 더미 3,635건을 **다시 만들어** 시연에는 문제없지만, **회원가입한 계정과 일반 사용자가 실제로 넣은 주문은 사라집니다.** |
 | **Render PostgreSQL** | 주문 · 계정 유지 | Render에서 PostgreSQL 생성 → Internal URL을 `DATABASE_URL`에 등록. 무료 PostgreSQL은 사용 기한이 있으니 Render 요금 안내를 확인하세요. |
 
 > `config.py`에서 `DATABASE_URL`이 `postgres://`로 시작하면 `postgresql://`로 바꿔서 SQLAlchemy에 넘깁니다.
@@ -1049,7 +1082,7 @@ services:
 | 단계 | 담당 | 범위 | 완료 기준 |
 |---|---|---|---|
 | **Phase 0** 기반 | A | 프로젝트 세팅, `extensions.py` · `cli.py`, 빈 Blueprint 전체, `base.html` · 헤더 · 푸터, **로그인 · 로그아웃 · 계정 시드**, Render 첫 배포 | 배포 URL에서 모든 탭 이동, 두 계정 로그인 · 로그아웃 |
-| **Phase 1** 구매 · 데이터 | B → C | `shop` 모델 · **더미 1,000건 시드**, 제품 목록 · 상세, 장바구니 · 주문 · 내 주문, `/r/<code>` / 관리자 대시보드 · **CSV 3종** | 일반 사용자 주문 완료, 관리자 CSV 다운로드 |
+| **Phase 1** 구매 · 데이터 | B → C | `shop` 모델 · **더미 3,635건 시드**, 제품 목록 · 상세, 장바구니 · 주문 · 내 주문, `/r/<code>` / 관리자 대시보드 · **CSV 3종** | 일반 사용자 주문 완료, 관리자 CSV 다운로드 |
 | **Phase 2** 콘텐츠 | A · C | Home 전 섹션, About, Where to Buy, Vibe Test, Feed, Creators, Contact | 전 페이지 콘텐츠 채움 |
 | **Phase 3** 마감 | 전원 | 이미지 교체, 관리자 링크 등록 화면, 반응형 · SEO, 규제 · 보안 점검 | 배포 체크리스트 완료 |
 
@@ -1186,7 +1219,8 @@ services:
 | Sales overview (매출 현황) | Summary · **Product performance(상품 실적)** · **Sales by option(판매 옵션별 실적)** · **Influencer sales by platform(플랫폼별 인플루언서 매출)** · Creator performance · Direct store sales · Product reviews · Account activity · Point transactions | `/admin/#<섹션>` |
 | Homepage manager (홈페이지 관리) | Product discounts · Creator codes & links · **Site popups** | `/admin/manage#…` (§8-1, §24) |
 | Store operations (스토어 운영) | **Inventory(재고 관리)** · **Products & photos(상품 · 사진 관리)** · **Add product(상품 등록)** | `/admin/inventory`, `/admin/products`, `/admin/products/new` |
-| Customer care (고객 지원) | **Inbox(문의함, 새 문의 수 표시)** · **Chatbot** | `/admin/inbox`, `/admin/chatbot` |
+| Customer care (고객 지원) | **Inbox(문의함, 새 문의 수 표시)** · **Chatbot** · **Chatbot questions(챗봇 질문 분석)** | `/admin/inbox`, `/admin/chatbot`, `/admin/chatbot/questions` (§25) |
+| (모든 관리자 페이지) | **✳ AI 비서** — 팝업 · 크리에이터 링크 · 상품을 채팅으로 준비 | 오른쪽 아래 버튼 (§27) |
 
 파일: `core/templates/admin/_sidebar.html` (모든 관리자 페이지가 include)
 
@@ -1201,6 +1235,8 @@ services:
 - **주문과 연동**: 주문하면 재고가 자동 차감(`order` 기록). 재고보다 많이 장바구니에 담을 수 없고, 결제 순간 재고가 모자라면 주문을 막고 장바구니로 돌려보냅니다. 제품 상세에 `Only N left` / `Sold out` 표시, 품절 옵션은 선택 불가.
 - **재고 변동 기록(Stock log)**: 최근 60건 (기초 재고 · 직접 수정 · CSV · 주문).
 - 파일: `shop/inventory.py` (모델 · 차감 · CSV 검증), `core/templates/admin/inventory.html`
+- **업로드 테스트 파일**: `sample_imports/inventory/` — 성공 6개(`01`~`06`: 전체 실사 · 일부 실사 · 입고 · 파손/반품 조정 · 엑셀 BOM/CRLF · 열 순서 뒤섞임)와 실패 10개(`11`~`20`: 없는 SKU · 숫자 아님 · 실사 음수 · 중복 · 열 없음 · 빈 파일 · 0 미만 · CP949 · 범위 초과 · .txt). 파일별 모드와 나와야 하는 결과는 그 폴더의 `README.md`. `test_sample_inventory_import_files`가 같은 결과를 자동으로 확인합니다.
+- 오류 메시지는 줄 번호 · SKU · 틀린 값을 함께 보여줍니다(예: `Row 2 (jelly-original-pouch): on_hand "1,200" is not a whole number (remove the comma)`).
 
 ### 상품 · 사진 관리 (`/admin/products`)
 
@@ -1227,6 +1263,7 @@ services:
 - **OpenAI 키**: 로컬은 `.env`에 `OPENAI_API_KEY=sk-...`, Render는 Environment에 등록 후 재시작. (선택) `OPENAI_MODEL`, 기본 `gpt-4o-mini`.
 - **관리자 Chatbot 페이지**: 키 설정 여부 · 모델 · 연결 테스트 버튼(실패 시 401 키 오류 / 429 크레딧 · 한도 / 404 모델 이름 등 원인 표시), 챗봇에 전달되는 전체 페르소나 보기.
 - 파일: `support/__init__.py` (`system_prompt()`, `ask_openai()`), `core/templates/admin/chatbot.html`
+- **2026-10-25 추가**: 모든 답변은 방문자에게 보이기 전에 대시보드 컴플라이언스 규칙으로 서버에서 검사하고, 질문은 저장해 AI로 분석합니다 → §25
 
 ---
 
@@ -1265,3 +1302,297 @@ services:
 
 관리자 페이지 전체 글자 크기 · 대비를 높였습니다(본문 15px, 표 14px, 표 머리 진한 배경, 짝수 행 구분, 흐린 회색 → 밝은 회색). `site.css`의 `/* admin readability */` 블록.
 
+---
+
+## 25. 챗봇 컴플라이언스 가드 · 챗봇 질문 AI 분석 · 대시보드 연동
+
+> 2026-10-25 추가. 홈페이지의 AI 역할 = **대시보드가 정한 기준으로 미국 고객 앞에서 실행하고, 고객 데이터를 대시보드로 돌려보내는 곳**.
+> 대시보드(`reboot-dashboard`)는 바깥 데이터(Amazon · YouTube · Weee! · 경고장)로 판단하고, 홈페이지는 우리만 가진 1차 데이터(챗봇 질문 · 주문 · 리뷰)를 만듭니다.
+
+### ① 챗봇 컴플라이언스 가드
+
+Ask Reboot은 AI가 **사람 검수 없이 미국 소비자에게 바로 답하는 유일한 지점**입니다. 그래서 대시보드 컴플라이언스 탭과 **같은 규칙 · 같은 판정 코드**로 답변을 서버에서 검사합니다.
+
+| 판정 | 처리 |
+|---|---|
+| PASS · COND · REVIEW | 그대로 보냄 (REVIEW는 기록) |
+| REVISE · BLOCK | OpenAI에 걸린 단어를 알려주고 **한 번 다시 쓰게 함** → 통과하면 보냄 |
+| 다시 쓴 답도 걸림 | **고정된 안전 답변**(영어/한국어, 규칙 통과 확인됨)을 보냄 |
+
+- 규칙 원본: 대시보드 `tabs/compliance/server_rules.json` → 홈페이지 `support/data/compliance_rules.json`에 **복사**(버전 2026-10-24, 규칙 13개: R1 질병·치료, R2 hangover 직접 언급, R3 간 보호, R6 음주 조장, R14 FDA 승인 주장 등). 판정 함수 `support/guard.py`의 `review()`는 대시보드 `server_review.review()`와 같은 로직입니다(채널 `cs`).
+- **"hangover"는 부정문으로도 BLOCK**입니다("We can't say it helps hangovers"도 걸림). 그래서 챗봇 페르소나에 금지 단어 목록을 넣어 처음부터 피하게 했습니다.
+- 대시보드 규칙이 바뀌면: `cp ../../Documents/GitHub/reboot-dashboard/tabs/compliance/server_rules.json support/data/compliance_rules.json` 후 재배포. (연동 B를 하면 자동으로 받아올 수 있음)
+- 관리자 **Chatbot** 페이지에 규칙 버전 · 목록, **Chatbot questions › 가드 기록**에 걸러진 초안 · 실제로 보낸 답변이 남습니다.
+
+### ② 챗봇 질문 저장 · AI 분석 (`/admin/chatbot/questions`)
+
+- 질문마다 `support_chat_question`에 저장: 질문(**이메일 · 전화번호는 `[email]` `[phone]`으로 가림**), 언어, 방문자 구분(guest · customer · admin), 주제, 보낸 답변, 가드 판정 · 결과. **계정 ID는 저장하지 않습니다.** 관리자 테스트 대화는 분석에서 제외.
+- 주제 12개는 저장할 때 키워드로 붙입니다(`support/insights.py`의 `TOPICS`, 앞에서부터 먼저 맞는 것): 건강 효과 · 숙취 / 연령 / 배송 · 환불 / 크리에이터 코드 / 포인트 · 게임 / 구매처 / 가격 · 할인 / 성분 · 당류 / 구성 · 용량(라인 패키지) / 사이트 구매 · 계정 / 맛 · 모양 / 기타. 영어 키워드는 단어 시작에서만 맞춥니다(`boot`가 `reboot`에, `hat`이 `what`에 걸리지 않게).
+- 화면: 기간(7 · 30 · 90일) → KPI(질문 수 · 가장 많은 주제 · 다시 쓴 답변 · 차단한 답변) → **가장 많이 묻는 것**(주제별 막대 · 비율 · 예시 질문) → **AI 분석** → 가드 기록 → 최근 질문 60개 → CSV.
+- **AI 분석**: 버튼을 누르면 기간 내 최근 질문 최대 300개 + 주제별 개수를 OpenAI(`OPENAI_MODEL`, 기본 gpt-4o-mini, JSON 모드)에 **한 번** 보내 한국어로 받습니다 → 요약 3문장, 주제별 "고객이 궁금해하는 것 · 예시 · 추천 조치", 아직 답하지 못하는 것(gaps), 규제 메모. 결과는 `support_chat_insight`에 저장되고 다음에 열 때 그대로 보입니다. 모델이 없는 주제 키를 쓰면 버립니다. 키가 없으면 버튼이 꺼지고 안내가 뜹니다.
+- **샘플 데이터**: `flask setup-db` 때 `support/seed.py`가 가상 질문 144개(최근 약 3개월, `is_dummy=True`)를 한 번 넣습니다. 화면에 "샘플 데이터 포함" · "샘플" 배지로 표시.
+- **CSV** `/admin/chatbot/questions.csv?days=30`: `question_id, asked_at, topic, topic_label, question, language, visitor, guard_verdict, guard_codes, guard_action, is_dummy` (utf-8-sig, 수식 주입 방지).
+
+### 파일
+
+| 파일 | 내용 |
+|---|---|
+| `support/guard.py` | 규칙 로드 · `review()` · 다시 쓰기 요청 · 안전 답변 · `guarded()` |
+| `support/data/compliance_rules.json` | 대시보드 규칙 복사본 |
+| `support/models.py` | `support_chat_question`, `support_chat_insight` |
+| `support/insights.py` | 주제 분류 · 마스킹 · 기간 집계 · AI 분석 프롬프트 · 결과 검증 |
+| `support/seed.py` | 샘플 질문 |
+| `support/__init__.py` | `call_openai()`(공통 호출, JSON 모드), `ask_openai()`(페르소나 + 다시 쓰기 요청), `/support/chat`에서 가드 → 저장 |
+| `admin/__init__.py` | `/admin/chatbot/questions`, `/analyze`(POST), `/questions.csv` |
+| `core/templates/admin/chat_questions.html`, `chatbot.html`, `_sidebar.html` | 화면 |
+| `core/cli.py` | setup-db에서 샘플 질문 시드 (`SEED_DUMMY_DATA=1`일 때) |
+| `core/static/core/css/site.css` | `.admin-topics` · `.admin-ai-report` |
+| `core/translations.py` | 한국어 문구 |
+| `tests/test_app.py` | 규칙 판정 · 다시 쓰기/차단/통과 · 마스킹 · 주제 · 관리자 화면 · CSV · AI 분석(가짜 응답) |
+
+새 테이블은 `flask setup-db`(Render 시작 명령 · `start.command`에 이미 포함)가 만듭니다. 기존 데이터는 그대로입니다.
+
+### ③ 대시보드 연동 (Render 서비스 2개)
+
+| 방법 | 어떻게 | 장단점 |
+|---|---|---|
+| **A. CSV 내려받기 → 올리기** (지금 가능) | 홈페이지 관리자에서 챗봇 질문 · 매출 CSV를 받아 대시보드에 업로드 | 코드 추가 없음 · 사람이 매번 옮김 |
+| **B. 읽기 전용 API + 공유 토큰** (추천) | 홈페이지가 `/api/dashboard/...`(JSON)를 열고, 대시보드 서버가 `Authorization: Bearer <토큰>`으로 가져감. 두 Render 서비스 Environment에 같은 `DASHBOARD_API_TOKEN`, 대시보드에 `REBOOT_HOME_URL` | 자동 · 브라우저를 거치지 않아 CORS 불필요 · 토큰만 맞으면 됨 |
+| C. DB 하나를 같이 씀 | 같은 PostgreSQL `DATABASE_URL` | 비추천: 테이블 · 마이그레이션이 얽히고 한쪽 실수가 양쪽을 깨뜨림 |
+
+- 주의: Render **무료 플랜은 15분 뒤 잠들어** 첫 호출이 1분 가까이 걸립니다. 대시보드가 홈페이지를 부를 때 타임아웃을 넉넉히(60초) 잡거나 유료 플랜을 씁니다.
+- 화면 연결: 홈페이지 관리자 사이드바 ↔ 대시보드 상단에 서로의 주소 링크를 두면 발표 때 오가기 쉽습니다.
+
+---
+
+## 26. 제품 상세 페이지 · 성분 표시
+
+근거: 컴플라이언스 문서 「Reboot 제품별 성분안 · 심의 테스트 문구 · 규제 체크」(2026-10-25, 내부용). **이 문서의 원재료는 "제안"이며 확정 배합이 아닙니다** — 확정은 알디콤 배합표 · 원료 GRAS 근거로.
+
+### 상세 페이지에 추가된 섹션 (`/products/<slug>#inside`)
+
+| 섹션 | 내용 |
+|---|---|
+| WHAT'S INSIDE | 한 줄 소개(문서의 PASS 문구) + 카드 3개: **A-HAT**(헛개나무 추출물 + L. fermentum, 알디콤 조성물 — '특허' 표현은 §33에서 삭제), **헛개나무 열매**, 제품 특징(젤리: 펙틴 · 개별 포장 / 음료: 비탄산 · 100 mL (3.4 fl oz) / Balance: Zero Sugar · 설탕 · 물엿 · 과즙 무첨가 · 당알코올 무첨가) |
+| SHAPES & FLAVORS | 젤리: 맛별 실제 사진 + 모양(라임 = 카우보이 부츠, 레몬 = 올가미, 체리 = 카우보이 모자), Original 진한 색 / Balance 연한 색, "라인 패키지로만 판매" 안내. 음료: 맛별 병 사진 |
+| INGREDIENTS | **확정 전**: 주요 원료(헛개나무 열매 추출물, L. fermentum, 헛개나무 열매)만 + "전체 원재료와 영양성분은 패키지 라벨에". **확정 후**: 전체 원재료(많이 들어간 순) + 감미 원료. 관리자에게는 확정 전에도 노란 테두리 "Admin preview"로 보임 |
+| PRODUCT DETAILS | 제품명 · 버전 · 형태/용량 · 판매 단위 · 맛 · 제조(ALDICOM · Product of Korea) · 분류(21세 이상 성인용 식품) |
+
+- 데이터: `products/data/products.json`의 `details`(summary · facts · ingredients · sweetened_with · origin · maker · `confirmed: false` · source). 관리자 등록 상품은 `details`가 없으면 주요 원료 · 제품 정보만 표시.
+- 넣지 않은 것(문서 규칙): 영양 수치 · 봉지당 개수 · 칼로리, 인증 표시(gluten-free · vegan 등), 후보 · 조건부 원료(생강 · 진피 · 타우린 · 대두 등), 건강기능식품 면책 문구, 모든 효능 표현.
+
+### 관리자: 원재료 수정 · 확정 (`/admin/products` → 제품별 **Ingredients**)
+
+- 한 줄에 원료 하나(많이 들어간 순), 감미 원료, **"알디콤 배합표로 확정"** 체크 → 저장하면 전체 원재료가 상품 페이지에 공개.
+- 확정 전에 할 일: "A or B"로 적힌 원료(젤리 Balance 감미료: 스테비아 · 나한과 · 수크랄로스 중 선택, 음료 Balance: 수크랄로스 또는 알룰로스 · 스테비아 · 나한과 — §33 기준)를 하나로 정하고 패키지 라벨과 똑같이 맞추기.
+- 챗봇(Rebu)도 확정된 제품만 전체 원재료를 답하고, 확정 전에는 주요 원료만 말한 뒤 라벨 · 문의하기로 안내합니다.
+
+### 확인 필요 — 가격 불일치
+
+문서의 가격과 사이트(`products.json`) 가격이 다릅니다. **사이트 가격은 바꾸지 않았습니다.** 어느 쪽이 맞는지 정해 주세요.
+
+| 제품 | 문서 (2026-10-25) | 사이트 |
+|---|---|---|
+| Jelly Original | $16 | $17.99 |
+| Jelly Balance | $18 | $19.99 |
+| Drink Original | 낱개 $7 / 3병 $19 | $4.99 / $12.99 |
+| Drink Balance | 낱개 $8 / 3병 $22 | $5.49 / $14.49 |
+
+---
+
+## 27. 관리자 AI 비서 (리부 오퍼레이터)
+
+> 2026-10-25 추가. 모든 관리자 페이지 오른쪽 아래 **✳ AI 비서** 버튼. **(§30 이후 길잡이 전용 — 만들기는 각 탭의 AI로 생성하기)** 관리자가 말로 시키면 **팝업 · 인플루언서 전용 링크 · 새 상품**을 대신 준비합니다.
+> 예: 사진을 📎로 첨부하고 "이 사진을 10월 22일부터 10월 30일까지 팝업창에 띄워줘".
+
+### 동작
+
+```
+관리자 메시지(+사진) → OpenAI (페르소나 + 실시간 사이트 상태 + 도구 3개)
+   ├─ 필수 항목이 빠짐 → 비서가 한 번에 모아서 역으로 질문
+   └─ 다 모임 → 도구 호출 → 서버가 검사 (폼과 같은 규칙 + 대시보드 컴플라이언스 규칙)
+         ├─ 오류 → 이유를 모델에게 돌려줌 → 비서가 쉽게 설명하고 다시 질문/제안
+         └─ 통과 → "저장 전 확인" 카드 (필드 · 사진) → 관리자가 [저장] → 다시 검사 후 사이트 반영
+```
+
+- **AI는 DB에 직접 쓰지 않습니다.** 확인 카드의 [저장]을 눌러야 반영됩니다. [취소]도 가능. 저장할 때 한 번 더 검사합니다(그사이 코드가 쓰였을 수 있으므로).
+- 도구: `propose_popup`, `propose_creator_link`, `propose_product`. 삭제 · 수정 · 할인 · 재고 · 주문 · 문의는 하지 않고 해당 화면을 안내합니다.
+- 검사 규칙은 폼과 **같은 함수**(`admin/actions.py`의 `build_popup` · `build_creator` · `build_product`)를 씁니다. 폼 라우트도 이 함수로 바꿨습니다(동작 · 메시지 동일).
+- 사이트 문구(팝업 제목 · 내용 · 버튼, 상품명 · 형태 · 포장 · 맛 · 옵션 · 배지 · 소개)는 `support/guard.py`로 검사해 **REVISE · BLOCK이면 거절**합니다(§25와 같은 대시보드 규칙).
+- 사진: 📎 → `/admin/assistant/upload`(JPG · PNG · WEBP → 1600px WEBP, `admin_assistant_upload`). 가장 최근 메시지의 사진은 모델에게 이미지로도 보내(저해상도) 문구 제안에 씁니다. 상품은 사진 필수, 팝업은 선택.
+- 대화 기록은 브라우저 탭(sessionStorage)에만 남고 관리자 페이지를 옮겨도 이어집니다. [새 대화]로 지움. 서버에는 확인 카드(`admin_assistant_action`: 종류 · 필드 JSON · 상태 pending/saved/cancelled)만 남습니다.
+- 관리자 페이지에서는 고객용 Ask Reboot 버튼을 숨기고 이 버튼이 그 자리를 씁니다.
+- 한도: 관리자 세션당 10분에 40개 메시지, 메시지 하나에 도구 호출 최대 3회 왕복. 키가 없으면 안내 문구만 표시.
+
+### 언어 (2026-10-25)
+
+| 챗봇 | 언어 규칙 |
+|---|---|
+| Ask Reboot (고객) | 사이트 언어 스위치를 따름: English → 영어, 한국어 → 한국어 답변 · 화면 문구 · 안전 답변. 고객이 다른 언어로 쓰면 그 언어로 |
+| 리부 오퍼레이터 (관리자) | **기본 한국어** (페르소나도 한국어로 작성). 이번 세션에 언어 스위치로 English를 고른 경우에만 영어로 답하고 패널 · 확인 카드 · 저장 메시지도 영어. 로그인 때 계정 언어를 불러오는 것만으로는 바뀌지 않음(`session['lang_picked']`, `core/i18n.py`) |
+
+### 페르소나 (`admin/data/assistant_persona.md`)
+
+관리자 **Chatbot** 페이지 아래쪽 "관리자 AI 비서 · 페르소나"에서 실제로 모델에게 가는 전체 내용(페르소나 + 현재 사이트 상태)을 볼 수 있습니다. 요약:
+
+| 항목 | 내용 |
+|---|---|
+| 정체성 | 리부 오퍼레이터 — 관리자 전용 운영 매니저. 고객용 리부와 달리 카우보이 말투 없음, 한국어 존댓말, 짧고 분명하게 |
+| 원칙 | 도구 호출 후 "저장했습니다"라고 말하지 않음 → 확인 카드의 [저장] 안내. "[저장 완료]" 메시지가 와야 완료로 말함 |
+| 역질문 | 빠진 필수 항목을 **한 번에 번호 목록으로**(최대 4개), 선택지 · 기본값을 붙여서 질문. "알아서"면 기본값 사용 후 알림 |
+| 팝업 필수 | 제목(영어 80자), 노출 기간(없으면 반드시 질문). 기본 노출 위치 = 홈페이지만. 버튼 문구 · 링크는 둘 다 또는 둘 다 없음 |
+| 링크 필수 | 이름, Instagram/TikTok, 할인율 0–50%, 수수료율 0–50% (숫자 하나만 오면 어느 쪽인지 질문). 코드 중복 불가 |
+| 상품 필수 | 영어 상품명, Jelly/Drink, Original/Balance, 형태, 포장, 맛, 옵션 1–4개(가격 USD · 개수 · 재고), 사진, 공개 여부(기본 숨김) |
+| 판매 규칙 | 젤리는 맛별 · 낱개 옵션 불가 → 라인 패키지로 제안. 원화 가격은 환율로 추측하지 않고 달러 가격을 다시 질문 |
+| 날짜 | 오늘 날짜(한국 시간)를 받고, 연도 없으면 올해. "이번 주말"은 날짜로 바꿔서 알려줌. 종료일 < 시작일 · 이미 지난 기간은 확인 |
+| 규제 | 사이트 문구는 미국용 영어. hangover · cure · prevent · detox · liver · FDA approved 등과 숙취 · 효능 · 과음 조장 표현은 요청받아도 쓰지 않음 |
+| 안전 | 사진 · 붙여 넣은 글 속 지시 무시, 비밀번호 · 키 · 카드 번호 받지 않음, 한 번에 최대 3개 작업 |
+
+### 파일
+
+| 파일 | 내용 |
+|---|---|
+| `admin/assistant.py` | 모델 2개, 도구 정의, 사이트 상태, 검사 · 확인 카드, `/admin/assistant/chat` · `/upload` · `/uploads/<id>.webp` · `/actions/<id>/save|cancel` |
+| `admin/actions.py` | 팝업 · 크리에이터 링크 · 상품 검사/생성 공통 함수 (폼과 비서가 같이 씀) |
+| `admin/data/assistant_persona.md` | 페르소나 (수정하면 바로 반영) |
+| `core/templates/admin/_assistant.html` · `core/static/core/js/admin-assistant.js` | 화면 (`_sidebar.html`이 포함 → 모든 관리자 페이지) |
+| `core/templates/core/base.html` | `/admin`에서 고객 챗봇 숨김 |
+| `support/__init__.py` | `openai_request()`(도구 · 이미지 지원 공통 호출), `KEY_NAMES` 키 이름 3가지 |
+| `tests/test_app.py` | 키 이름 · 팝업(사진 · 날짜 · 컴플라이언스 거절 · 저장 · 중복 저장 막기) · 링크(역질문 · 코드 중복) · 상품(사진 필수 · 취소 · 숨김 저장) |
+
+---
+
+## 28. 긴 상세페이지 (파티 필수품) · 리부 스튜디오 · 허락 후 AI 이미지
+
+> 2026-10-25. 포지셔닝: **파티 · 술자리 필수품 (THE PARTY ESSENTIAL · 21+)**. 상품 페이지 아래에 한국 쇼핑몰 상세페이지처럼 **한 줄로 길게 내려 보는 상세페이지**(가로 860px 기둥)가 붙고, 스크롤하면 패널이 하나씩 떠오릅니다. 영어 / 한국어는 방문자의 언어 선택을 따릅니다.
+
+### 패널 순서 (`core/templates/products/_long_page.html`)
+
+| # | 패널 | 내용 · 데이터 |
+|---|---|---|
+| 1 | 히어로 | 키커(THE PARTY ESSENTIAL · 21+) · 헤드라인 · 서브 · 전면 이미지 · SCROLL ↓ |
+| 2 | 파티 모먼트 | 3~4개 상황(외출 준비 / 생일 · 건배 / 클럽 · 바 / 홈파티 · 테일게이트) + 이미지 |
+| 3 | 특징 패널 1~4 | 번호 · 이미지 · 제목 · 글 |
+| 4 | 핵심 포인트 칩 | |
+| 5 | 라인업 | **상품 데이터에서 자동**: 옵션별 사진 · 이름 · 가격 → 해당 옵션 구매로 이동 |
+| 6 | 성분 분석 | **원재료 목록(§26)에서 자동** + 성분별 역할(`products/ingredient_roles.py`, 맛 · 식감 · 단맛 · 색 · 신선도 같은 레시피 속 역할만). 목록 **확정 전에는 고객에게 핵심 성분(A-HAT · 헛개나무 열매 · L. fermentum)만** + "전체는 패키지 라벨" 안내, 관리자에게는 전체가 노란 점선 "관리자 미리보기"로. 확정 후 전체 + 감미 원료. 페이지별로 역할 문구를 덮어쓸 수 있음 |
+| 7 | 즐기는 법 | 파티 키트 2~3줄 (번호) |
+| 8 | 제품 정보 표 | **자동**: 제품명 · 라인 · 형태/용량 · 포장 · 맛 · 제조(ALDICOM, Product of Korea) · 21세 이상 |
+| 9 | FAQ | 21+ 안내 포함 |
+| 10 | 클로징 배너 | 헤드라인 · 서브 · 이미지 · Shop now · "21세 이상, 책임감 있게" |
+
+- 스크롤 등장 효과: IntersectionObserver, `prefers-reduced-motion`이면 효과 없이 바로 표시.
+- **긴 이미지 한 장(PNG)으로 저장**: 관리자 미리보기(`/admin/products/story/<slug>/preview?lang=en|ko`)의 버튼 → 브라우저에서 html2canvas로 페이지 전체를 한 장으로 렌더링(2배 해상도). 글자는 이미지에 굽지 않고 HTML로 얹기 때문에 영/한 정확한 문구 · 성분 표가 그대로 들어갑니다.
+- 기존 4종: 파티 필수품 포지셔닝으로 영/한 긴 페이지를 **게시 상태로** 넣었습니다(`products/story_seed.py`, 기존 상품 사진 사용). 모든 줄 컴플라이언스 BLOCK/REVISE 없음 — REVIEW는 성분 소개 한 줄(A-HAT · 헛개나무 이름, §26과 같은 표시)뿐. `setup-db`가 처음 한 번 넣고, 예전 짧은 형식이면 새 형식으로 바꾸며, 관리자가 고친 페이지는 덮어쓰지 않습니다.
+
+### 관리자 — 상품 · 스토어 › **상세페이지** (`/admin/products/story/<slug>`)
+
+1. **리부 스튜디오 (상세페이지 디렉터 챗봇)** + 오른쪽 실시간 미리보기. 페르소나 `admin/data/story_persona.md`(관리자 Chatbot 페이지처럼 파일 수정 즉시 반영). 기본 한국어, 세션에서 English를 고르면 영어.
+   - 도구 `save_draft`(영/한 전체 페이지 → 초안 저장, 컴플라이언스 결과를 모델에게 돌려줘 BLOCK/REVISE를 고치게 함) · `propose_image`(이미지 **수정안 카드만**).
+   - 시스템 프롬프트에 상품 정보 · 원재료 목록(확정 여부) · 쓸 수 있는 이미지 · 현재 초안 · 제공자 연결 상태가 들어갑니다.
+2. **메모 · 사진** → 원클릭 AI 초안(선택).
+3. **이미지 — 먼저 허락**: 제공자(OpenAI / Higgsfield, 키 없는 쪽은 선택 불가) · 위치(hero · occasions · section-n · closing) · 원본 사진 · 요청 → AI가 **무엇을 만들고/바꾸고 무엇은 그대로인지 + 모델 · 비율 · 예상 비용** 카드 → **[허락하고 생성]**을 눌러야 호출.
+   - OpenAI: `/v1/images/edits`(원본 있음) · `/generations`, `OPENAI_IMAGE_MODEL`(기본 gpt-image-1) · `OPENAI_IMAGE_QUALITY`. 비용은 요금표 대략값.
+   - Higgsfield: 원본을 presigned 업로드 → `POST /higgsfield/ads-studio/v1.0`(기본, `HIGGSFIELD_IMAGE_MODEL`로 `xai/grok-imagine-image-2.0` 선택 가능) → 상태 확인. 비용은 카드 만들 때 `POST /estimate/<model>`로 받은 **실제 견적**(실패 시 문서의 예시가 ~$0.08). 생성 중이면 편집기가 6초마다 확인.
+   - 모든 프롬프트도 컴플라이언스 검사, 이미지에는 글자를 넣지 않음.
+4. **수정 · 게시**: 영/한 두 칸 편집기(히어로 · 파티 모먼트 · 패널 4 · 성분 분석 · 목록 · 클로징 + 칸마다 이미지 선택). 초안 저장 / 저장하고 게시(BLOCK · REVISE 있으면 거절).
+
+### 파일
+
+| 파일 | 내용 |
+|---|---|
+| `products/story.py` | 모델 2개(`products_story`, `products_story_image`), 내용 정리 · 컴플라이언스 · 성분 분석 · 공개 이미지 라우트 · 시드 · AI 문구 · 이미지 제안/생성(OpenAI · Higgsfield) |
+| `products/story_seed.py` · `products/ingredient_roles.py` | 기존 4종 긴 페이지 · 성분 역할 사전 |
+| `admin/story.py` · `admin/data/story_persona.md` | 상세페이지 탭 라우트 · 리부 스튜디오(채팅 · 도구) · 페르소나 |
+| `support/higgsfield.py` | Higgsfield API(인증 · 업로드 · 견적 · 제출 · 상태 · 연결 테스트) |
+| `core/templates/products/_long_page.html` · `_story.html` · `admin/story_edit.html` · `admin/story_preview.html` · `core/static/core/js/admin-studio.js` | 화면 |
+
+## 29. 관리자 화면 정리 · API 연결 · 헤더 순서
+
+- **사이드바**(`admin/_sidebar.html`): 큰 틀만 보이고 눌러서 펼치는 토글. 큰 틀 제목은 16px 굵게, 세부 탭은 13.5px 보통. 지금 보는 페이지의 그룹만 열린 채로 시작. 중요도 순서:
+  1. 매출 현황 (요약 · 상품 실적 · 옵션별 · 플랫폼별 인플루언서 · 크리에이터 · 직접 판매 · 리뷰 · 계정 활동 · 포인트)
+  2. 상품 · 스토어 (상품 · 사진 / 상품 등록 / 상세페이지 / 재고)
+  3. 마케팅 · 홈페이지 (크리에이터 코드 · 링크 / 할인 / 팝업)
+  4. 고객 지원 (문의함 / 챗봇 질문 분석 / 챗봇)
+  5. 설정 (API 연결)
+- **API 연결**(`/admin/settings/connections`): OpenAI · Higgsfield 키 설정 여부(앞 4자리만 표시) · 모델 · 사용처 · **연결 테스트**(OpenAI 짧은 요청 / Higgsfield `GET /models/usage`). 키는 화면에 저장하지 않고 `.env` / Render Environment에만.
+  - Higgsfield 키: `HIGGSFIELD_API_KEY_ID` + `HIGGSFIELD_API_KEY_SECRET`(또는 `HIGGSFIELD_API_KEY=id:secret`), console.higgsfield.ai → API keys. **Claude 대화에서 쓰는 Higgsfield 연결과는 별개**로 사이트용 API 키가 필요합니다.
+- **헤더 탭**: About · Products · **Game** · Feed · Where to Buy · Vibe Test (`core/nav.py`).
+- `render.yaml`: Higgsfield 키 2개 추가, gunicorn `--timeout 200`(OpenAI 이미지 생성이 30초를 넘을 수 있어서).
+
+---
+
+## 30. 탭별 AI 생성 작업실 (채팅 + 실시간 초안)
+
+> 2026-10-25. 만들기는 **각 탭의 ✳ AI로 생성하기** 버튼에서 합니다. 오른쪽 아래 ✳ AI 비서(리부 오퍼레이터, §27)는 이제 **길잡이 전용**(어디서 무엇을 하는지 안내 · 질문 답변, 생성 도구 없음)이고, 만들기 요청은 해당 작업실 링크로 보냅니다.
+
+| 탭 | 버튼 위치 | 작업실 | 페르소나 |
+|---|---|---|---|
+| 상품 등록 | 상품 등록 화면 제목 옆 | `/admin/ai/product` | 리부 머천다이저 (`admin/data/personas/product.md`) |
+| 팝업 | 홈페이지 관리 › SITE POPUPS 제목 옆 | `/admin/ai/popup` | 리부 프로모터 (`popup.md`) |
+| 크리에이터 링크 | 홈페이지 관리 › CREATOR CODES & LINKS 제목 옆 | `/admin/ai/creator` | 리부 파트너십 매니저 (`creator.md`) |
+| 상세페이지 | 상품 · 스토어 › 상세페이지 | `/admin/products/story/<slug>` | 리부 스튜디오 (§28, `story_persona.md`) |
+
+- 모든 작업실 페르소나는 `personas/_common.md`(협의 방식 · 컴플라이언스 · 언어 · 저장은 관리자 버튼)를 공유하고, 탭별 파일에 진행 순서와 필드가 있습니다. 파일을 고치면 바로 반영됩니다.
+- **화면**: 왼쪽 채팅(📎 사진 첨부) · 오른쪽 **실시간 초안** — 상품 카드 / 팝업 모양 / 링크 카드 미리보기, 필수 항목 체크리스트(✓/○), 문제 목록(컴플라이언스 · 코드 중복 · 기간 오류 등), [저장] · [초안 비우기]. 초안이 바뀔 때마다 패널이 반짝입니다.
+- **협의 방식**: AI는 관리자가 정하거나 동의한 값만 `update_draft` 도구로 초안에 넣습니다(허용된 필드만, null이면 지움). 서버가 매번 "빠진 필수 항목 · 문제 · 저장 가능 여부"를 돌려주고, AI는 그걸 보고 다음 질문을 고릅니다. AI는 저장할 수 없고, 필수 항목이 다 차고 문제가 없을 때만 [저장] 버튼이 켜집니다.
+- **저장**: 폼과 같은 검사(`admin/actions.py`) + 대시보드 컴플라이언스로 한 번 더 확인 후 저장, 초안은 비워집니다. 상품은 저장 후 상세페이지 편집기로 이어집니다.
+- 초안은 관리자 × 탭마다 DB(`admin_ai_draft`)에 남아 다른 화면에 갔다 와도 이어집니다. 대화 기록은 브라우저 탭(sessionStorage)에만.
+- 파일: `admin/workspace.py`(라우트 · 상태 계산 · 도구), `core/templates/admin/ai_workspace.html`, `core/static/core/js/admin-workspace.js`, `admin/assistant.py`의 `perform()`(저장 공통 함수).
+
+### 긴 상세 이미지 시안 (2026-10-25)
+
+- Jelly Original 시안을 영어 · 한국어로 만들었습니다(1080×10410). **배경 장면 5장만 Higgsfield GPT Image 2.5로 생성**(13.75 크레딧), 파우치 · 부츠 · 올가미 · 모자는 `images/product_image/web/cutout/`의 실제 제품 사진을 합성, 글자 · 성분표 · 가격은 폰트(Barlow Condensed · DM Sans / Noto Sans CJK KR)로 합성 — 패키지와 문구가 틀리지 않습니다.
+- 패널: 히어로 → 모든 파티의 필수품 → 클럽 · 바 → 생일 · 건배 → 모양이 곧 맛(라임 · 레몬 · 체리) → 라인 패키지 → 성분 분석(확정 전이라 핵심 성분만) → 즐기는 법 · 제품 정보 → 클로징.
+- 리부 스튜디오 페르소나에 "최종 결과물 = 세로로 긴 상세 이미지, AI는 배경만 · 제품과 글자는 합성"을 넣었습니다. 사이트 안에서 이 합성까지 자동으로 하는 기능은 다음 단계입니다.
+
+---
+
+## 31. 긴 상세 이미지를 상품 페이지에 올리기
+
+> 2026-10-25. **Jelly Original** 상품 페이지 아래에 긴 상세 이미지(시안)가 올라가 있습니다. 사이트 언어가 English면 영어판, 한국어면 한국어판. 패널 9장을 틈 없이 이어 붙여 한 장처럼 보이고, 스크롤하면 한 장씩 떠오릅니다(지연 로딩).
+
+- 규칙: `images/story/<slug>/<lang>-01.webp …`가 있으면 그 상품은 **긴 이미지**를 보여 주고, 없으면 §28의 HTML 긴 페이지를 그대로 보여 줍니다(지금 나머지 3종). 한국어 세트가 없으면 영어 세트를 씁니다.
+- 다시 만들기: `python3 scripts/compose_long_image.py jelly-original` → 패널별 WEBP + 전체 한 장(`<lang>-full.webp`, 다운로드용). 문구를 고치려면 스크립트의 `COPY`를 수정하고 다시 실행.
+- 재료: 배경 `images/story/_bg/jelly-original/bg0–bg4.jpg`(Higgsfield GPT Image 2.5, 제품 · 글자 없음), 제품 컷 `images/product_image/web/cutout/`, 폰트 `scripts/fonts/`(Barlow Condensed · DM Sans · Noto Sans KR, 모두 OFL).
+- 용량: 영 · 한 패널 18장 + 전체 2장 = 약 3.4MB. 파일이 저장소에 있어서 Render 재배포 후에도 유지됩니다.
+- 파일: `products/story.py`의 `long_image()` · `product_long_image()`, `core/templates/products/_story.html`, `site.css`의 `.pd-long-img`, 테스트 `test_long_detail_image_on_product_page`.
+
+---
+
+## 32. AI 페이지 오류 · 키 인식 문제 수정
+
+> 2026-10-25.
+
+- **원인 1 — 오래된 DB**: 로컬 `instance/reboot.db`가 이전 버전 코드로 만들어져 `products_story.draft`, `products_story_image`의 `provider · slot · cost · job` 열과 새 테이블 5개(`admin_ai_draft`, `admin_assistant_upload`, `admin_assistant_action`, `support_chat_question`, `support_chat_insight`)가 없어서 AI가 들어간 페이지가 전부 500 오류.
+  - 수정: `core/migrations.py`가 이제 **모든 모델을 DB와 비교해 빠진 열을 자동으로 추가**(기존 행은 빈 문자열 · 0 · FALSE로 채움, 삭제는 절대 안 함). 그리고 `app.py`가 **서버 시작할 때마다** 이 업그레이드를 실행 → setup-db를 안 거쳐도, Render에서도 자동.
+- **원인 2 — 키**: `.env`의 `HIGGSFIELD_API_KEY=id:secret` 형식은 정상 인식됨(직접 연결 테스트 성공). `.env`는 서버 시작 때만 읽히므로 키를 바꾸면 서버를 다시 시작해야 합니다. `config.py`가 이제 실행 위치와 상관없이 항상 프로젝트 폴더의 `.env`를 읽습니다.
+- **추가 수정**: 탭 AI가 값을 정했다고 말만 하고 초안에 안 넣던 문제 → "정해진 값이 있으면 답하기 전에 먼저 update_draft 호출, 호출 안 했으면 반영했다고 말하지 않기" 규칙 추가.
+- 확인: 실제 키 + 실제 DB 복사본으로 관리자 AI 페이지 16개 모두 200, 챗봇 · 길잡이 · 팝업/크리에이터/상품 AI · 리부 스튜디오 · 연결 테스트 실제 호출 정상. 테스트 73개 통과.
+- 백업: `instance/reboot.db.bak-20261025-122814` (수정 전 DB, 무결성 OK).
+
+
+## 33. 성분 · 사양 수정 (제품 사양서 · 성분표 2026-10-25 기준)
+근거: `REBOOT 제품 사양서 · 성분표` (내부 검토용 초안, 2026-10-25). 배합은 아직 **후보**이므로 상품 정보의 `confirmed`는 계속 `false` — 고객에게는 핵심 원료만 보이고, 전체 원재료는 관리자 미리보기에서만 보입니다. 알디콤 배합표가 오면 관리자 › 상품에서 확정하세요.
+- **원재료 (`products/data/products.json` details)**: 사양서 3-2 후보로 교체. 젤리 Original 당 원료 = 설탕 · 타피오카 시럽 · 물엿(Glucose syrup), 음료 Original = 과당 · 설탕, 젤리 Balance = 알룰로스 + 스테비아(Reb M)/나한과/수크랄로스 중 선택, 음료 Balance = 수크랄로스(알룰로스 · 스테비아 · 나한과 검토). 산미료: 젤리 구연산 · 사과산 · 구연산나트륨, 음료 구연산 · 구연산삼나트륨 · DL-사과산. 색: 강황 · 스피루리나 · 채소/과일즙 색소(적색 3호 없음). 코팅: 코코넛 오일(MCT) · 해바라기 레시틴.
+- **빠진 것**: 카르나우바 왁스, 과즙 농축액(음료), 소르빈산칼륨, 옥수수 식이섬유 → "수용성 식이섬유", 유산균 "(heat-treated)" 표기(열처리 여부는 확인 전).
+- **'특허(patented)' 삭제**: 광고에 쓰지 않음 → "ALDICOM's blend / 알디콤의 조성물". 상세페이지 카드 · 성분 역할 · 긴 페이지 · 긴 이미지 · 고객 챗봇 · 리부 스튜디오 지침 모두.
+- **젤리 1봉지 = 개별 포장 10개**: pack 문구 · 요약 · 긴 페이지 · 긴 이미지 · 챗봇 안내.
+- **Zero Sugar 옆에 항상 "Not a low calorie food"**: Balance facts · 긴 페이지 문구 · 챗봇 규칙. 'Low Calorie'는 어디에도 쓰지 않음(열량은 목표값뿐).
+- **맛 순서**: Jelly Original Lime · Lemon · Cherry, Jelly Balance Cherry · Lime · Lemon (사양서 1장).
+- **이미 저장된 긴 페이지**: `products/spec_fixes.py`의 "옛 문장 → 새 문장" 목록을 서버 시작 때 한 번 적용. 정확히 같은 옛 문장만 바뀌므로 관리자가 고친 문장은 그대로입니다.
+- 긴 이미지 다시 만들기: `python3 scripts/compose_long_image.py jelly-original` (AI 생성 없음, 글자만 다시 합성).
+- **2026-10-26 확정 처리**: 4종 모두 `details.confirmed = true` (관리자 요청). 이제 고객 화면에도 전체 원재료 · 역할 · 감미 원료가 보이고 "관리자 미리보기" 표시는 사라집니다. 단, "A, B or C"처럼 선택지가 남은 줄(젤리 Balance 감미료, 음료 Balance 감미료)은 알디콤 배합표가 오면 하나로 줄여야 라벨과 같아집니다.
+
+## 34. 상품 AI 작업실 수정 · 상품 사진 추가/빼기 · 새 상품 자동 상세페이지 · 샘플 리뷰
+- **오른쪽 초안이 안 바뀌던 문제**: AI가 도구를 부르지 않고 답만 하던 것이 원인. 이제 매 메시지의 첫 번째 AI 호출은 반드시 `update_draft`(`tool_choice` 고정)라서, 말한 값(라인 · 버전 · 한정 배지 등)이 답보다 먼저 초안에 들어갑니다 (`admin/workspace.py`).
+- **사진 업로드 실패**: 원인 후보였던 ① 10 MB 넘는 휴대폰 사진(HTML 413 → "업로드에 실패") ② 아이폰 JPEG(MPO 형식이라 거부) ③ 만료된 페이지(CSRF) 모두 처리.
+  - `core/static/core/js/upload-image.js`: 브라우저에서 2000 px · WEBP로 줄인 뒤 전송 (HEIC는 Safari에서 변환, 안 되면 "JPG로 저장" 안내).
+  - 서버: MPO · GIF · BMP · TIFF 허용, 한도 25 MB, 413 · CSRF 오류는 JSON 메시지로 (`app.py`).
+  - 작업실 전용 업로드 `POST /admin/ai/<kind>/upload` → 올리자마자 초안 `image_id`에 들어가 오른쪽에 사진이 보임. 📎 · 끌어다 놓기 · 붙여넣기 모두 가능.
+- **상품 사진 추가/빼기** (관리자 › 상품 › 상품 페이지 사진): 여러 장 추가(드래그 가능), 추가한 사진 삭제, 원래 갤러리 사진은 빼기/다시 넣기. 표 `products_gallery_photo`, `products_gallery_hidden` (DB 저장 — Render 디스크 초기화 대비). 대표 · 옵션 사진은 기존처럼 교체.
+- **새 상품 자동 상세페이지** (`products/autopage.py`, `products/longpage.py`): 상품 등록(양식 · AI 작업실) → 백그라운드에서 ① 문구(OpenAI, 영어+한국어; 키 없으면 템플릿) ② Higgsfield `xai/grok-imagine-image-2.0`으로 파티 배경 5장(제품 · 글자 없음, 장당 약 1.28 크레딧 → 상품당 약 6.4 크레딧) ③ 실제 상품 사진 + 정확한 글자를 얹어 긴 이미지 합성(영/한) → 상품 페이지 아래에 바로 표시.
+  - 크레딧은 **등록 전에** 양식/작업실에 표시되고, 양식에서 Higgsfield 사용을 끌 수 있음(끄면 네온 배경, 크레딧 0).
+  - 진행 상황 · 사용 크레딧은 관리자 › 상품의 각 상품 카드에. "다시 만들기"는 기본적으로 이미 만든 배경을 재사용(크레딧 0), 체크하면 새 배경.
+  - 패널 이미지는 DB(`products_long_panel`)에 저장, `/products/long-panels/<id>.webp`.
+- **샘플 리뷰** (`products/sample_reviews.py`): 기존 무작위 더미 리뷰 대신 제품마다 다른 문구 11~12개, 전부 4~5점(평균 4.91~4.92, 긍정 100%). 화면에 "샘플 리뷰" 표시. 고객 리뷰는 각 상품 페이지의 폼에서 그 상품에만 달리며(`/products/<slug>/reviews`), 고객 리뷰는 그대로 둡니다. `setup-db`(start.command / Render 배포) 때 반영.

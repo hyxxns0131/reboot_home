@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
-  <div class="section-heading"><h1>{{ tr("ADD PRODUCT.") }}</h1></div>
+  <div class="section-heading"><h1>{{ tr("ADD PRODUCT.") }}</h1><a class="btn primary ws-entry" href="/admin/ai/product">✳ {{ ai_tr("Create with AI") }}</a></div>
   <p class="muted">{{ tr("Register a new or seasonal product. It appears on the Products page under its line, with its own page, bag, stock and sales reports. Prices are in USD.") }}</p>
   <form method="post" enctype="multipart/form-data" class="product-new" data-crop-form data-crop-no-submit data-crop-aspect="1">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -36,12 +36,18 @@
     <fieldset><legend>{{ tr("3. Photo") }} *</legend>
       <div class="new-photo">
         <img data-crop-preview alt="" hidden>
-        <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" hidden data-crop-file>
+        <input type="file" name="photo" accept="image/*" hidden data-crop-file>
         <div><button type="button" class="btn primary" data-crop-pick>{{ tr("Choose photo & crop") }}</button>
         <p class="muted">{{ tr("Square (1:1) works best for product cards. A transparent PNG cutout looks great on the dark site. More photos can be added later on the Products page.") }}</p></div>
       </div>
     </fieldset>
     <label class="check"><input type="checkbox" name="hidden" value="1" {{ 'checked' if form.get('hidden') }}> {{ tr("Save as hidden — publish later with Show") }}</label>
+    {% set fresh = not form.get('name') %}
+    <fieldset class="autopage-box"><legend>{{ tr("Long detail page") }}</legend>
+      <label class="check"><input type="checkbox" name="auto_page" value="1" {{ 'checked' if fresh or form.get('auto_page') }}> {{ tr("Make the long detail page automatically after registering (copy in English + Korean, laid out like the launch products)") }}</label>
+      {% if autopage.ai %}<label class="check"><input type="checkbox" name="auto_page_ai" value="1" {{ 'checked' if fresh or form.get('auto_page_ai') }}> {{ tr("Use Higgsfield for 5 party backgrounds") }} — <strong>{{ tr("about") }} {{ autopage.total }} {{ tr("credits") }}</strong> ({{ autopage.per }} × 5)</label>
+      {% else %}<p class="muted">{{ tr("No Higgsfield key: the page uses dark neon backgrounds instead (no credits).") }}</p>{% endif %}
+    </fieldset>
     <button class="btn primary">{{ tr("Add product ↗") }}</button>
   </form>
 </section></div>

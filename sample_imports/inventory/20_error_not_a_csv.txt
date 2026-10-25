@@ -1,0 +1,2 @@
+sku,on_hand
+jelly-original-pouch,300

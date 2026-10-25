@@ -1,4 +1,11 @@
 ﻿platform,influencer_name,discount_code,link_path,discount_rate,commission_rate,clicks,order_count,conversion_rate,units_sold,gross_sales_usd,discount_usd,net_sales_usd,commission_usd,top_product
-Instagram,Brunch Club (Fictional),BRUNCHCLUB,/r/BRUNCHCLUB,0.0500,0.1000,6240,114,0.0183,516,6655.34,332.83,6322.51,632.29,drink-original
-Instagram,K-Party LA (Fictional),KPARTYLA,/r/KPARTYLA,0.1000,0.1200,6600,114,0.0173,448,5888.02,589.25,5298.77,635.81,drink-balance
-Instagram,Morning Reset (Fictional),MORNINGRESET,/r/MORNINGRESET,0.1500,0.1500,6600,109,0.0165,431,5672.69,851.38,4821.31,723.28,drink-original
+Instagram,Seoul Style Diary (Fictional),SEOULSTYLE,/r/SEOULSTYLE,0.1000,0.1500,7791,137,0.0176,608,8033.92,804.00,7229.92,1084.56,jelly-balance
+Instagram,Brunch Club (Fictional),BRUNCHCLUB,/r/BRUNCHCLUB,0.0500,0.1000,7124,129,0.0181,574,7364.26,368.28,6995.98,699.67,drink-original
+Instagram,Glow Hour LA (Fictional),GLOWHOURLA,/r/GLOWHOURLA,0.1000,0.1200,6525,138,0.0211,574,7480.26,748.60,6731.66,807.86,drink-balance
+Instagram,City Bites SF (Fictional),CITYBITESSF,/r/CITYBITESSF,0.1000,0.1000,5365,132,0.0246,522,6861.78,686.70,6175.08,617.61,drink-balance
+Instagram,Weekend Wanderer (Fictional),WKNDWANDER,/r/WKNDWANDER,0.0500,0.1000,6888,114,0.0166,453,6133.47,306.72,5826.75,582.70,jelly-balance
+Instagram,K-Party LA (Fictional),KPARTYLA,/r/KPARTYLA,0.1000,0.1200,6875,117,0.0170,461,6060.39,606.50,5453.89,654.44,jelly-original
+Instagram,Night Owl NYC (Fictional),NIGHTOWLNYC,/r/NIGHTOWLNYC,0.1500,0.1200,4356,114,0.0262,460,6134.90,920.75,5214.15,625.66,jelly-original
+Instagram,Pastel Pantry (Fictional),PASTELPANTRY,/r/PASTELPANTRY,0.0500,0.0800,3605,99,0.0275,405,5269.95,263.55,5006.40,400.54,drink-balance
+Instagram,Morning Reset (Fictional),MORNINGRESET,/r/MORNINGRESET,0.1500,0.1500,6435,108,0.0168,422,5629.78,844.93,4784.85,717.79,drink-original
+Instagram,Sunset Sips (Fictional),SUNSETSIPS,/r/SUNSETSIPS,0.1000,0.1000,3100,97,0.0313,394,5122.56,512.65,4609.91,461.10,drink-original

@@ -60,7 +60,7 @@
   </table></div>
 
 
-  <div class="section-heading admin-subhead" id="popups"><h2>{{ tr("SITE POPUPS") }}</h2></div>
+  <div class="section-heading admin-subhead" id="popups"><h2>{{ tr("SITE POPUPS") }}</h2><a class="btn primary ws-entry" href="/admin/ai/popup">✳ {{ ai_tr("Create with AI") }}</a></div>
   <p class="muted">{{ tr("Show a popup with text and a photo to visitors. The newest live popup is shown, once per visit; visitors can hide it for the day. Never shown on login, checkout or admin pages.") }}</p>
   <datalist id="popup-pages">{% for path,name in pages.items() if path %}<option value="{{ path }}">{{ name }}</option>{% endfor %}<option value="/game/">Game</option><option value="/shop/cart">Bag</option></datalist>
   <details class="admin-new-popup" {{ 'open' if not popups }}><summary class="btn primary">{{ tr("+ New popup") }}</summary>{{ popup_form() }}</details>
@@ -73,7 +73,7 @@
       <div class="admin-actions"><form method="post" action="{{ url_for('admin.toggle_popup',popup_id=p.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn">{{ tr("Pause") if p.is_active else tr("Resume") }}</button></form><form method="post" action="{{ url_for('admin.delete_popup',popup_id=p.id) }}" onsubmit="return confirm('Delete this popup?')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn">{{ tr("Delete") }}</button></form></div>
       <details class="popup-edit"><summary>{{ tr("Edit") }}</summary>{{ popup_form(p) }}</details>
     </article>{% else %}<p class="muted">{{ tr("No popups yet.") }}</p>{% endfor %}</div>
-  <div class="section-heading admin-subhead" id="creators"><h2>{{ tr("CREATOR CODES & LINKS") }}</h2></div>
+  <div class="section-heading admin-subhead" id="creators"><h2>{{ tr("CREATOR CODES & LINKS") }}</h2><a class="btn primary ws-entry" href="/admin/ai/creator">✳ {{ ai_tr("Create with AI") }}</a></div>
   <p class="muted">{{ tr("Each influencer gets one discount code. Their link /r/CODE saves the code for 30 days, and shoppers can also type the code in the bag. Sales are tracked per code on the Sales overview tab.") }}</p>
   <form method="post" action="{{ url_for('admin.add_creator') }}" class="admin-filters admin-form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

@@ -1,0 +1,4 @@
+warehouse,reorder_level,on_hand,product,sku,counted_by,memo
+LA-01,45,150,Reboot Jelly Balance,jelly-balance-pouch,Kim,"weekly count, aisle 3"
+LA-01,30,260,Reboot Drink Balance,drink-balance-box3,Kim,
+NJ-02,40,188,Reboot Drink Balance,drink-balance-lemon,Lee,new shelf

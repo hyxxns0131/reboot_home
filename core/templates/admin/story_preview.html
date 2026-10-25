@@ -1,0 +1,24 @@
+<!doctype html>
+{# Admin preview of the long detail page (also shown in the editor's iframe) + export to one tall PNG (README §28) #}
+<html lang="{{ lang }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>{{ p.name }} — {{ tr('Detail page preview') }}</title><link rel="stylesheet" href="{{ url_for('static',filename='core/css/site.css') }}"></head>
+<body class="lang-{{ lang }} admin-story-preview">
+  <div class="admin-story-actions preview-bar">
+    {% if not request.args.get('frame') %}<a class="btn" href="/admin/products/story/{{ p.slug }}">{{ tr('← Back to editor') }}</a>{% endif %}
+    {% for l in ['en','ko'] %}<a class="btn{{ ' primary' if lang==l }}" href="?lang={{ l }}{{ '&frame=1' if request.args.get('frame') }}{{ '&version=live' if request.args.get('version')=='live' }}">{{ 'English' if l=='en' else '한국어' }}</a>{% endfor %}
+    <button class="btn" type="button" data-export>{{ tr('Download as one long image (PNG)') }}</button>
+  </div>
+  {% if story_data %}{% set s = story_data %}{% include 'products/_long_page.html' %}{% else %}<p class="admin-alert">{{ tr('Nothing to preview yet. Write the page first.') }}</p>{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+<script>
+document.querySelector('[data-export]').addEventListener('click', async function () {
+  var page = document.querySelector('.pd-long'); if (!page || !window.html2canvas) return;
+  page.querySelectorAll('.lp-reveal').forEach(function (n) { n.classList.add('in'); });
+  page.querySelectorAll('details').forEach(function (d) { d.open = true; });
+  this.disabled = true;
+  var canvas = await html2canvas(page, { backgroundColor: '#0b0c09', scale: 2, useCORS: true });
+  var a = document.createElement('a'); a.download = '{{ p.slug }}-detail-{{ lang }}.png'; a.href = canvas.toDataURL('image/png'); a.click();
+  this.disabled = false;
+});
+</script>
+</body></html>

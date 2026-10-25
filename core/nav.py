@@ -1,1 +1,1 @@
-NAV_ITEMS=[('About','/about/story'),('Products','/products/'),('Feed','/feed/'),('Where to Buy','/where-to-buy/'),('Vibe Test','/vibe-test/'),('Game','/game/')]
+NAV_ITEMS=[('About','/about/story'),('Products','/products/'),('Game','/game/'),('Feed','/feed/'),('Where to Buy','/where-to-buy/'),('Vibe Test','/vibe-test/')]

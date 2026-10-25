@@ -3,7 +3,7 @@ import io
 import os
 import re
 from decimal import Decimal
-from flask import Blueprint, render_template, Response, abort, request, redirect, flash
+from flask import Blueprint, render_template, Response, abort, request, redirect, flash, jsonify
 from auth.decorators import admin_required
 from admin.services import report, influencer_rows, PLATFORMS
 from core.extensions import db
@@ -68,19 +68,13 @@ def site_url():
 @admin_required
 def add_creator():
     """Issue a creator's dedicated link: /r/<CODE>. The code is also the discount code applied at checkout."""
-    name=request.form.get('name','').strip(); platform=request.form.get('platform','')
-    code=re.sub(r'[^A-Z0-9]','',request.form.get('code','').upper())
-    try: discount=int(request.form.get('discount','')); commission=int(request.form.get('commission',''))
-    except ValueError: discount=commission=-1
-    if not name or len(name)>80 or platform not in PLATFORMS.values() or not 0<=discount<=50 or not 0<=commission<=50:
-        flash('Enter a creator name, Instagram or TikTok, and discount/commission between 0 and 50%.','error'); return redirect('/admin/manage#creators')
-    landing=request.form.get('landing','')
-    if landing not in landing_pages(): landing=''
-    code=code or (re.sub(r'[^A-Z0-9]','',name.upper())[:10]+str(discount))
-    if not 3<=len(code)<=40 or db.session.scalar(db.select(ReferralLink).filter_by(code=code)):
-        flash('That discount code is already used. Enter a different code.','error'); return redirect('/admin/manage#creators')
-    db.session.add(ReferralLink(code=code,influencer_name=name,platform=platform,discount_rate=Decimal(discount)/100,commission_rate=Decimal(commission)/100,clicks=0,is_active=True,landing=landing))
+    from admin.actions import build_creator, ActionError
+    try: link=build_creator(request.form)
+    except ActionError as e:
+        flash(str(e),'error'); return redirect('/admin/manage#creators')
+    db.session.add(link)
     db.session.commit()
+    code=link.code
     flash(f'Creator link created: /r/{code}')
     return redirect('/admin/manage#creators')
 
@@ -233,7 +227,9 @@ def answer(message_id):
 @admin_required
 def chatbot():
     from support import system_prompt, chat_config
-    return render_template('admin/chatbot.html',title='Chatbot',config=chat_config(),prompt=system_prompt(),result=None)
+    from support.guard import rules_info
+    from admin.assistant import system_prompt as assistant_prompt
+    return render_template('admin/chatbot.html',title='Chatbot',config=chat_config(),prompt=system_prompt(),rules=rules_info(),assistant_prompt=assistant_prompt(),result=None)
 
 
 @bp.post('/chatbot/test')
@@ -241,8 +237,59 @@ def chatbot():
 def chatbot_test():
     """Send one short question to OpenAI with the live persona, so the admin sees exactly what fails."""
     from support import system_prompt, chat_config, ask_openai
+    from support.guard import rules_info
     ok,detail=ask_openai([{'role':'user','content':'Hi! What flavors does Reboot Jelly Original come in?'}])
-    return render_template('admin/chatbot.html',title='Chatbot',config=chat_config(),prompt=system_prompt(),result=dict(ok=ok,detail=detail))
+    from admin.assistant import system_prompt as assistant_prompt
+    return render_template('admin/chatbot.html',title='Chatbot',config=chat_config(),prompt=system_prompt(),rules=rules_info(),assistant_prompt=assistant_prompt(),result=dict(ok=ok,detail=detail))
+
+
+# ---------- Customer care: what visitors ask the chatbot (README §25) ----------
+def chat_days():
+    from support.insights import PERIODS
+    try: days=int(request.values.get('days',30))
+    except ValueError: abort(400)
+    if days not in PERIODS: abort(400)
+    return days
+
+
+@bp.get('/chatbot/questions')
+@admin_required
+def chat_questions():
+    from support import chat_config
+    from support.insights import overview, latest_report, PERIODS, LABELS
+    days=chat_days()
+    return render_template('admin/chat_questions.html',title='Chatbot questions',data=overview(days),report=latest_report(days),
+                           periods=PERIODS,labels=LABELS,config=chat_config())
+
+
+@bp.post('/chatbot/questions/analyze')
+@admin_required
+def chat_questions_analyze():
+    from support.insights import run_analysis
+    days=chat_days()
+    ok,detail=run_analysis(days)
+    if ok: flash('AI analysis updated.')
+    else: flash(detail,'error')
+    return redirect(f'/admin/chatbot/questions?days={days}#ai-analysis')
+
+
+CHAT_FIELDS='question_id asked_at topic topic_label question language visitor guard_verdict guard_codes guard_action is_dummy'.split()
+
+
+@bp.get('/chatbot/questions.csv')
+@admin_required
+def chat_questions_csv():
+    """Question log for the marketing dashboard (insights / VOC). Admin test chats are left out."""
+    from support.insights import period_query, LABELS
+    from support.models import ChatQuestion
+    days=chat_days()
+    stream=io.StringIO(newline=''); writer=csv.DictWriter(stream,fieldnames=CHAT_FIELDS); writer.writeheader()
+    for r in db.session.scalars(period_query(days).order_by(ChatQuestion.created_at)):
+        row=dict(question_id=r.id,asked_at=r.created_at.strftime('%Y-%m-%d %H:%M'),topic=r.topic,topic_label=LABELS[r.topic][0] if r.topic in LABELS else r.topic,
+                 question=r.question,language=r.language,visitor=r.visitor,guard_verdict=r.verdict,guard_codes=r.codes,guard_action=r.action,is_dummy=r.is_dummy)
+        writer.writerow({k:safe_cell(v) for k,v in row.items()})
+    filename=f"reboot_chat_questions_{days}d_{date.today().strftime('%Y%m%d')}.csv"
+    return Response(stream.getvalue().encode('utf-8-sig'),mimetype='text/csv',headers={'Content-Disposition':f'attachment; filename="{filename}"','Cache-Control':'no-store'})
 
 
 # ---------- Inventory ----------
@@ -298,11 +345,11 @@ def inventory_upload():
         flash('Choose a .csv file.','error'); return redirect('/admin/inventory#upload')
     try: text=f.read(2*1024*1024).decode('utf-8-sig')
     except UnicodeDecodeError:
-        flash('Save the file as CSV UTF-8 and try again.','error'); return redirect('/admin/inventory#upload')
+        flash('This file is not UTF-8. In Excel choose File › Save As › “CSV UTF-8 (Comma delimited)” and upload again.','error'); return redirect('/admin/inventory#upload')
     changes,errors=parse_csv(text,mode)
     if mode=='add' and not errors:
         cur={i.option_id:i.on_hand for i in db.session.scalars(db.select(Inventory))}
-        errors=[f'{o.sku}: stock would go below 0' for o,q,_ in changes if cur.get(o.id,0)+q<0]
+        errors=[f'{o.sku}: stock would go below 0 ({cur.get(o.id,0)} on hand {q:+d})' for o,q,_ in changes if cur.get(o.id,0)+q<0]
     if errors:
         flash('Nothing was changed. Fix these rows and upload again: '+' · '.join(errors[:8])+(' …' if len(errors)>8 else ''),'error')
         return redirect('/admin/inventory#upload')
@@ -316,7 +363,9 @@ def inventory_upload():
 
 # ---------- Products: photos ----------
 from products.services import load_original, image_url
-from products.media import ProductImage, ProductText, to_webp, image_slots, url_for_image, name_overrides
+from products.media import ProductImage, ProductText, ProductDetail, to_webp, image_slots, url_for_image, name_overrides
+from products.services import get_all_products as _gap
+_catalog_all=lambda: _gap(include_hidden=True)
 
 
 @bp.get('/products')
@@ -325,9 +374,12 @@ def product_photos():
     current={i.original:i for i in db.session.scalars(db.select(ProductImage))}
     names=name_overrides()
     rows={r.slug:r for r in db.session.scalars(db.select(Product))}
-    catalog=[dict(p=p,row=rows.get(p['slug']),name=names.get(p['slug'],p['name']),renamed=p['slug'] in names,slots=[dict(s,url=url_for_image(current[s['src']]) if s['src'] in current else image_url(s['src']),
+    merged={p['slug']:p.get('details') or {} for p in _catalog_all()}
+    catalog=[dict(p=p,gallery=_gallery_rows(p,current),details=merged.get(p['slug'],{}),row=rows.get(p['slug']),name=names.get(p['slug'],p['name']),renamed=p['slug'] in names,slots=[dict(s,url=url_for_image(current[s['src']]) if s['src'] in current else image_url(s['src']),
                                   original_url=image_url(s['src']),replaced=s['src'] in current) for s in image_slots(p)]) for p in load_original()]
-    return render_template('admin/products.html',title='Products',catalog=catalog)
+    from products.autopage import AutoPage
+    pages={a.slug:a for a in db.session.scalars(db.select(AutoPage))}
+    return render_template('admin/products.html',title='Products',catalog=catalog,autopages=pages,autopage=_autopage_info())
 
 
 def _known_src(slug,src):
@@ -367,6 +419,69 @@ def product_photo_reset():
 
 
 
+# ---------- Products: add / remove gallery photos (README §34) ----------
+def _gallery_rows(p, current):
+    """Gallery of a product for the admin: original photos (with on/off) + added ones."""
+    from products.media import gallery_changes
+    c = gallery_changes().get(p['slug'], {'hidden': set(), 'added': []})
+    rows = [dict(kind='original', src=g['src'], label=g.get('label', ''), url=url_for_image(current[g['src']]) if g['src'] in current else image_url(g['src']),
+                 hidden=g['src'] in c['hidden']) for g in p['images'].get('gallery', [])]
+    rows += [dict(kind='added', id=a['added_id'], label=a['label'], url=a['src'], hidden=False) for a in c['added']]
+    return rows
+
+
+def _wants_json(): return request.accept_mimetypes.best == 'application/json'
+
+
+@bp.post('/products/gallery/add')
+@admin_required
+def product_gallery_add():
+    from products.media import GalleryPhoto
+    slug=request.form.get('slug','')
+    if not any(p['slug']==slug for p in load_original()): abort(400)
+    files=[f for f in request.files.getlist('photo') if f and f.filename][:12]
+    label=' '.join(request.form.get('label','').split())[:60]
+    def answer(msg, ok=True, code=200):
+        if _wants_json(): return jsonify(ok=ok, message=msg) if ok else jsonify(error=msg), code
+        flash(msg, None if ok else 'error'); return redirect(f'/admin/products#p-{slug}')
+    if not files: return answer('Choose a photo to add.', False, 400)
+    last=db.session.scalar(db.select(db.func.max(GalleryPhoto.position)).filter_by(slug=slug)) or 0
+    for i,f in enumerate(files,1):
+        try: data=to_webp(f.read())
+        except ValueError as e: db.session.rollback(); return answer(str(e), False, 400)
+        except Exception: db.session.rollback(); return answer('That file is not a readable image (JPG, PNG or WEBP).', False, 400)
+        db.session.add(GalleryPhoto(slug=slug,label=label or 'Photo',data=data,position=last+i))
+    from rewards.services import record
+    record('product_gallery_added',{'product':slug,'count':len(files)})
+    db.session.commit()
+    return answer(f'{len(files)} photo(s) added to the product page.')
+
+
+@bp.post('/products/gallery/<int:photo_id>/delete')
+@admin_required
+def product_gallery_delete(photo_id):
+    from products.media import GalleryPhoto
+    photo=db.session.get(GalleryPhoto,photo_id) or abort(404)
+    slug=photo.slug; db.session.delete(photo); db.session.commit()
+    flash('Photo removed from the product page.')
+    return redirect(f'/admin/products#p-{slug}')
+
+
+@bp.post('/products/gallery/toggle')
+@admin_required
+def product_gallery_toggle():
+    """Take an original gallery photo off the product page, or put it back."""
+    from products.media import GalleryHidden
+    slug=request.form.get('slug',''); src=request.form.get('src','')
+    p=next((p for p in load_original() if p['slug']==slug),None)
+    if not p or not any(g['src']==src for g in p['images'].get('gallery',[])): abort(400)
+    row=db.session.scalar(db.select(GalleryHidden).filter_by(slug=slug,src=src))
+    if row: db.session.delete(row); flash('Photo is back on the product page.')
+    else: db.session.add(GalleryHidden(slug=slug,src=src)); flash('Photo removed from the product page (you can put it back).')
+    db.session.commit()
+    return redirect(f'/admin/products#p-{slug}')
+
+
 @bp.post('/products/name')
 @admin_required
 def product_name():
@@ -404,30 +519,20 @@ def save_popup(popup_id=None):
     back=redirect('/admin/manage#popups')
     p=db.session.get(Popup,popup_id) if popup_id else Popup()
     if popup_id and not p: abort(404)
-    title=request.form.get('title','').strip(); body=request.form.get('body','').strip()
-    label=request.form.get('button_label','').strip(); raw_link=request.form.get('button_link','').strip(); link=safe_link(raw_link)
-    placement=request.form.get('placement','home')
-    try: starts,ends=parse_day(request.form.get('starts_on')),parse_day(request.form.get('ends_on'))
-    except ValueError: flash('Enter valid dates.','error'); return back
-    if not 1<=len(title)<=80 or len(body)>600 or len(label)>30 or placement not in PLACEMENTS:
-        flash('Popups need a title (up to 80 characters); text up to 600; button label up to 30.','error'); return back
-    if raw_link and not link:
-        flash('Button links must be a page on this site (/products/...) or an https:// address.','error'); return back
-    if bool(label)!=bool(link):
-        flash('Fill in both the button label and the link, or leave both empty.','error'); return back
-    if starts and ends and ends<starts:
-        flash('The end date must be on or after the start date.','error'); return back
+    from admin.actions import build_popup, ActionError
+    try: build_popup(p,request.form)
+    except ActionError as e:
+        flash(str(e),'error'); return back
     f=request.files.get('image')
     if f and f.filename:
         try: p.image=to_webp(f.read())
         except Exception as e:
             flash(str(e) if isinstance(e,ValueError) else 'That file is not a readable image (JPG, PNG or WEBP).','error'); return back
     elif request.form.get('remove_image'): p.image=None
-    p.title,p.body,p.button_label,p.button_link,p.placement,p.starts_on,p.ends_on=title,body,label,link,placement,starts,ends
     if popup_id: p.version=(p.version or 1)+1
     else: p.is_active=True; db.session.add(p)
     from rewards.services import record
-    record('popup_saved',{'title':title})
+    record('popup_saved',{'title':p.title})
     db.session.commit()
     flash('Popup saved. Visitors see it on their next page view.' if p.is_live() else 'Popup saved (not live right now — check the dates or Resume).')
     return back
@@ -455,10 +560,16 @@ from products.services import get_all_products as _catalog
 from shop.models import OrderItem
 
 
+def _autopage_info():
+    from products import autopage
+    ai=autopage.ai_images_ready(); total,per=autopage.estimate() if ai else (0,0)
+    return dict(ai=ai,total=f'{total:g}',per=f'{per:g}')
+
+
 @bp.get('/products/new')
 @admin_required
 def product_new():
-    return render_template('admin/product_new.html',title='Add product',form=request.args)
+    return render_template('admin/product_new.html',title='Add product',form=request.args,autopage=_autopage_info())
 
 
 @bp.post('/products/new')
@@ -466,58 +577,35 @@ def product_new():
 def product_create():
     f=request.form
     def fail(msg):
-        flash(msg,'error'); return render_template('admin/product_new.html',title='Add product',form=f),400
-    name=' '.join(f.get('name','').split()); line=f.get('line'); badge=' '.join(f.get('badge','').split())[:30]
-    fmt=f.get('format','').strip()[:120]; pack=f.get('pack','').strip()[:120]; volume=f.get('volume','').strip()[:20]
-    tagline=f.get('tagline','').strip()[:120]
-    flavors=[x.strip().title() for x in f.get('flavors','').split(',') if x.strip()][:6]
-    if not 3<=len(name)<=80: return fail('Enter a product name (3–80 characters).')
-    if line not in ('Jelly','Drink'): return fail('Choose Jelly or Drink.')
-    if not fmt or not pack: return fail('Describe the format and the pack.')
-    if not flavors: return fail('Enter at least one flavor (comma separated).')
-    options=[]
-    for i in range(4):
-        label=' '.join(f.get(f'opt_label_{i}','').split())[:60]; price=f.get(f'opt_price_{i}','').strip()
-        if not label and not price: continue
-        try:
-            price=Decimal(price).quantize(Decimal('.01')); count=int(f.get(f'opt_count_{i}') or 1); stock=int(f.get(f'opt_stock_{i}') or 0)
-        except Exception: return fail(f'Option {i+1}: check the price, pieces and stock.')
-        if not label or not Decimal('0.50')<=price<=Decimal('999') or not 1<=count<=48 or not 0<=stock<=100000:
-            return fail(f'Option {i+1}: label, price $0.50–$999, pieces 1–48, stock 0–100,000.')
-        options.append((label,price,count,stock))
-    if not options: return fail('Add at least one sales option with a price.')
+        flash(msg,'error'); return render_template('admin/product_new.html',title='Add product',form=f,autopage=_autopage_info()),400
+    from admin.actions import build_product, create_product, ActionError
     photo=request.files.get('photo')
-    if not photo or not photo.filename: return fail('Add a product photo.')
+    try: plan=build_product(f,bool(photo and photo.filename))
+    except ActionError as e: return fail(str(e))
     try: image=to_webp(photo.read())
     except Exception as e: return fail(str(e) if isinstance(e,ValueError) else 'That file is not a readable image.')
-    taken={p['slug'] for p in load_original()}|set(db.session.scalars(db.select(Product.slug)))
-    base=slugify(name); slug=base; n=2
-    while slug in taken: slug=f'{base}-{n}'; n+=1
-    key=f'custom/{slug}/main.webp'
-    used_skus=set(db.session.scalars(db.select(ProductOption.sku)))
-    opts=[]
-    for label,price,count,stock in options:
-        sku=f'{slug}-{slugify(label)}'[:90]; k=2
-        while sku in used_skus: sku=f'{slug}-{slugify(label)}-{k}'[:90]; k+=1
-        used_skus.add(sku); opts.append(dict(sku=sku,label=label,unit_count=count,price_usd=float(price),image=key,stock=stock))
-    order=100+db.session.scalar(db.select(db.func.count(CustomProduct.id)))
-    data=dict(slug=slug,name=name,line=line,format=fmt,pack=pack,ingredients=INGREDIENTS,flavors=flavors,
-              options=[{k:v for k,v in o.items() if k!='stock'} for o in opts],images=dict(main=key,card=key,gallery=[]),
-              is_balance=f.get('version')=='balance',badge=badge,tagline=tagline or 'TBD',buy_links={},order=order,
-              image_dir='custom',variant=slug,color='#b1ff3b',price_is_sample=False,custom=True)
-    if volume: data['volume']=volume
-    db.session.add(CustomProduct(slug=slug,data=data))
-    db.session.add(ProductImage(slug=slug,original=key,data=image))
-    product=Product(slug=slug,name=name,is_active=not f.get('hidden')); db.session.add(product); db.session.flush()
-    from shop.inventory import set_stock
-    for o in opts:
-        option=ProductOption(product_id=product.id,sku=o['sku'],label=o['label'],unit_count=o['unit_count'],price=Decimal(str(o['price_usd'])),is_active=True)
-        db.session.add(option); db.session.flush()
-        set_stock(option,on_hand=o['stock'],reorder_level=20,reason='manual',note='New product')
-    from rewards.services import record
-    record('product_created',{'product':slug})
+    create_product(plan,image); name=plan['name']; slug=plan['slug']
+    from products import autopage
+    if f.get('auto_page'): autopage.queue(slug, use_ai_images=bool(f.get('auto_page_ai')))
     db.session.commit()
-    flash(f'{name} was added' + (' as hidden. Press Show when it is ready.' if f.get('hidden') else ' and is live on the Products page.'))
+    if f.get('auto_page'): autopage.kick()
+    flash(f'{name} was added' + (' as hidden. Press Show when it is ready.' if f.get('hidden') else ' and is live on the Products page.')
+          + (' Its long detail page is being made automatically.' if f.get('auto_page') else ''))
+    return redirect(f'/admin/products#p-{slug}')
+
+
+@bp.post('/products/<slug>/autopage')
+@admin_required
+def product_autopage(slug):
+    """Make (or remake) the automatic long detail page of a product (README §34)."""
+    from products import autopage
+    if not any(p['slug']==slug for p in load_original()): abort(404)
+    if request.form.get('ai'):  # new backgrounds: keep the old ones in Rebu Studio but stop reusing them
+        from products.story import StoryImage
+        for im in db.session.scalars(db.select(StoryImage).filter(StoryImage.slug==slug,StoryImage.slot.like('auto-bg-%'))): im.slot='old-'+im.slot[5:]
+    autopage.queue(slug, use_ai_images=bool(request.form.get('ai')))
+    db.session.commit(); autopage.kick()
+    flash('The long detail page is being made. Refresh in a minute or two.')
     return redirect(f'/admin/products#p-{slug}')
 
 
@@ -562,3 +650,67 @@ def product_status(slug):
     db.session.commit()
     flash(msg)
     return back
+
+
+# ---------- Admin AI assistant (README §27) ----------
+from admin import assistant  # noqa: E402,F401  (routes + admin_assistant_* tables)
+
+
+
+@bp.post('/products/ingredients')
+@admin_required
+def product_ingredients():
+    """Edit the ingredient list (one per line, most to least by weight) and confirm it for the public product page."""
+    slug=request.form.get('slug','')
+    if not any(p['slug']==slug for p in load_original()): abort(400)
+    items=[' '.join(x.split())[:160] for x in request.form.get('ingredients','').splitlines() if x.strip()][:40]
+    sweet=' '.join(request.form.get('sweetened_with','').split())[:120]
+    confirmed=bool(request.form.get('confirmed'))
+    back=redirect(f'/admin/products#ing-{slug}')
+    if confirmed and not items:
+        flash('Add the ingredient list before confirming it.','error'); return back
+    row=db.session.scalar(db.select(ProductDetail).filter_by(slug=slug))
+    if not row: row=ProductDetail(slug=slug); db.session.add(row)
+    row.ingredients=items; row.sweetened_with=sweet; row.confirmed=confirmed; row.updated_at=datetime.now(timezone.utc)
+    from rewards.services import record
+    record('ingredients_saved',{'product':slug,'confirmed':confirmed})
+    db.session.commit()
+    flash('Ingredients saved and shown on the product page.' if confirmed else 'Ingredients saved as a draft (shoppers see the key ingredients only).')
+    return back
+
+
+# ---------- Product detail pages with AI (README §28) ----------
+from admin import story as _story_tab  # noqa: E402,F401
+
+
+# ---------- Settings: API connections (README §29) ----------
+@bp.get('/settings/connections')
+@admin_required
+def connections():
+    from support import chat_config
+    from support import higgsfield
+    from products.story import image_config
+    return render_template('admin/connections.html', title='API connections', openai=chat_config(), openai_image=image_config(),
+                           hf=higgsfield.config(), results={})
+
+
+@bp.post('/settings/connections/test')
+@admin_required
+def connections_test():
+    from support import chat_config, openai_request
+    from support import higgsfield
+    from products.story import image_config
+    which=request.form.get('service')
+    results={}
+    if which in ('openai','all'):
+        ok,detail=openai_request({'messages':[{'role':'user','content':'Reply with OK.'}],'max_completion_tokens':5})
+        results['openai']=dict(ok=ok,detail='Connected.' if ok else detail)
+    if which in ('higgsfield','all'):
+        ok,detail=higgsfield.test() if higgsfield.credentials() else (False,'Higgsfield API key is not set.')
+        results['higgsfield']=dict(ok=ok,detail=detail)
+    return render_template('admin/connections.html', title='API connections', openai=chat_config(), openai_image=image_config(),
+                           hf=higgsfield.config(), results=results)
+
+
+# ---------- Per-tab AI workspaces (README §30) ----------
+from admin import workspace  # noqa: E402,F401
