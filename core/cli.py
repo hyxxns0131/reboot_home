@@ -87,6 +87,8 @@ def setup():
     from products.models import Review
     from shop.inventory import seed_inventory
     db.session.flush(); seed_inventory()
+    from shop.referral import seed_dummy_visits
+    if os.getenv('SEED_DUMMY_DATA','1')=='1': db.session.flush(); seed_dummy_visits()  # creator visits per day (README §39)
     from products.sample_reviews import seed_sample_reviews
     if os.getenv('SEED_DUMMY_DATA','1')=='1': seed_sample_reviews()  # 11–12 product-specific sample reviews each (README §34)
     from products.story import seed_stories
@@ -107,7 +109,9 @@ def setup_if_outdated():
     creators = db.session.scalar(db.select(db.func.count(ReferralLink.id)).filter(ReferralLink.influencer_name.like('%(Fictional)'))) or 0
     samples = db.session.scalar(db.select(db.func.count(Review.id)).filter_by(is_dummy=True, title=first)) or 0
     dummies = db.session.scalar(db.select(db.func.count(Review.id)).filter_by(is_dummy=True)) or 0
-    if creators >= 22 and samples and dummies == sum(len(v) for v in SAMPLES.values()): return False
+    from shop.referral import CreatorVisit
+    visits = db.session.scalar(db.select(CreatorVisit.id).filter_by(is_dummy=True).limit(1))
+    if creators >= 22 and samples and visits and dummies == sum(len(v) for v in SAMPLES.values()): return False
     setup()
     return True
 

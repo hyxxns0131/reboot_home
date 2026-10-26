@@ -1622,3 +1622,11 @@ Ask Reboot은 AI가 **사람 검수 없이 미국 소비자에게 바로 답하�
 - AI 상품 등록: AI가 버전을 "Original"/"Balance"처럼 대문자로 넣어도 original/balance로 맞춤(Balance가 Original로 저장되던 위험 제거).
 - 확인(실제 키 · DB 복사본): 사진 추가(3000px JPG) · AI 작업실 사진 업로드 · 상품 AI 대화(초안 반영) · 관리자 길잡이 · 고객 챗봇 모두 정상.
 - 사이드바 스크롤 표시: 본문이 준비된 뒤 앵커를 연결하고, 읽는 위치를 기준으로 현재 섹션을 갱신. 브라우저에서 메뉴/본문 순서와 스크롤 표시 확인.
+
+## 39. 대시보드용 데이터 API (토큰) · 크리에이터 날짜별 방문수
+- `GET /api/export/<이름>.csv?start=YYYY-MM-DD&end=YYYY-MM-DD` + 헤더 `Authorization: Bearer <EXPORT_API_TOKEN>` — 관리자 로그인 없이 `/admin/export/<이름>.csv`와 **같은 파일 · 같은 컬럼**(테스트로 바이트 단위 비교). 토큰이 서버에 없으면 503, 틀리면 401. `GET /api/export/` = 파일 목록.
+- 파일: `creator-performance` · `influencer-orders` · `influencer-sales` · `orders` · `direct-orders` · `reviews` · `review-summary` · `product-sales` · `option-sales` · `link-sales` · `inventory` · **`chatbot-questions`(신규)** · **`creator-visits`(신규)**. 기존 파일의 옵션(`status`, `platform`, `sentiment`)도 그대로.
+- 신규 컬럼 — `chatbot-questions`: question_id, created_at, language, visitor, topic, question(이메일 · 전화 가린 상태), reply, verdict, codes, action, is_dummy / `creator-visits`: date, discount_code, creator, platform, visits, is_dummy. `inventory`는 기존 재고 CSV 컬럼 그대로(날짜 범위 없음). 관리자 화면 `/admin/export/chatbot-questions.csv`, `/admin/export/creator-visits.csv`도 생김.
+- 날짜별 방문: 표 `shop_creator_visit`(링크 · 날짜 · 방문수). `/r/CODE` 방문마다 오늘 날짜에 +1(is_dummy=False). 샘플 크리에이터는 누적 clicks를 샘플 주문 날짜에 맞춰 나눠 넣음(is_dummy=True, 합계 = clicks). 기존 `clicks`(누적)는 그대로.
+- 토큰: Render › reboot-us › Environment에 `EXPORT_API_TOKEN` 추가(Generate 버튼) → 저장. 값은 채팅방이 아닌 안전한 경로로 대시보드 담당자에게만 전달. 로컬은 `.env`에 같은 이름.
+- 컬럼 이름을 바꿀 때는 대시보드 담당자에게 먼저 알리기(이번 작업에서는 기존 컬럼 변경 없음).
