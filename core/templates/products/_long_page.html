@@ -22,7 +22,7 @@
   {% if s.highlights %}<div class="lp-panel lp-chips lp-reveal">{% for h in s.highlights %}<span>{{ h }}</span>{% endfor %}</div>{% endif %}
   <div class="lp-panel lp-lineup lp-reveal">
     <h3>{{ tr('THE LINEUP') }}</h3>
-    <div class="lp-lineup-grid">{% for o in p.options %}<a href="/products/{{ p.slug }}?sku={{ o.sku }}#top"><img src="{{ img_url(o.image) }}" alt="" loading="lazy"><span>{{ o.label|tr }}</span><b>{{ o.price_usd|usd }}</b></a>{% endfor %}</div>
+    <div class="lp-lineup-grid">{% for o in p.options %}<a href="{{ product_href(p.slug, o.sku) }}#top"><img src="{{ img_url(o.image) }}" alt="" loading="lazy"><span>{{ o.label|tr }}</span><b>{{ o.price_usd|usd }}</b></a>{% endfor %}</div>
     {% if p.flavors %}<p class="lp-flavors">{{ p.flavors|join(' · ') }}</p>{% endif %}
   </div>
   {% set it = s.ingredient_table %}
@@ -46,7 +46,7 @@
   {% if s.faq %}<div class="lp-panel lp-faq lp-reveal"><h3>FAQ</h3>{% for f in s.faq %}<details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>{% endfor %}</div>{% endif %}
   <div class="lp-panel lp-closing lp-reveal">
     {% if s.closing_image %}<img src="{{ s.closing_image }}" alt="" loading="lazy">{% endif %}
-    <div class="lp-closing-text"><h3>{{ s.closing.headline }}</h3>{% if s.closing.subhead %}<p>{{ s.closing.subhead }}</p>{% endif %}<a class="btn primary" href="/products/{{ p.slug }}#top">{{ tr('Shop now ↗') }}</a><small>{{ tr('For adults 21+. Please enjoy responsibly.') }}</small></div>
+    <div class="lp-closing-text"><h3>{{ s.closing.headline }}</h3>{% if s.closing.subhead %}<p>{{ s.closing.subhead }}</p>{% endif %}<a class="btn primary" href="{{ product_href(p.slug) }}#top">{{ tr('Shop now ↗') }}</a><small>{{ tr('For adults 21+. Please enjoy responsibly.') }}</small></div>
   </div>
 </section>
 <script>

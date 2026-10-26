@@ -13,7 +13,7 @@ def create_app(test_config=None):
     login_manager.login_view='auth.login'
     import auth.models, shop.models, core.messages, rewards.models, game.models, shop.inventory, products.media, products.custom, core.popups, products.autopage
     from importlib import import_module
-    for name in ('main','about','legal','auth','products','shop','shop.referral','where_to_buy','admin','vibe_test','feed','creators','contact','rewards','game','products.media','core.popups','support','core.i18n'):
+    for name in ('main','about','legal','auth','products','shop','shop.referral','where_to_buy','admin','vibe_test','feed','creators','contact','rewards','game','products.media','core.popups','support','core.i18n','admin.export_api'):
         app.register_blueprint(import_module(name).bp)
     # Bring an older local / Render database up to date on every start (additive only, never drops data — README §32).
     from core.migrations import upgrade_database

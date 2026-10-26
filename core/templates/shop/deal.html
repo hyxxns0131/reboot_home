@@ -10,17 +10,18 @@
 <section class="section deal-grid">
   {% for p in products %}
   <article class="deal-card">
-    <div class="deal-visual">{{ shot(p.images.card or p.images.main, p.name) }}</div>
+    {% set href = "/deal/" ~ link.code ~ "/" ~ p.slug %}<a class="deal-visual" href="{{ href }}" aria-label="{{ (p.name.replace('Reboot ',''))|tr }}">{{ shot(p.images.card or p.images.main, p.name) }}</a>
     <div class="deal-body">
       <span class="eyebrow">{{ (p.line|upper)|tr }} / {{ (p.badge or ('BALANCE' if p.is_balance else 'ORIGINAL'))|tr }}</span>
-      <h2>{{ (p.name.replace('Reboot ',''))|tr }}</h2>
+      <h2><a href="{{ href }}">{{ (p.name.replace('Reboot ',''))|tr }}</a></h2>
       <ul class="deal-options">{% for o in p.options %}{% set s = sale_for(o.sku) %}
-        <li><span>{{ (o.label)|tr }}</span>
+        <li><a class="deal-option" href="{{ href }}?sku={{ o.sku }}">{{ (o.label)|tr }}</a>
           <span class="deal-price">{% if s %}<s class="price-old">{{ s.old|usd }}</s> <strong class="price-sale">{{ s.price|usd }}</strong>{% else %}<strong>{{ o.price_usd|usd }}</strong>{% endif %}</span>
           {% if current_user.is_authenticated and current_user.role=='customer' %}
           <form method="post" action="/shop/cart"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="sku" value="{{ o.sku }}"><input type="hidden" name="quantity" value="1"><button class="btn primary" {{ 'disabled' if (stock_for(o.sku) or {}).get('out') }}>{{ tr("Add to bag") }}</button></form>
           {% endif %}</li>{% endfor %}
       </ul>
+      <a class="btn full" href="{{ href }}">{{ tr("See details & buy ↗") }}</a>
       {% if not current_user.is_authenticated %}<a class="btn full" href="{{ url_for('auth.login', next=request.path) }}">{{ tr("Login to add to bag ↗") }}</a>{% endif %}
     </div>
   </article>

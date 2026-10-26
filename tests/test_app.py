@@ -462,6 +462,25 @@ def test_creator_link_landing_and_edit(client, app):
 
 
 
+def test_deal_page_links_to_discounted_product(client, app):
+    """README §40: deal cards open a product page that keeps the creator price, and Add to bag carries the code."""
+    login(client, app, 'admin')
+    csrf = token(client, '/admin/manage')
+    client.post('/admin/creators', data={'csrf_token': csrf, 'name': 'Deal Tester', 'platform': 'TikTok', 'discount': '20', 'commission': '8', 'code': 'dealtest', 'landing': ''})
+    client.post('/auth/logout', data={'csrf_token': token(client, '/')})
+    deal = client.get('/deal/DEALTEST').get_data(as_text=True)
+    assert 'href="/deal/DEALTEST/jelly-original"' in deal and '/deal/DEALTEST/drink-original?sku=' in deal
+    page = client.get('/deal/DEALTEST/jelly-original').get_data(as_text=True)
+    assert '$14.39' in page and 'price-old' in page and 'href="/deal/DEALTEST"' in page
+    assert 'price-old' not in client.get('/products/jelly-original').get_data(as_text=True)
+    assert client.get('/deal/NOPE/jelly-original').status_code == 404
+    assert client.get('/deal/DEALTEST/not-a-product').status_code == 404
+    login(client, app)
+    client.get('/deal/DEALTEST/jelly-original')
+    client.post('/shop/cart', data={'csrf_token': token(client, '/deal/DEALTEST/jelly-original'), 'sku': 'jelly-original-pouch', 'quantity': '1'})
+    assert 'DEALTEST' in client.get('/shop/cart').get_data(as_text=True)
+
+
 # ---- Sample wording, reviews, contact inbox, chatbot, inventory, product photos ----
 import io as _io
 
@@ -1259,3 +1278,52 @@ def test_admin_titles_and_section_order(client, app):
         assert not h1.strip().endswith('.'), (path, h1)
     page = client.get('/admin/manage').get_data(as_text=True)
     assert page.index('id="creators"') < page.index('id="discounts"') < page.index('id="popups"')
+
+
+# ---------- README §39: token data API for the dashboard + creator visits per day ----------
+def test_export_api_token_and_files(client, app, monkeypatch):
+    import csv as _csv
+    from shop.referral import CreatorVisit
+    q = '?start=2026-01-01&end=2030-12-31'
+    monkeypatch.delenv('EXPORT_API_TOKEN', raising=False)
+    assert client.get('/api/export/orders.csv' + q).status_code == 503          # off until a token is set
+    monkeypatch.setenv('EXPORT_API_TOKEN', 'test-token-123')
+    assert client.get('/api/export/orders.csv' + q).status_code == 401
+    assert client.get('/api/export/orders.csv' + q, headers={'Authorization': 'Bearer nope'}).status_code == 401
+    h = {'Authorization': 'Bearer test-token-123'}
+    assert client.get('/api/export/nope.csv', headers=h).status_code == 404
+    assert client.get('/api/export/orders.csv?start=bad', headers=h).status_code == 400
+    login(client, app, 'admin')
+    for kind in ('creator-performance', 'influencer-orders', 'orders', 'direct-orders', 'reviews'):
+        api = client.get(f'/api/export/{kind}.csv{q}', headers=h)
+        admin = client.get(f'/admin/export/{kind}.csv{q}')
+        assert api.status_code == 200 and api.mimetype == 'text/csv'
+        assert api.get_data() == admin.get_data(), kind                     # same file, same columns
+    rows = lambda r: list(_csv.DictReader(io.StringIO(r.get_data(as_text=True).lstrip('﻿'))))
+    inv = client.get('/api/export/inventory.csv', headers=h)
+    assert inv.status_code == 200 and rows(inv) and 'sku' in rows(inv)[0]
+    chat = rows(client.get('/api/export/chatbot-questions.csv' + q, headers=h))
+    assert chat and set(chat[0]) == {'question_id', 'created_at', 'language', 'visitor', 'topic', 'question', 'reply', 'verdict', 'codes', 'action', 'is_dummy'}
+    visits = rows(client.get('/api/export/creator-visits.csv' + q, headers=h))
+    assert visits and set(visits[0]) == {'date', 'discount_code', 'creator', 'platform', 'visits', 'is_dummy'}
+    with app.app_context():
+        link = db.session.scalar(db.select(ReferralLink).filter_by(code='NEONNIGHTS'))
+        dummy = db.session.scalar(db.select(db.func.sum(CreatorVisit.visits)).filter_by(link_id=link.id, is_dummy=True))
+        assert dummy == link.clicks                                          # per-day sample visits add up to the all-time clicks
+    client.get('/r/NEONNIGHTS'); client.get('/r/NEONNIGHTS')
+    today = [r for r in rows(client.get('/api/export/creator-visits.csv' + q, headers=h)) if r['discount_code'] == 'NEONNIGHTS' and r['is_dummy'] == 'False']
+    assert len(today) == 1 and today[0]['visits'] == '2'
+
+
+def test_export_api_inbox_masks_email(client, app, monkeypatch):
+    import csv as _csv
+    from core.messages import Message
+    monkeypatch.setenv('EXPORT_API_TOKEN', 'tok-456')
+    with app.app_context():
+        db.session.add(Message(kind='contact', name='Pat Lee', email='pat.lee@example.com', body='Where is my order?', topic='order', status='new')); db.session.commit()
+    r = client.get('/api/export/inbox.csv?start=2026-01-01&end=2030-12-31', headers={'Authorization': 'Bearer tok-456'})
+    rows = list(_csv.DictReader(io.StringIO(r.get_data(as_text=True).lstrip('﻿'))))
+    me = [x for x in rows if x['name'] == 'Pat Lee'][0]
+    assert me['email_masked'] == 'p***@example.com' and 'pat.lee@' not in r.get_data(as_text=True) and me['body'] == 'Where is my order?'
+    for kind in ('product-sales', 'option-sales', 'influencer-sales', 'creator-performance', 'direct-orders', 'reviews'):
+        assert client.get(f'/api/export/{kind}.csv?start=2026-01-01&end=2030-12-31', headers={'Authorization': 'Bearer tok-456'}).status_code == 200

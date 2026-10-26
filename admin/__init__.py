@@ -38,26 +38,83 @@ def safe_cell(value):
 def dashboard():
     return render_template('admin/dashboard.html',title='Sales overview',data=report(),site_url=site_url(),activities=db.session.scalars(db.select(Activity).order_by(Activity.id.desc()).limit(100)).all(),point_entries=db.session.scalars(db.select(PointEntry).order_by(PointEntry.id.desc()).limit(100)).all(),messages=db.session.scalars(db.select(Message).order_by(Message.id.desc()).limit(50)).all())
 
-@bp.get('/export/<kind>.csv')
-@admin_required
-def export(kind):
+FIELDS.update({  # README §39
+'chatbot-questions':'question_id created_at language visitor topic question reply verdict codes action is_dummy'.split(),
+'creator-visits':'date discount_code creator platform visits is_dummy'.split(),
+'inbox':'message_id created_at kind topic order_id status name email_masked body reply replied_at'.split()})
+
+
+def mask_email(e):
+    """j***@example.com — the inbox export never carries a full address."""
+    user, _, domain = (e or '').partition('@')
+    return (user[:1] + '***@' + domain) if domain else ''
+EXTRA_KINDS=('inventory',)  # its own columns (shop/inventory.py CSV_FIELDS), no date range
+
+
+def date_range():
+    """start/end (YYYY-MM-DD, inclusive) from the query string; default the last 90 days like the dashboard."""
+    from datetime import datetime as _dt, timedelta, timezone as _tz
+    today=_dt.now(_tz.utc).date()
+    start=request.args.get('start') or (today-timedelta(days=89)).isoformat(); end=request.args.get('end') or today.isoformat()
+    try:
+        a=_dt.strptime(start,'%Y-%m-%d'); b=_dt.strptime(end,'%Y-%m-%d')+timedelta(days=1)
+        if a>=b: raise ValueError()
+    except ValueError: abort(400,description='Choose a valid date range (YYYY-MM-DD).')
+    return start,end,a,b
+
+
+def extra_rows(kind):
+    """Rows for the exports that are not part of report(): chatbot questions and creator visits per day."""
+    start,end,a,b=date_range()
+    if kind=='inbox':
+        q=db.select(Message).where(Message.created_at>=a,Message.created_at<b).order_by(Message.created_at.desc())
+        rows=[dict(message_id=m.id,created_at=m.created_at.isoformat(timespec='seconds') if m.created_at else '',kind=m.kind,topic=m.topic,order_id=m.order_id or '',
+                   status=m.status,name=m.name,email_masked=mask_email(m.email),body=m.body,reply=m.reply or '',
+                   replied_at=m.replied_at.isoformat(timespec='seconds') if m.replied_at else '') for m in db.session.scalars(q)]
+    elif kind=='chatbot-questions':
+        from support.models import ChatQuestion
+        q=db.select(ChatQuestion).where(ChatQuestion.created_at>=a,ChatQuestion.created_at<b).order_by(ChatQuestion.created_at.desc())
+        rows=[dict(question_id=c.id,created_at=c.created_at.isoformat(timespec='seconds'),language=c.language,visitor=c.visitor,topic=c.topic,question=c.question,
+                   reply=c.reply,verdict=c.verdict,codes=c.codes,action=c.action,is_dummy=c.is_dummy) for c in db.session.scalars(q)]
+    else:
+        from shop.referral import CreatorVisit
+        q=db.select(CreatorVisit,ReferralLink).join(ReferralLink,CreatorVisit.link_id==ReferralLink.id).where(CreatorVisit.day>=a.date(),CreatorVisit.day<b.date()).order_by(CreatorVisit.day,ReferralLink.code,CreatorVisit.is_dummy)
+        rows=[dict(date=v.day.isoformat(),discount_code=l.code,creator=l.influencer_name,platform=l.platform,visits=v.visits,is_dummy=v.is_dummy) for v,l in db.session.execute(q)]
+    return rows,start,end
+
+
+def export_payload(kind):
+    """(csv text, file name) for one export — the same file for /admin/export/<kind>.csv and the token API /api/export/<kind>.csv."""
+    if kind=='inventory':
+        return export_csv(),f"reboot_inventory_{datetime.now(timezone.utc).strftime('%Y%m%d')}.csv"
     if kind not in FIELDS: abort(404)
     platform=request.args.get('platform','all')
     if kind in INFLUENCER_KINDS and platform not in ('all',*PLATFORMS): abort(400,description='Choose instagram, tiktok, or all.')
     sentiment=request.args.get('sentiment','all')
     if kind=='reviews' and sentiment not in SENTIMENTS: abort(400,description='Choose positive, negative, neutral, or all.')
-    data=report()
-    if kind=='reviews': rows=[r for r in data['reviews']['items'] if sentiment=='all' or r['sentiment']==sentiment]
-    elif kind=='review-summary': rows=data['reviews']['by_month']
-    else: rows=data[SOURCES[kind]]
-    if kind in INFLUENCER_KINDS: rows=influencer_rows(rows,platform)
-    if kind=='creator-performance': rows=[dict(r,link_url=site_url()+r['link_path']) for r in rows]
+    if kind in ('chatbot-questions','creator-visits','inbox'):
+        rows,start,end=extra_rows(kind)
+    else:
+        data=report(); start,end=data['start'],data['end']
+        if kind=='reviews': rows=[r for r in data['reviews']['items'] if sentiment=='all' or r['sentiment']==sentiment]
+        elif kind=='review-summary': rows=data['reviews']['by_month']
+        else: rows=data[SOURCES[kind]]
+        if kind in INFLUENCER_KINDS: rows=influencer_rows(rows,platform)
+        if kind=='creator-performance': rows=[dict(r,link_url=site_url()+r['link_path']) for r in rows]
     stream=io.StringIO(newline=''); writer=csv.DictWriter(stream,fieldnames=FIELDS[kind]); writer.writeheader()
     for row in rows: writer.writerow({key:safe_cell(row[key]) for key in FIELDS[kind]})
     suffix=f'_{platform}' if kind in INFLUENCER_KINDS else f'_{sentiment}' if kind=='reviews' else ''
-    filename=f"reboot_{kind.replace('-','_')}{suffix}_{data['start'].replace('-','')}_{data['end'].replace('-','')}.csv"
-    return Response(stream.getvalue().encode('utf-8-sig'),mimetype='text/csv',headers={'Content-Disposition':f'attachment; filename="{filename}"','Cache-Control':'no-store'})
+    return stream.getvalue(),f"reboot_{kind.replace('-','_')}{suffix}_{start.replace('-','')}_{end.replace('-','')}.csv"
 
+
+def csv_response(text, filename):
+    return Response(text.encode('utf-8-sig'),mimetype='text/csv',headers={'Content-Disposition':f'attachment; filename="{filename}"','Cache-Control':'no-store'})
+
+
+@bp.get('/export/<kind>.csv')
+@admin_required
+def export(kind):
+    return csv_response(*export_payload(kind))
 
 def site_url():
     """Public base URL used in creator share links (SITE_URL in .env, else the current host)."""

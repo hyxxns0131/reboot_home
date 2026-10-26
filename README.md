@@ -1622,3 +1622,19 @@ Ask Reboot은 AI가 **사람 검수 없이 미국 소비자에게 바로 답하�
 - AI 상품 등록: AI가 버전을 "Original"/"Balance"처럼 대문자로 넣어도 original/balance로 맞춤(Balance가 Original로 저장되던 위험 제거).
 - 확인(실제 키 · DB 복사본): 사진 추가(3000px JPG) · AI 작업실 사진 업로드 · 상품 AI 대화(초안 반영) · 관리자 길잡이 · 고객 챗봇 모두 정상.
 - 사이드바 스크롤 표시: 본문이 준비된 뒤 앵커를 연결하고, 읽는 위치를 기준으로 현재 섹션을 갱신. 브라우저에서 메뉴/본문 순서와 스크롤 표시 확인.
+
+## 39. 대시보드용 데이터 API (토큰) · 크리에이터 날짜별 방문수
+- `GET /api/export/<이름>.csv?start=YYYY-MM-DD&end=YYYY-MM-DD` + 헤더 `Authorization: Bearer <EXPORT_API_TOKEN>` — 관리자 로그인 없이 `/admin/export/<이름>.csv`와 **같은 파일 · 같은 컬럼**(테스트로 바이트 단위 비교). 토큰이 서버에 없으면 503, 틀리면 401. `GET /api/export/` = 파일 목록.
+- 파일: `creator-performance` · `influencer-orders` · `influencer-sales` · `orders` · `direct-orders` · `reviews` · `review-summary` · `product-sales` · `option-sales` · `link-sales` · `inventory` · **`chatbot-questions`(신규)** · **`creator-visits`(신규)**. 기존 파일의 옵션(`status`, `platform`, `sentiment`)도 그대로.
+- 신규 컬럼 — `chatbot-questions`: question_id, created_at, language, visitor, topic, question(이메일 · 전화 가린 상태), reply, verdict, codes, action, is_dummy / `creator-visits`: date, discount_code, creator, platform, visits, is_dummy. `inventory`는 기존 재고 CSV 컬럼 그대로(날짜 범위 없음). 관리자 화면 `/admin/export/chatbot-questions.csv`, `/admin/export/creator-visits.csv`도 생김.
+- 날짜별 방문: 표 `shop_creator_visit`(링크 · 날짜 · 방문수). `/r/CODE` 방문마다 오늘 날짜에 +1(is_dummy=False). 샘플 크리에이터는 누적 clicks를 샘플 주문 날짜에 맞춰 나눠 넣음(is_dummy=True, 합계 = clicks). 기존 `clicks`(누적)는 그대로.
+- 토큰: Render › reboot-us › Environment에 `EXPORT_API_TOKEN` 추가(Generate 버튼) → 저장. 값은 채팅방이 아닌 안전한 경로로 대시보드 담당자에게만 전달. 로컬은 `.env`에 같은 이름.
+- 컬럼 이름을 바꿀 때는 대시보드 담당자에게 먼저 알리기(이번 작업에서는 기존 컬럼 변경 없음).
+- **문의함** 추가: `/api/export/inbox.csv` (관리자 화면 `/admin/export/inbox.csv`도). 컬럼: message_id, created_at, kind(contact · creators), topic, order_id, status(new · read · answered), name, email_masked(`p***@example.com`처럼 가림), body, reply, replied_at. 날짜 범위는 접수 시각 기준.
+- 대시보드 화면 ↔ 파일: 상품 실적 `product-sales` · 판매 옵션별 실적 `option-sales` · 플랫폼별 인플루언서 매출 `influencer-sales`(주문 단위는 `influencer-orders`) · 크리에이터 성과 `creator-performance` · 자사몰 직접 매출 `direct-orders` · 상품 리뷰 `reviews`(월별 요약 `review-summary`) · 문의함 `inbox`.
+
+## 40. 크리에이터 할인 페이지 → 할인가 상세페이지에서 구매 (2026-10-26)
+- 할인 페이지(`/deal/<CODE>`)의 제품 사진 · 제품명 · 옵션 줄 · **"상세 보기 · 구매하기"** 버튼을 누르면 **할인가 상세페이지 `/deal/<CODE>/<slug>`**로 이동 (옵션 줄은 `?sku=`로 그 옵션이 선택된 채 열림).
+- 할인가 상세페이지는 일반 상세페이지(`products/detail.html`)와 같은 화면이지만 옵션마다 정가 취소선 + 크리에이터 할인가, 상단에 "← 할인가 전체 보기"와 "크리에이터 할인 · CODE 적용 중" 표시. 장바구니에 담으면 코드 쿠키(30일)가 그대로 적용되어 결제 · 크리에이터 실적에 잡힘. 긴 상세페이지 안의 라인업 · 구매 링크도 할인 안에 머무름(`product_href()` 템플릿 함수).
+- 메인 사이트(`/products/<slug>`)는 여전히 항상 정가(§35 유지). 없는 코드 · 숨긴/없는 제품은 404. 조회는 활동 로그 `creator_deal_product_viewed`.
+- 파일: `shop/referral.py`(`deal_product`), `shop/__init__.py`(`product_href`), `core/templates/shop/deal.html`, `core/templates/products/detail.html` · `_long_page.html` · `_story.html`, `site.css`(`.deal-visual` · `.deal-option` · `.deal-note`), `core/translations.py`, 테스트 `test_deal_page_links_to_discounted_product`.

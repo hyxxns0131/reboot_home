@@ -31,6 +31,13 @@ def creator_link():
     return g.get('creator_link') if has_request_context() else None
 
 
+def product_href(slug, sku=None):
+    """Link to a product page that keeps the visitor in the creator deal when they are in one (README §40)."""
+    link=creator_link()
+    base=f'/deal/{link.code}/{slug}' if link else f'/products/{slug}'
+    return f'{base}?sku={sku}' if sku else base
+
+
 def pct(rate): return f"{(Decimal(rate)*100).normalize():f}"
 
 
@@ -63,7 +70,7 @@ def from_price(p):
 def register_helpers(state):
     # globals (not a context processor) so imported macros can use them too
     from shop.inventory import stock_for
-    state.app.jinja_env.globals.update(sale_for=sale_for,from_price=from_price,stock_for=stock_for,creator_link=creator_link)
+    state.app.jinja_env.globals.update(sale_for=sale_for,from_price=from_price,stock_for=stock_for,creator_link=creator_link,product_href=product_href)
 @bp.get('/')
 def index():
     return redirect('/products/')
