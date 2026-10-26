@@ -1,5 +1,5 @@
 ﻿product_slug,product_name,order_count,units_sold,box_units_sold,gross_sales_usd,discount_usd,net_sales_usd,via_link_sales_usd
-jelly-balance,Reboot Jelly Balance,483,943,0,18850.57,1536.80,17313.77,11656.60
-jelly-original,Reboot Jelly Original,464,921,0,16568.79,1371.44,15197.35,10591.91
-drink-balance,Reboot Drink Balance,477,954,289,7838.46,643.84,7194.62,4890.89
-drink-original,Reboot Drink Original,489,995,227,6781.05,583.68,6197.37,4406.03
+jelly-balance,Reboot Jelly Balance,1749,3449,0,68945.51,6437.36,62508.15,48415.20
+jelly-original,Reboot Jelly Original,1710,3440,0,61885.60,5845.76,56039.84,43806.64
+drink-balance,Reboot Drink Balance,1729,3439,893,26917.11,2545.87,24371.24,19308.92
+drink-original,Reboot Drink Original,1725,3484,876,24393.16,2311.68,22081.48,17489.07

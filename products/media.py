@@ -6,7 +6,7 @@ from flask import g, has_request_context
 from core.extensions import db
 
 MAX_SIDE = 1600
-ALLOWED = {'JPEG', 'PNG', 'WEBP'}
+ALLOWED = {'JPEG', 'PNG', 'WEBP', 'MPO', 'GIF', 'BMP', 'TIFF'}  # MPO = iPhone / camera JPEG
 
 
 class ProductImage(db.Model):
@@ -26,6 +26,75 @@ class ProductText(db.Model):
     slug = db.Column(db.String(80), nullable=False, unique=True)
     name = db.Column(db.String(80), nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class ProductDetail(db.Model):
+    """Ingredient list edited / confirmed by an admin. Until confirmed, the full list is not shown to shoppers."""
+    __tablename__ = 'products_detail'
+    id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String(80), nullable=False, unique=True)
+    ingredients = db.Column(db.JSON, nullable=False, default=list)
+    sweetened_with = db.Column(db.String(120), nullable=False, default='')
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    updated_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
+class GalleryPhoto(db.Model):
+    """Extra photo an admin added to a product's gallery (README §34). Shown after the original gallery photos."""
+    __tablename__ = 'products_gallery_photo'
+    id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String(80), nullable=False, index=True)
+    label = db.Column(db.String(60), nullable=False, default='')
+    data = db.Column(db.LargeBinary, nullable=False)
+    position = db.Column(db.Integer, nullable=False, default=0)
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+    @property
+    def url(self): return f'/media/products/gallery/{self.id}.webp'
+
+
+class GalleryHidden(db.Model):
+    """An original gallery photo (products.json path) an admin took off the product page. Delete the row to bring it back."""
+    __tablename__ = 'products_gallery_hidden'
+    id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String(80), nullable=False)
+    src = db.Column(db.String(200), nullable=False)
+    __table_args__ = (db.UniqueConstraint('slug', 'src'),)
+
+
+def gallery_changes():
+    """{slug: {'hidden': {src}, 'added': [GalleryPhoto-like dicts]}}, cached for the request."""
+    if has_request_context() and 'gallery_changes' in g: return g.gallery_changes
+    result = {}
+    try:
+        for slug, src in db.session.execute(db.select(GalleryHidden.slug, GalleryHidden.src)).all():
+            result.setdefault(slug, {'hidden': set(), 'added': []})['hidden'].add(src)
+        for i, slug, label in db.session.execute(db.select(GalleryPhoto.id, GalleryPhoto.slug, GalleryPhoto.label).order_by(GalleryPhoto.position, GalleryPhoto.id)).all():
+            result.setdefault(slug, {'hidden': set(), 'added': []})['added'].append({'src': f'/media/products/gallery/{i}.webp', 'label': label or 'Photo', 'added_id': i})
+    except Exception:
+        result = {}
+    if has_request_context(): g.gallery_changes = result
+    return result
+
+
+def apply_gallery(products):
+    """Take hidden originals out of each gallery and add the admin's extra photos (before photo overrides are applied)."""
+    changes = gallery_changes()
+    for p in products:
+        c = changes.get(p['slug'])
+        if not c: continue
+        images = dict(p.get('images') or {})
+        images['gallery'] = [x for x in images.get('gallery', []) if x.get('src') not in c['hidden']] + [dict(x) for x in c['added']]
+        p['images'] = images
+    return products
+
+
+def detail_overrides():
+    if has_request_context() and 'detail_overrides' in g: return g.detail_overrides
+    try: result = {r.slug: r for r in db.session.scalars(db.select(ProductDetail))}
+    except Exception: result = {}
+    if has_request_context(): g.detail_overrides = result
+    return result
 
 
 def name_overrides():
@@ -64,7 +133,8 @@ def to_webp(raw):
     """Check the upload really is a JPEG/PNG/WEBP image, shrink to 1600 px, keep transparency, save as WEBP."""
     from PIL import Image, ImageOps
     img = Image.open(io.BytesIO(raw))
-    if img.format not in ALLOWED: raise ValueError('Upload a JPG, PNG or WEBP image.')
+    if img.format not in ALLOWED: raise ValueError('Upload a JPG, PNG or WEBP image (HEIC: export it as JPG first).')
+    img.seek(0)
     img.load()
     img = ImageOps.exif_transpose(img)
     if img.width * img.height > 40_000_000: raise ValueError('That image is too large.')
@@ -89,6 +159,15 @@ def image_slots(product):
 from flask import Blueprint, Response, abort  # noqa: E402
 
 bp = Blueprint('media', __name__)
+
+
+@bp.get('/media/products/gallery/<int:photo_id>.webp')
+def serve_gallery(photo_id):
+    img = db.session.get(GalleryPhoto, photo_id) or abort(404)
+    resp = Response(img.data, mimetype='image/webp')
+    resp.direct_passthrough = True
+    resp.headers['Cache-Control'] = 'public, max-age=31536000, immutable'  # a new photo gets a new id
+    return resp
 
 
 @bp.get('/media/products/<int:image_id>.webp')

@@ -4,15 +4,15 @@
     "name": "Reboot Jelly Original",
     "line": "Jelly",
     "format": "Individually wrapped shaped jelly (cowboy boot, cowboy hat, lasso)",
-    "pack": "One package of individually wrapped jellies: lime, lemon & cherry",
+    "pack": "One pouch of 10 individually wrapped jellies: lime, lemon & cherry",
     "ingredients": [
       "A-HAT",
       "Hovenia dulcis (Oriental raisin tree) fruit"
     ],
     "flavors": [
       "Lime",
-      "Cherry",
-      "Lemon"
+      "Lemon",
+      "Cherry"
     ],
     "options": [
       {
@@ -65,22 +65,51 @@
     "order": 1,
     "image_dir": "jelly",
     "variant": "original",
-    "color": "#ff87bd"
+    "color": "#ff87bd",
+    "details": {
+      "summary": "10 individually wrapped lime, lemon and cherry jellies in one pouch.",
+      "sweetened_with": "Cane sugar, tapioca syrup and glucose syrup",
+      "ingredients": [
+        "Cane sugar",
+        "Tapioca syrup",
+        "Glucose syrup",
+        "Water",
+        "Pectin",
+        "Soluble fiber",
+        "Citric acid",
+        "Malic acid",
+        "Sodium citrate",
+        "Hovenia dulcis (Oriental raisin tree) fruit extract",
+        "Lactobacillus fermentum",
+        "Natural flavors (lime, lemon, cherry)",
+        "Colors: turmeric extract, spirulina extract, vegetable and fruit juice (color)",
+        "Coconut oil (MCT)",
+        "Sunflower lecithin"
+      ],
+      "facts": [
+        "Pectin jelly, individually wrapped",
+        "10 jellies per pouch"
+      ],
+      "origin": "Product of Korea",
+      "maker": "ALDICOM",
+      "confirmed": true,
+      "source": "REBOOT spec & ingredient sheet 2026-10-25 · confirmed by admin 2026-10-26"
+    }
   },
   {
     "slug": "jelly-balance",
     "name": "Reboot Jelly Balance",
     "line": "Jelly",
     "format": "Individually wrapped shaped jelly (cowboy boot, cowboy hat, lasso)",
-    "pack": "One package of individually wrapped jellies: lime, lemon & cherry",
+    "pack": "One pouch of 10 individually wrapped jellies: lime, lemon & cherry",
     "ingredients": [
       "A-HAT",
       "Hovenia dulcis (Oriental raisin tree) fruit"
     ],
     "flavors": [
-      "Lemon",
       "Cherry",
-      "Lime"
+      "Lime",
+      "Lemon"
     ],
     "options": [
       {
@@ -133,7 +162,36 @@
     "order": 2,
     "image_dir": "jelly",
     "variant": "balance",
-    "color": "#c8b5ff"
+    "color": "#c8b5ff",
+    "details": {
+      "summary": "10 Zero Sugar cherry, lime and lemon jellies, individually wrapped in one pouch.",
+      "sweetened_with": "Allulose with stevia (Reb M), monk fruit or sucralose",
+      "ingredients": [
+        "Allulose",
+        "Soluble fiber",
+        "Water",
+        "Pectin",
+        "Citric acid",
+        "Malic acid",
+        "Sodium citrate",
+        "Hovenia dulcis (Oriental raisin tree) fruit extract",
+        "Lactobacillus fermentum",
+        "Stevia leaf extract (Reb M), monk fruit extract or sucralose",
+        "Natural flavors (cherry, lime, lemon)",
+        "Colors: turmeric extract, spirulina extract, vegetable and fruit juice (color)",
+        "Coconut oil (MCT)",
+        "Sunflower lecithin"
+      ],
+      "facts": [
+        "Zero Sugar",
+        "Not a low calorie food",
+        "10 jellies per pouch"
+      ],
+      "origin": "Product of Korea",
+      "maker": "ALDICOM",
+      "confirmed": true,
+      "source": "REBOOT spec & ingredient sheet 2026-10-25 · confirmed by admin 2026-10-26"
+    }
   },
   {
     "slug": "drink-original",
@@ -234,7 +292,30 @@
     "order": 3,
     "image_dir": "beverage",
     "variant": "original",
-    "color": "#b1ff3b"
+    "color": "#b1ff3b",
+    "details": {
+      "summary": "A non-carbonated lemon, cherry or lime drink in a 100 mL glass bottle.",
+      "sweetened_with": "Fructose and sugar",
+      "ingredients": [
+        "Water",
+        "Fructose",
+        "Sugar",
+        "Hovenia dulcis (Oriental raisin tree) fruit extract",
+        "Citric acid",
+        "Trisodium citrate",
+        "DL-malic acid",
+        "Lactobacillus fermentum",
+        "Natural flavors (lemon, cherry, lime)"
+      ],
+      "facts": [
+        "Non-carbonated",
+        "100 mL (3.4 fl oz) glass bottle"
+      ],
+      "origin": "Product of Korea",
+      "maker": "ALDICOM",
+      "confirmed": true,
+      "source": "REBOOT spec & ingredient sheet 2026-10-25 · confirmed by admin 2026-10-26"
+    }
   },
   {
     "slug": "drink-balance",
@@ -335,6 +416,30 @@
     "order": 4,
     "image_dir": "beverage",
     "variant": "balance",
-    "color": "#fff071"
+    "color": "#fff071",
+    "details": {
+      "summary": "A Zero Sugar, non-carbonated lemon, lime or cherry drink in a 100 mL glass bottle.",
+      "sweetened_with": "Sucralose (allulose, stevia Reb M or monk fruit under review)",
+      "ingredients": [
+        "Water",
+        "Hovenia dulcis (Oriental raisin tree) fruit extract",
+        "Citric acid",
+        "Trisodium citrate",
+        "DL-malic acid",
+        "Lactobacillus fermentum",
+        "Natural flavors (lemon, lime, cherry)",
+        "Sucralose (or allulose, stevia Reb M, monk fruit)"
+      ],
+      "facts": [
+        "Zero Sugar",
+        "Not a low calorie food",
+        "Non-carbonated",
+        "100 mL (3.4 fl oz) glass bottle"
+      ],
+      "origin": "Product of Korea",
+      "maker": "ALDICOM",
+      "confirmed": true,
+      "source": "REBOOT spec & ingredient sheet 2026-10-25 · confirmed by admin 2026-10-26"
+    }
   }
 ]

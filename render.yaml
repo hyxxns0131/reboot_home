@@ -3,7 +3,7 @@ services:
     name: reboot-us
     runtime: python
     buildCommand: pip install -r requirements-render.txt
-    startCommand: flask --app app:create_app setup-db && gunicorn -w 2 -b 0.0.0.0:$PORT 'app:create_app()'
+    startCommand: flask --app app:create_app setup-db && gunicorn -w 2 --timeout 200 -b 0.0.0.0:$PORT 'app:create_app()'
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -22,4 +22,8 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: OPENAI_API_KEY
+        sync: false
+      - key: HIGGSFIELD_API_KEY_ID
+        sync: false
+      - key: HIGGSFIELD_API_KEY_SECRET
         sync: false

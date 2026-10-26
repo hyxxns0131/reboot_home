@@ -1,4 +1,13 @@
 ﻿creator,discount_code,platform,link_url,clicks,order_count,units_sold,net_sales_usd,conversion_rate_pct,commission_usd
-Neon Nights (Fictional),NEONNIGHTS,TikTok,http://127.0.0.1:5000/r/NEONNIGHTS,4080,113,456,5398.59,2.77,809.84
-Restart Crew (Fictional),RESTARTCREW,TikTok,http://127.0.0.1:5000/r/RESTARTCREW,5760,115,463,4917.27,2.00,983.48
-Seoul Sip NYC (Fictional),SEOULSIPNYC,TikTok,http://127.0.0.1:5000/r/SEOULSIPNYC,4560,112,417,4786.98,2.46,478.84
+Restart Crew (Fictional),RESTARTCREW,TikTok,http://127.0.0.1:5000/r/RESTARTCREW,10752,213,866,9385.27,1.98,1877.14
+Party Prep Pro (Fictional),PARTYPREP,TikTok,http://127.0.0.1:5000/r/PARTYPREP,10808,188,745,8560.85,1.74,1284.30
+Snack Check Daily (Fictional),SNACKCHECK,TikTok,http://127.0.0.1:5000/r/SNACKCHECK,6880,151,628,7330.52,2.19,879.72
+Taste Test Tina (Fictional),TASTETINA,TikTok,http://127.0.0.1:5000/r/TASTETINA,9519,158,541,6296.84,1.66,629.85
+Neon Nights (Fictional),NEONNIGHTS,TikTok,http://127.0.0.1:5000/r/NEONNIGHTS,4488,125,510,5997.90,2.79,899.74
+K-Snack Review (Fictional),KSNACKREVIEW,TikTok,http://127.0.0.1:5000/r/KSNACKREVIEW,4257,123,504,5896.26,2.89,884.49
+Festival Fam (Fictional),FESTIVALFAM,TikTok,http://127.0.0.1:5000/r/FESTIVALFAM,6902,116,477,5520.81,1.68,662.43
+Game Day Crew (Fictional),GAMEDAYCREW,TikTok,http://127.0.0.1:5000/r/GAMEDAYCREW,4636,119,498,5182.76,2.57,777.49
+Late Night Bites (Fictional),LATENIGHTBITES,TikTok,http://127.0.0.1:5000/r/LATENIGHTBITES,3745,98,389,4455.16,2.62,445.60
+Road Trip Duo (Fictional),ROADTRIPDUO,TikTok,http://127.0.0.1:5000/r/ROADTRIPDUO,3150,97,355,4394.75,3.08,527.37
+Seoul Sip NYC (Fictional),SEOULSIPNYC,TikTok,http://127.0.0.1:5000/r/SEOULSIPNYC,4294,105,377,4293.28,2.45,429.45
+Rooftop Hours (Fictional),ROOFTOPHOURS,TikTok,http://127.0.0.1:5000/r/ROOFTOPHOURS,5959,91,337,3676.84,1.53,367.72

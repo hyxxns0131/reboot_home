@@ -5,3 +5,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .DS_Store
+
+# trash folder and archives (GitHub rejects files over 100 MB)
+_to_delete/
+*.tgz

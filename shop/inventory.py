@@ -2,6 +2,7 @@
 import csv
 import io
 import random
+import re
 from datetime import datetime, timezone
 from flask import g, has_request_context
 from flask_login import current_user
@@ -127,14 +128,17 @@ def parse_csv(text, mode):
         if sku not in options: errors.append(f'Row {n}: unknown SKU "{sku[:40]}"'); continue
         if sku in seen: errors.append(f'Row {n}: {sku} appears twice'); continue
         seen.add(sku)
-        try:
-            qty = int((row.get('on_hand') or '').strip())
-            level = int(row['reorder_level'].strip()) if (row.get('reorder_level') or '').strip() else None
-        except ValueError:
-            errors.append(f'Row {n}: on_hand and reorder_level must be whole numbers'); continue
-        limit = (-100000 if mode == 'add' else 0)
-        if not limit <= qty <= 100000 or (level is not None and not 0 <= level <= 100000):
-            errors.append(f'Row {n}: numbers out of range'); continue
+        raw_qty = (row.get('on_hand') or '').strip(); raw_lvl = (row.get('reorder_level') or '').strip()
+        bad = [f'{col} "{val[:20]}" is not a whole number' + (' (remove the comma)' if ',' in val else '')
+               for col, val in (('on_hand', raw_qty), ('reorder_level', raw_lvl)) if (val or col == 'on_hand') and not re.fullmatch(r'-?\d{1,9}', val)]
+        if bad: errors.append(f'Row {n} ({sku}): ' + ', '.join(bad)); continue
+        qty, level = int(raw_qty), (int(raw_lvl) if raw_lvl else None)
+        if mode == 'set' and qty < 0:
+            errors.append(f'Row {n} ({sku}): on_hand {qty} — a stock count can\'t be negative (use "Add to stock" for adjustments)'); continue
+        if not -100000 <= qty <= 100000:
+            errors.append(f'Row {n} ({sku}): on_hand {qty:,} is over the 100,000 limit'); continue
+        if level is not None and not 0 <= level <= 100000:
+            errors.append(f'Row {n} ({sku}): reorder_level {level:,} must be 0–100,000'); continue
         changes.append((options[sku], qty, level))
     if not changes and not errors: errors.append('The file has no rows.')
     return changes, errors

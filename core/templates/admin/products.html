@@ -13,6 +13,15 @@
         <button class="btn btn-danger" name="action" value="delete" onclick='return confirm({{ ("Delete " ~ item.name ~ "? Products with past orders are archived (you can restore them).")|tojson }})'>{{ tr('Delete') }}</button>
       </form>{% endif %}
     </div>
+    {% set ap = autopages.get(p.slug) %}
+    {% if ap or p.custom %}<div class="autopage-status{{ ' failed' if ap and ap.status=='failed' }}">
+      <strong>{{ tr("Automatic detail page") }}:</strong>
+      {% if not ap %}{{ tr("not made yet") }}{% elif ap.status=='ready' %}✓ {{ tr("Ready") }} · <a class="text-link" href="/products/{{ p.slug }}#story" target="_blank" rel="noopener">{{ tr("View ↗") }}</a>{% elif ap.status=='failed' %}{{ tr("Failed") }}{% else %}{{ tr("In progress") }} ({{ ap.status }}) — {{ tr("refresh in a minute") }}{% endif %}
+      {% if ap and ap.note %}<br><small>{{ ap.note }}</small>{% endif %}{% if ap and ap.credits %}<br><small>Higgsfield: {{ ap.credits }}</small>{% endif %}
+      {% if not ap or ap.status in ('ready','failed') %}<form method="post" action="{{ url_for('admin.product_autopage',slug=p.slug) }}" style="display:inline-flex;gap:8px;align-items:center;margin-left:8px"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        {% if autopage.ai %}<label class="check"><input type="checkbox" name="ai" value="1"> {{ tr("New Higgsfield backgrounds") }} ({{ tr("about") }} {{ autopage.total }} {{ tr("credits") }})</label>{% endif %}
+        <button class="btn" onclick="return confirm('{{ tr('Make the detail page again? The current one is replaced.') }}')">{{ tr("Make again") if ap else tr("Make now") }}</button></form>{% endif %}
+    </div>{% endif %}
     <form method="post" action="{{ url_for('admin.product_name') }}" class="product-name-form">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}">
       <label for="name-{{ p.slug }}">{{ tr("Product name") }}{% if item.renamed %} <span class="badge">{{ tr("Renamed") }}</span>{% endif %}</label>
@@ -20,6 +29,35 @@
       <button class="btn primary">{{ tr("Save name") }}</button>{% if item.renamed %}<button class="btn" name="reset" value="1" formnovalidate>{{ tr("Reset name") }}</button>{% endif %}</div>
       <small class="muted">{{ tr("Original") }}: {{ p.name }} · {{ p.line }} · {{ 'Zero Sugar' if p.is_balance else 'Original' }} · <a class="text-link" href="/products/{{ p.slug }}" target="_blank" rel="noopener">{{ tr("View product page ↗") }}</a></small>
     </form>
+    {% set d = item.details %}
+    <details class="ing-editor" id="ing-{{ p.slug }}" {{ 'open' if not d.confirmed and d.ingredients }}>
+      <summary><strong>{{ tr("Ingredients") }}</strong> <span class="status-pill {{ 'live' if d.confirmed else 'hidden' }}">{{ tr("Confirmed · on the product page") if d.confirmed else tr("Draft · not shown to shoppers") }}</span></summary>
+      {% if d.source and not d.confirmed %}<p class="admin-note">{{ d.source }}</p>{% endif %}
+      <form method="post" action="{{ url_for('admin.product_ingredients') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}">
+        <label>{{ tr("Ingredient list — one per line, most to least by weight") }}<textarea name="ingredients" rows="8">{{ (d.ingredients or [])|join('\n') }}</textarea></label>
+        <label>{{ tr("Sweetened with") }}<input name="sweetened_with" maxlength="120" value="{{ d.sweetened_with or '' }}"></label>
+        <label class="check"><input type="checkbox" name="confirmed" value="1" {{ 'checked' if d.confirmed }}> {{ tr("Confirmed with ALDICOM’s formula sheet — show the full list on the product page") }}</label>
+        <p class="muted">{{ tr("Before confirming: pick one option wherever the list says “or”, and match the package label exactly. No health or hangover claims.") }}</p>
+        <button class="btn primary">{{ tr("Save ingredients") }}</button> <a class="text-link" href="/products/{{ p.slug }}#inside" target="_blank" rel="noopener">{{ tr("Preview on product page ↗") }}</a>
+      </form>
+    </details>
+    <div class="gallery-admin" data-gallery data-slug="{{ p.slug }}">
+      <h3>{{ tr("PRODUCT PAGE PHOTOS") }}</h3>
+      <p class="muted">{{ tr("Photos in the gallery under the main photo. Add new ones or take any of them off the page. Phone photos are resized in your browser before upload.") }}</p>
+      <div class="gallery-grid">{% for gph in item.gallery %}
+        <figure class="{{ 'is-off' if gph.hidden }}"><img src="{{ gph.url }}" alt="" loading="lazy">
+          <figcaption><span>{{ gph.label or tr('Photo') }}{% if gph.hidden %} · {{ tr('Off') }}{% elif gph.kind=='added' %} · {{ tr('Added') }}{% endif %}</span>
+          {% if gph.kind=='added' %}<form method="post" action="{{ url_for('admin.product_gallery_delete',photo_id=gph.id) }}" onsubmit="return confirm('{{ tr('Remove this photo?') }}')"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-danger">{{ tr('Remove') }}</button></form>
+          {% else %}<form method="post" action="{{ url_for('admin.product_gallery_toggle') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}"><input type="hidden" name="src" value="{{ gph.src }}"><button class="btn{{ ' btn-danger' if not gph.hidden }}">{{ tr('Put back') if gph.hidden else tr('Remove') }}</button></form>{% endif %}
+          </figcaption></figure>{% else %}<p class="muted">{{ tr("No gallery photos yet.") }}</p>{% endfor %}</div>
+      <form class="gallery-drop" method="post" action="{{ url_for('admin.product_gallery_add') }}" enctype="multipart/form-data" data-gallery-form>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}">
+        <input type="file" name="photo" accept="image/*,.heic,.heif" multiple data-gallery-file hidden>
+        <input name="label" maxlength="60" placeholder="{{ tr('Label (optional), e.g. Party scene') }}">
+        <button class="btn primary">{{ tr("+ Add photos") }}</button><span class="muted" data-gallery-status>{{ tr("or drop photos here") }}</span>
+      </form>
+    </div>
     <div class="photo-grid">{% for s in item.slots %}
       <article class="photo-slot{{ ' replaced' if s.replaced }}">
         <div class="photo-preview"><img src="{{ s.url }}" alt="" loading="lazy"></div>
@@ -27,7 +65,7 @@
         {% if s.replaced %}<span class="badge">{{ tr("Replaced") }}</span>{% endif %}
         <form method="post" action="{{ url_for('admin.product_photo_upload') }}" enctype="multipart/form-data" data-crop-form>
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}"><input type="hidden" name="src" value="{{ s.src }}">
-          <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" hidden data-crop-file>
+          <input type="file" name="photo" accept="image/*" hidden data-crop-file>
           <div class="photo-actions">
             <button type="button" class="btn primary" data-crop-pick>{{ tr("Upload & crop") }}</button>
             <button type="button" class="btn" data-crop-current="{{ s.url }}">{{ tr("Crop current") }}</button>
@@ -44,4 +82,4 @@
   {% for item in archived %}<div class="archived-row"><strong>{{ item.name }}</strong><form method="post" action="{{ url_for('admin.product_status',slug=item.p.slug) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn" name="action" value="restore">{{ tr('Restore') }}</button></form></div>{% else %}<p class="muted">{{ tr("Nothing archived.") }}</p>{% endfor %}
 </section></div>
 {% endblock %}
-{% block extra_js %}<script src="{{ url_for('static',filename='core/js/cropper.js') }}"></script><script src="{{ url_for('static',filename='core/js/admin-photos.js') }}"></script>{% endblock %}
+{% block extra_js %}<script src="{{ url_for('static',filename='core/js/upload-image.js') }}"></script><script src="{{ url_for('static',filename='core/js/admin-gallery.js') }}"></script><script src="{{ url_for('static',filename='core/js/cropper.js') }}"></script><script src="{{ url_for('static',filename='core/js/admin-photos.js') }}"></script>{% endblock %}

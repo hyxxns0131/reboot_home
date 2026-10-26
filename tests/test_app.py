@@ -101,11 +101,13 @@ def test_seed_idempotence(app):
     assert app.test_cli_runner().invoke(args=['setup-db']).exit_code==0
     with app.app_context():
         orders=db.session.scalars(db.select(Order)).all()
-        assert len(orders)==1000
+        links=db.session.scalars(db.select(ReferralLink)).all()
+        assert len(orders)==sum(1 for o in orders if o.referral_link_id)+700 and len(orders)>=2900
+        assert Counter(l.platform for l in links)=={'Instagram':10,'TikTok':12}
         product_counts=Counter(item.product_id for order in orders for item in order.items)
         link_counts=Counter(order.referral_link_id for order in orders if order.referral_link_id)
         assert len(product_counts)==4 and min(product_counts.values())>=100
-        assert len(link_counts)==6 and min(link_counts.values())>=100
+        assert len(link_counts)==22 and min(link_counts.values())>=100 and max(link_counts.values())<=240
         assert db.session.query(User).count()==2
         assert all(u.password_hash!=app.config['TEST_PASSWORD'] for u in db.session.scalars(db.select(User)))
 
@@ -226,7 +228,7 @@ def test_option_and_influencer_platform_csv(client,app):
         response=client.get(f'/admin/export/influencer-sales.csv?platform={platform}&{q}')
         assert response.status_code==200 and f'influencer_sales_{platform}_' in response.headers['Content-Disposition']
         summary=list(csv.DictReader(io.StringIO(response.data.decode('utf-8-sig'))))
-        assert len(summary)==3 and {r['platform'] for r in summary}=={name}
+        assert len(summary)=={'instagram':10,'tiktok':12}[platform] and {r['platform'] for r in summary}=={name}
         assert all(r['discount_code'] and r['link_path']=='/r/'+r['discount_code'] and int(r['order_count'])>=100 for r in summary)
         lines=list(csv.DictReader(io.StringIO(client.get(f'/admin/export/influencer-orders.csv?platform={platform}&{q}').data.decode('utf-8-sig'))))
         assert lines and {r['platform'] for r in lines}=={name}
@@ -319,8 +321,17 @@ def test_product_reviews(client,app):
         mine=db.session.scalars(db.select(Review).filter_by(is_dummy=False).order_by(Review.id)).all()
         assert [(r.rating,r.sentiment,r.status) for r in mine]==[(5,'positive','published'),(2,'negative','held')]
         from collections import Counter
-        per_product=Counter(r.product_id for r in db.session.scalars(db.select(Review).filter_by(is_dummy=True)))
-        assert len(per_product)==4 and min(per_product.values())>=100
+        samples=db.session.scalars(db.select(Review).filter_by(is_dummy=True)).all()
+        per_product=Counter(r.product_id for r in samples)
+        assert len(per_product)==4 and all(12<=n<=13 for n in per_product.values())  # README §34
+        pricey=[r for r in samples if r.rating==3]
+        assert len(pricey)==2 and all('expensive' in r.body and r.sentiment=='neutral' for r in pricey)
+        for pid in per_product:
+            rated=[r.rating for r in samples if r.product_id==pid]
+            assert sum(rated)/len(rated)>4.8 and sum(x>=4 for x in rated)/len(rated)>=0.9
+        assert len({r.body for r in samples})==len(samples)  # every product has its own copy
+        from support.guard import review, STOP
+        assert not [r.body for r in samples if review(r.title+'. '+r.body)['verdict'] in STOP]
     client.post('/auth/logout',data={'csrf_token':token(client,'/auth/logout')})
     login(client,app,'admin')
     assert client.post('/products/jelly-balance/reviews',data={'csrf_token':token(client,'/products/jelly-balance'),'rating':5,'body':'Admins cannot review.'}).status_code==403
@@ -334,15 +345,15 @@ def test_product_reviews(client,app):
     summary=rows_of(client.get(f'/admin/export/review-summary.csv?{q}'))
     assert sum(int(r['review_count']) for r in summary)==len(everything)
     assert sum(int(r['positive']) for r in summary)==len(positive)
-    march=rows_of(client.get('/admin/export/reviews.csv?sentiment=all&start=2026-03-01&end=2026-03-31'))
-    assert march and all(r['created_at'].startswith('2026-03') for r in march)
+    september=rows_of(client.get('/admin/export/reviews.csv?sentiment=all&start=2026-09-01&end=2026-09-30'))
+    assert september and all(r['created_at'].startswith('2026-09') for r in september)
     assert client.get(f'/admin/export/reviews.csv?sentiment=angry&{q}').status_code==400
 
 def test_creator_links_and_direct_sales(client,app):
     login(client,app,'admin')
     q='start=2026-01-01&end=2030-12-31&status=all'
     creators=rows_of(client.get(f'/admin/export/creator-performance.csv?{q}'))
-    assert len(creators)==6 and list(creators[0])==['creator','discount_code','platform','link_url','clicks','order_count','units_sold','net_sales_usd','conversion_rate_pct','commission_usd']
+    assert len(creators)==22 and list(creators[0])==['creator','discount_code','platform','link_url','clicks','order_count','units_sold','net_sales_usd','conversion_rate_pct','commission_usd']
     assert all(r['link_url'].endswith('/r/'+r['discount_code']) and int(r['clicks'])>int(r['order_count'])>=100 for r in creators)
     assert [Decimal(r['net_sales_usd']) for r in creators]==sorted((Decimal(r['net_sales_usd']) for r in creators),reverse=True)
     assert {r['platform'] for r in rows_of(client.get(f'/admin/export/creator-performance.csv?platform=tiktok&{q}'))}=={'TikTok'}
@@ -364,7 +375,7 @@ def test_creator_links_and_direct_sales(client,app):
     client.post('/auth/logout',data={'csrf_token':token(client,'/auth/logout')})
     response=client.get('/r/testcreato15?to=/products/drink-original')
     assert response.location=='/products/drink-original' and 'ref_code=TESTCREATO15' in response.headers['Set-Cookie']
-    assert client.get('/r/TESTCREATO15?to=//evil.example').location=='/'
+    assert client.get('/r/TESTCREATO15?to=//evil.example').location=='/deal/TESTCREATO15'
     login(client,app)
     client.post('/shop/cart',data={'csrf_token':token(client,'/products/drink-original'),'sku':'drink-original-box3','quantity':1})
     cart=client.get('/shop/cart').get_data(as_text=True)
@@ -447,7 +458,7 @@ def test_creator_link_landing_and_edit(client, app):
     with app.app_context():
         link = db.session.get(ReferralLink, link_id)
         assert link.discount_rate == Decimal('0.25') and link.landing == ''
-    assert client.get('/r/LIMELOVER').location == '/'
+    assert client.get('/r/LIMELOVER').location == '/deal/LIMELOVER'
 
 
 
@@ -646,3 +657,595 @@ def test_register_hide_delete_product(client, app):
     assert 'ARCHIVED' in client.get('/admin/products').get_data(as_text=True)
     st('drink-balance', 'restore'); st('drink-balance', 'show')
     assert client.get('/products/drink-balance').status_code == 200
+
+
+# ---------- Ask Reboot compliance guard + question log (README §25) ----------
+def test_guard_uses_dashboard_rules():
+    from support.guard import review, rules_info, SAFE_REPLY
+    assert rules_info()['count'] >= 10
+    assert review('Reboot cures your hangover fast!')['verdict'] == 'BLOCK'
+    assert review('We cannot make claims about hangovers.')['verdict'] == 'BLOCK'  # even saying "not" is stopped
+    assert review('숙취에 좋아요')['verdict'] == 'BLOCK'
+    assert review('Jelly Original comes in Lime, Lemon and Cherry.')['verdict'] == 'PASS'
+    assert all(review(t)['verdict'] == 'PASS' for t in SAFE_REPLY.values())
+
+
+def test_chat_guard_rewrites_blocks_and_logs(client, app, monkeypatch):
+    import json
+    from support.models import ChatQuestion
+    from support.guard import SAFE_REPLY
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    answers, systems = [], []
+    def urlopen(request, timeout):
+        systems.append(json.loads(request.data)['messages'][0]['content'])
+        return io.BytesIO(json.dumps({'choices': [{'message': {'content': answers.pop(0)}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen', urlopen)
+    headers = {'X-CSRFToken': token(client, '/')}
+    ask = lambda q: client.post('/support/chat', json={'messages': [{'role': 'user', 'content': q}]}, headers=headers).get_json()['reply']
+    # 1) blocked draft -> rewritten once -> passes
+    answers[:] = ['Reboot helps prevent a hangover!', 'I can’t speak to health effects. Reboot is a jelly and drink line for adults 21+.']
+    assert ask('Does it work for hangovers? mail me at jo@example.com') == 'I can’t speak to health effects. Reboot is a jelly and drink line for adults 21+.'
+    assert '# Compliance check' not in systems[0] and '# Compliance check' in systems[1] and 'hangover' in systems[1]
+    # 2) rewrite still fails -> safe fixed answer
+    answers[:] = ['It cures hangovers.', 'It relieves your hangover.']
+    assert ask('Is it a hangover cure?') == SAFE_REPLY['en']
+    # 3) clean answer passes untouched
+    answers[:] = ['Lime is the boot, lemon the lasso, cherry the hat.']
+    assert ask('Which shape is lemon?') == 'Lime is the boot, lemon the lasso, cherry the hat.'
+    with app.app_context():
+        rows = db.session.scalars(db.select(ChatQuestion).filter_by(is_dummy=False).order_by(ChatQuestion.id)).all()
+        assert [r.action for r in rows] == ['rewritten', 'blocked', 'passed']
+        assert rows[0].topic == 'health' and '[email]' in rows[0].question and 'jo@example.com' not in rows[0].question
+        assert rows[0].flagged_reply == 'Reboot helps prevent a hangover!' and 'R2' in rows[1].codes
+        assert rows[2].topic == 'flavors' and rows[2].visitor == 'guest'
+
+
+def test_chat_question_topics():
+    from support.insights import topic_of
+    assert topic_of('Can I buy only the lime jelly?') == 'package'
+    assert topic_of('What is the best way to reboot my day?') == 'other'  # "boot" inside "reboot" is not a flavor
+    assert topic_of('Is it on Amazon?') == 'where' and topic_of('숙취에 효과 있어요?') == 'health'
+
+
+def test_admin_chat_questions_page_csv_and_ai(client, app, monkeypatch):
+    import json
+    from support.models import ChatQuestion, ChatInsight
+    with app.app_context():
+        assert db.session.scalar(db.select(db.func.count(ChatQuestion.id)).filter_by(is_dummy=True)) >= 100
+    assert client.get('/admin/chatbot/questions').status_code in (302, 403)
+    login(client, app, 'admin')
+    page = client.get('/admin/chatbot/questions?days=90').get_data(as_text=True)
+    assert 'WHAT VISITORS ASK MOST' in page and 'Flavors, taste &amp; shapes' in page and 'INCLUDES SAMPLE DATA' in page
+    assert client.get('/admin/chatbot/questions?days=5').status_code == 400
+    assert 'COMPLIANCE GUARD' in client.get('/admin/chatbot').get_data(as_text=True)
+    csv_text = client.get('/admin/chatbot/questions.csv?days=90').get_data(as_text=True)
+    head = csv_text.lstrip('\ufeff').splitlines()[0]
+    assert head.startswith('question_id,asked_at,topic') and len(csv_text.splitlines()) > 100
+    # no key -> readable error, nothing stored
+    monkeypatch.delenv('OPENAI_API_KEY', raising=False)
+    csrf = token(client, '/admin/chatbot/questions')
+    page = client.post('/admin/chatbot/questions/analyze', data={'csrf_token': csrf, 'days': 90}, follow_redirects=True).get_data(as_text=True)
+    assert 'OPENAI_API_KEY is not set.' in page
+    # with key: JSON report is cleaned and shown
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    sent = {}
+    result = {'summary': '맛과 구성 질문이 가장 많습니다.', 'topics': [{'key': 'flavors', 'insight': '체리 맛을 궁금해함', 'examples': ['What does cherry taste like?'], 'action': '맛 설명 추가'},
+                                                     {'key': 'nope', 'insight': 'x'}], 'gaps': [{'need': '배송 기간', 'action': 'FAQ 추가'}], 'risk': '건강 질문은 안전 답변 유지'}
+    def urlopen(request, timeout):
+        sent.update(json.loads(request.data))
+        return io.BytesIO(json.dumps({'choices': [{'message': {'content': json.dumps(result, ensure_ascii=False)}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen', urlopen)
+    page = client.post('/admin/chatbot/questions/analyze', data={'csrf_token': csrf, 'days': 90}, follow_redirects=True).get_data(as_text=True)
+    assert sent['response_format'] == {'type': 'json_object'} and 'Topic counts' in sent['messages'][1]['content']
+    assert '맛과 구성 질문이 가장 많습니다.' in page and '맛 설명 추가' in page and '배송 기간' in page
+    with app.app_context():
+        report = json.loads(db.session.scalar(db.select(ChatInsight.result)))
+        assert [t['key'] for t in report['topics']] == ['flavors']  # unknown keys dropped
+
+
+def test_product_detail_ingredients(client, app):
+    page = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'id="inside"' in page and 'A-HAT' in page and 'cowboy boot' in page and 'Product of Korea' in page
+    assert 'Allulose' in page and 'Admin preview' not in page  # confirmed list (README §33) is shown to shoppers
+    login(client, app, 'admin')
+    page = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'Admin preview' not in page and 'Allulose' in page
+    client.post('/admin/products/ingredients', data={'csrf_token': token(client, '/admin/products'), 'slug': 'jelly-balance', 'ingredients': '', 'confirmed': '1'})
+    client.post('/admin/products/ingredients', data={'csrf_token': token(client, '/admin/products'), 'slug': 'jelly-balance',
+                                                     'ingredients': 'Allulose\nWater\nPectin', 'sweetened_with': 'Allulose and stevia (Reb M)', 'confirmed': '1'})
+    client.post('/auth/logout', data={'csrf_token': token(client, '/auth/logout')})
+    page = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'Allulose, Water, Pectin.' in page and 'Allulose and stevia (Reb M)' in page and 'Admin preview' not in page
+
+
+# ---------- Admin AI assistant (README §27) ----------
+def _png_bytes():
+    from PIL import Image
+    buf = _io.BytesIO(); Image.new('RGB', (40, 30), (177, 255, 59)).save(buf, 'PNG'); return buf.getvalue()
+
+
+def test_openai_key_aliases(monkeypatch):
+    from support import key
+    for name in ('OPENAI_API_KEY', 'OPEN_API_KEY', 'open_api_key'): monkeypatch.delenv(name, raising=False)
+    assert key() == ''
+    monkeypatch.setenv('open_api_key', ' "sk-lower" ')
+    assert key() == 'sk-lower'
+    monkeypatch.setenv('OPENAI_API_KEY', 'sk-main')
+    assert key() == 'sk-main'
+
+
+def test_floating_assistant_is_a_guide(client, app, monkeypatch):
+    import json
+    login(client, app, 'admin')
+    page = client.get('/admin/').get_data(as_text=True)
+    assert 'data-admin-ai' in page and 'data-chat ' not in page and '/admin/ai/popup' in page
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    sent = []
+    def urlopen(request, timeout):
+        sent.append(json.loads(request.data))
+        return _io.BytesIO(json.dumps({'choices': [{'message': {'role': 'assistant', 'content': '팝업은 /admin/ai/popup 에서 만들어요.'}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen', urlopen)
+    body = client.post('/admin/assistant/chat', json={'messages': [{'role': 'user', 'content': '팝업 만들어줘'}]}, headers={'X-CSRFToken': token(client, '/admin/')}).get_json()
+    assert body['reply'].startswith('팝업은') and 'tools' not in sent[0] and '/admin/ai/popup' in sent[0]['messages'][0]['content']
+
+
+def _ws_mock(monkeypatch, replies, sent):
+    import json
+    def urlopen(request, timeout):
+        sent.append(json.loads(request.data))
+        return _io.BytesIO(json.dumps({'choices': [{'message': replies.pop(0)}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen', urlopen)
+
+
+def _upd(fields):
+    import json
+    return {'role': 'assistant', 'content': None, 'tool_calls': [{'id': 'u', 'type': 'function', 'function': {'name': 'update_draft', 'arguments': json.dumps({'fields': fields})}}]}
+
+
+def test_ai_workspace_popup_live_draft_and_save(client, app, monkeypatch):
+    from core.popups import Popup
+    login(client, app, 'admin')
+    assert '/admin/ai/popup' in client.get('/admin/manage').get_data(as_text=True) and '/admin/ai/product' in client.get('/admin/products/new').get_data(as_text=True)
+    page = client.get('/admin/ai/popup').get_data(as_text=True)
+    assert 'data-ws' in page and '리부 프로모터' in page and '실시간 초안' in page
+    assert client.get('/admin/ai/nope').status_code == 404
+    headers = {'X-CSRFToken': token(client, '/admin/ai/popup')}
+    up = client.post('/admin/assistant/upload', data={'image': (_io.BytesIO(_png_bytes()), 'fall.png')}, headers=headers, content_type='multipart/form-data').get_json()
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    sent = []
+    _ws_mock(monkeypatch, [_upd({'starts_on': '2026-10-22', 'ends_on': '2026-10-30', 'image_id': up['id']}),
+                           {'role': 'assistant', 'content': '기간과 사진을 넣었어요. 제목은 1) Fall Restart Week 2) Party Season 중 어떤 게 좋을까요?'}], sent)
+    chat = lambda text, images=None: client.post('/admin/ai/popup/chat', json={'messages': [{'role': 'user', 'content': text, 'images': images or []}]}, headers=headers).get_json()
+    body = chat('이 사진을 10월 22일부터 30일까지 팝업으로', [up['id']])
+    system = sent[0]['messages'][0]['content']
+    assert '리부 프로모터' in system and '공통 규칙' in system and '빠진 필수 항목' in system
+    st = body['state']
+    assert st['fields']['starts_on'] == '2026-10-22' and st['image'] and st['missing'] == ['제목'] and not st['ready']
+    assert client.post('/admin/ai/popup/save', headers=headers).status_code == 400  # not ready
+    # a hangover title is a live problem, not saved
+    _ws_mock(monkeypatch, [_upd({'title': 'Beat the hangover'}), {'role': 'assistant', 'content': '그 표현은 쓸 수 없어요.'}], sent)
+    st = chat('제목 Beat the hangover')['state']
+    assert st['problems'] and not st['ready']
+    _ws_mock(monkeypatch, [_upd({'title': 'Fall Restart Week', 'placement': 'home'}), {'role': 'assistant', 'content': '오른쪽 [저장]을 누르면 반영돼요.'}], sent)
+    st = chat('1번으로')['state']
+    assert st['ready'] and st['rows'] and not st['problems']
+    with app.app_context(): assert db.session.scalar(db.select(db.func.count(Popup.id))) == 0
+    saved = client.post('/admin/ai/popup/save', headers=headers).get_json()
+    assert saved['ok'] and saved['link'] == '/admin/manage#popups'
+    with app.app_context():
+        p = db.session.scalar(db.select(Popup))
+        assert p.title == 'Fall Restart Week' and p.image and str(p.ends_on) == '2026-10-30'
+    assert client.get('/admin/ai/popup/state').get_json()['state']['fields'] == {}  # draft cleared after saving
+
+
+def test_ai_workspace_creator_and_product(client, app, monkeypatch):
+    from shop.models import ReferralLink, Product
+    from decimal import Decimal
+    login(client, app, 'admin')
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    sent = []
+    h = {'X-CSRFToken': token(client, '/admin/ai/creator')}
+    _ws_mock(monkeypatch, [_upd({'name': 'Lime Lucy', 'platform': 'TikTok', 'discount': 15, 'commission': 12, 'code': 'NEONNIGHTS'}),
+                           {'role': 'assistant', 'content': '이미 있는 코드예요. LIMELUCY15는 어때요?'}], sent)
+    st = client.post('/admin/ai/creator/chat', json={'messages': [{'role': 'user', 'content': 'Lime Lucy 틱톡 15/12'}]}, headers=h).get_json()['state']
+    assert not st['ready'] and st['problems']           # duplicate code caught live
+    _ws_mock(monkeypatch, [_upd({'code': 'LIMELUCY15', 'landing': '/products/jelly-original', 'bogus': 1}), {'role': 'assistant', 'content': '좋아요.'}], sent)
+    st = client.post('/admin/ai/creator/chat', json={'messages': [{'role': 'user', 'content': '그걸로'}]}, headers=h).get_json()['state']
+    assert st['ready'] and 'bogus' not in st['fields']
+    assert client.post('/admin/ai/creator/save', headers=h).get_json()['message'] == '크리에이터 링크를 만들었어요: /r/LIMELUCY15'
+    with app.app_context(): assert db.session.scalar(db.select(ReferralLink).filter_by(code='LIMELUCY15')).platform == 'TikTok'
+    # product: options agreed step by step; photo required; hidden by default
+    h = {'X-CSRFToken': token(client, '/admin/ai/product')}
+    up = client.post('/admin/assistant/upload', data={'image': (_io.BytesIO(_png_bytes()), 'p.png')}, headers=h, content_type='multipart/form-data').get_json()
+    _ws_mock(monkeypatch, [_upd({'name': 'Reboot Jelly Pumpkin Spice', 'line': 'Jelly', 'version': 'original', 'flavors': ['Pumpkin', 'Cinnamon', 'Apple'],
+                                 'format': 'Individually wrapped shaped jellies', 'pack': 'One pouch, all three shapes', 'image_id': up['id']}),
+                           {'role': 'assistant', 'content': '옵션과 공개 여부를 정해요.'}], sent)
+    st = client.post('/admin/ai/product/chat', json={'messages': [{'role': 'user', 'content': '펌킨 젤리', 'images': [up['id']]}]}, headers=h).get_json()['state']
+    assert st['missing'] == ['판매 옵션', '공개 여부'] and st['image']
+    _ws_mock(monkeypatch, [_upd({'options': [{'label': 'Line package', 'price': 18.99, 'pieces': 1, 'stock': 200}], 'publish': False}), {'role': 'assistant', 'content': '저장 가능해요.'}], sent)
+    st = client.post('/admin/ai/product/chat', json={'messages': [{'role': 'user', 'content': '18.99 숨김'}]}, headers=h).get_json()['state']
+    assert st['ready']
+    saved = client.post('/admin/ai/product/save', headers=h).get_json()
+    assert '숨김으로 등록' in saved['message'] and '상세페이지를 자동으로' in saved['message'] and saved['link'].startswith('/admin/products#p-')
+    with app.app_context():
+        p = db.session.scalar(db.select(Product).filter_by(slug=saved['link'].split('#p-')[1]))
+        assert p and not p.is_active and p.options[0].price == Decimal('18.99')
+    assert 'ADMIN AI ASSISTANT · PERSONA' in client.get('/admin/chatbot').get_data(as_text=True)
+
+
+# ---------- Language of the chatbots (README §27) ----------
+def test_chatbots_follow_language(client, app, monkeypatch):
+    import json
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    systems = []
+    def urlopen(request, timeout):
+        systems.append(json.loads(request.data)['messages'][0]['content'])
+        return _io.BytesIO(json.dumps({'choices': [{'message': {'role': 'assistant', 'content': 'ok'}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen', urlopen)
+    client.post('/support/chat', json={'messages': [{'role': 'user', 'content': 'hi'}]}, headers={'X-CSRFToken': token(client, '/')})
+    assert 'Reply in English' in systems[-1]
+    client.post('/language', data={'language': 'ko', 'csrf_token': token(client, '/')})
+    assert '리부트에 물어보기' in client.get('/').get_data(as_text=True)
+    client.post('/support/chat', json={'messages': [{'role': 'user', 'content': '안녕'}]}, headers={'X-CSRFToken': token(client, '/')})
+    assert 'Reply in Korean' in systems[-1]
+    # admin assistant: Korean unless English is picked
+    login(client, app, 'admin')
+    client.post('/language', data={'language': 'ko', 'csrf_token': token(client, '/admin/')})
+    client.post('/admin/assistant/chat', json={'messages': [{'role': 'user', 'content': '안녕'}]}, headers={'X-CSRFToken': token(client, '/admin/')})
+    assert '# 응답 언어' in systems[-1]
+    client.post('/language', data={'language': 'en', 'csrf_token': token(client, '/admin/')})
+    assert 'New chat' in client.get('/admin/').get_data(as_text=True)
+    client.post('/admin/assistant/chat', json={'messages': [{'role': 'user', 'content': 'hi'}]}, headers={'X-CSRFToken': token(client, '/admin/')})
+    assert '# Reply language' in systems[-1]
+
+
+# ---------- Detail pages (README §28) ----------
+def _walk(o):
+    if isinstance(o, str): yield o
+    elif isinstance(o, dict):
+        for v in o.values(): yield from _walk(v)
+    elif isinstance(o, list):
+        for v in o: yield from _walk(v)
+
+
+def test_launch_long_pages_pass_compliance_and_show(client, app):
+    from products.story_seed import SEED
+    from support.guard import review, STOP
+    for slug, c in SEED.items():
+        for lang in ('en', 'ko'):
+            verdicts = {t: review(t)['verdict'] for t in _walk(c[lang])}
+            assert not [t for t, v in verdicts.items() if v in STOP], (slug, lang)
+            # only the ingredient intro (names A-HAT / Hovenia) may need REVIEW
+            assert all(t == c[lang]['ingredients']['intro'] for t, v in verdicts.items() if v != 'PASS'), (slug, lang)
+    html = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'class="pd-long"' in html and 'THE PARTY ESSENTIAL' in html and 'lp-reveal' in html and 'THE LINEUP' in html
+    assert 'Hovenia dulcis (Oriental raisin tree) fruit extract' in html  # confirmed list: every ingredient with its role
+    assert 'A fruit-derived gelling agent' in html
+    client.post('/language', data={'language': 'ko', 'csrf_token': token(client, '/')})
+    assert '모양은 그대로, 설탕은 제로. 파티 준비 끝.' in client.get('/products/jelly-balance').get_data(as_text=True)
+    login(client, app, 'admin')
+    html = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'is-preview' not in html and '과일에서 온 겔화제' in html  # confirmed: no preview marker
+
+
+def test_admin_nav_sidebar_and_connections(client, app, monkeypatch):
+    from core.nav import NAV_ITEMS
+    labels = [l for l, _ in NAV_ITEMS]
+    assert labels.index('Game') == labels.index('Products') + 1
+    login(client, app, 'admin')
+    page = client.get('/admin/products/story').get_data(as_text=True)
+    order = [page.index(f'data-group="{g}"') for g in ('sales', 'store', 'marketing', 'care', 'settings')]
+    assert order == sorted(order) and 'data-group="store" open' in page and 'data-group="sales" open' not in page
+    for name in ('HIGGSFIELD_API_KEY_ID', 'HIGGSFIELD_API_KEY_SECRET', 'HIGGSFIELD_API_KEY', 'HF_KEY'): monkeypatch.delenv(name, raising=False)
+    monkeypatch.delenv('OPENAI_API_KEY', raising=False)
+    page = client.get('/admin/settings/connections').get_data(as_text=True)
+    assert page.count('Missing') == 2 and 'HIGGSFIELD_API_KEY_ID' in page
+    monkeypatch.setenv('HIGGSFIELD_API_KEY', 'kid-1234567890:secret')
+    calls = []
+    def urlopen(request, timeout):
+        calls.append((request.full_url, request.get_header('Authorization')))
+        return _io.BytesIO(b'{"time_series": []}')
+    monkeypatch.setattr('support.higgsfield.urllib.request.urlopen', urlopen)
+    page = client.post('/admin/settings/connections/test', data={'csrf_token': token(client, '/admin/settings/connections'), 'service': 'higgsfield'}).get_data(as_text=True)
+    assert 'Connected.' in page and calls[0] == ('https://api.higgsfield.ai/models/usage?timeframe=day', 'Key kid-1234567890:secret')
+
+
+def test_rebu_studio_chat_draft_and_image_permission(client, app, monkeypatch):
+    import json, base64
+    from products.story import ProductStory, StoryImage
+    from products.story_seed import SEED
+    login(client, app, 'admin')
+    page = client.get('/admin/products/story/drink-balance').get_data(as_text=True)
+    assert 'data-studio' in page and '리부 스튜디오' in page and 'preview?lang=ko&frame=1' in page
+    assert 'Fall' not in client.get('/admin/products/story/drink-balance/preview?lang=en').get_data(as_text=True)
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    for name in ('HIGGSFIELD_API_KEY_ID', 'HIGGSFIELD_API_KEY_SECRET', 'HF_KEY'): monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv('HIGGSFIELD_API_KEY', 'kid:secret')
+    draft = json.loads(json.dumps(SEED['drink-balance']))
+    W = 'src:product_image/web/'
+    draft['images'] = {'hero': W + 'drink-balance-box3.webp', 'occasions': '', 'closing': 'src:/etc/passwd', 'sections': [W + 'drink-balance-box3.webp']}
+    draft['en']['hero']['headline'] = 'Fall birthday? Bring the bottle.'
+    bad = json.loads(json.dumps(draft)); bad['en']['hero']['headline'] = 'Beat the hangover'
+    plan = dict(slot='hero', source_ref=W + 'drink-balance-box3.webp', provider='higgsfield', size='portrait', plan_ko='병은 그대로, 네온 생일 테이블 배경.', plan_en='Bottle unchanged, neon birthday table.', prompt='Product bottles on a neon birthday table, confetti, no text', label='Birthday hero')
+    def call(name, args): return {'role': 'assistant', 'content': None, 'tool_calls': [{'id': 'c', 'type': 'function', 'function': {'name': name, 'arguments': json.dumps(args)}}]}
+    replies = [call('save_draft', {'content': bad}), call('save_draft', {'content': draft}), call('propose_image', plan), {'role': 'assistant', 'content': '저장했고 히어로 이미지 수정안을 만들었어요.'}]
+    sent, hf = [], []
+    def openai(request, timeout):
+        sent.append(json.loads(request.data))
+        return _io.BytesIO(json.dumps({'choices': [{'message': replies.pop(0)}]}).encode())
+    def higgs(request, timeout):
+        u = request.full_url
+        if u.startswith('https://api.openai.com'): return openai(request, timeout)
+        hf.append((request.get_method(), u))
+        if '/estimate/' in u: return _io.BytesIO(b'{"usd": "0.084"}')
+        if 'generate-upload-url' in u: return _io.BytesIO(json.dumps({'public_url': 'https://cdn.example/ref.png', 'upload_url': 'https://s3.example/put', 'upload_headers': {'Content-Type': 'image/png'}}).encode())
+        if u == 'https://s3.example/put': return _io.BytesIO(b'')
+        if u.endswith('/higgsfield/ads-studio/v1.0'):
+            body = json.loads(request.data); assert body['image_urls'] == ['https://cdn.example/ref.png'] and body['aspect_ratio'] == '2:3'
+            return _io.BytesIO(b'{"status": "queued", "request_id": "r1", "status_url": "https://api.higgsfield.ai/requests/r1/status"}')
+        if u.endswith('/requests/r1/status'): return _io.BytesIO(b'{"status": "completed", "images": [{"url": "https://cdn.example/out.png"}]}')
+        if u == 'https://cdn.example/out.png': return _io.BytesIO(_png_bytes())
+        raise AssertionError(u)
+    monkeypatch.setattr('urllib.request.urlopen', higgs)  # one shared urllib: route by host
+    headers = {'X-CSRFToken': token(client, '/admin/products/story/drink-balance')}
+    body = client.post('/admin/products/story/drink-balance/chat', json={'messages': [{'role': 'user', 'content': '생일파티 메인으로 알아서 해줘'}]}, headers=headers).get_json()
+    system = sent[0]['messages'][0]['content']
+    assert '리부 스튜디오' in system and '파티·술자리 필수품' in system and 'Higgsfield 연결됨' in system and 'Sucralose' in system
+    assert json.loads(sent[1]['messages'][-1]['content'])['status'] == 'saved_with_problems'   # the hangover headline must be fixed
+    assert [e['type'] for e in body['events']] == ['draft', 'draft', 'image'] and body['events'][2]['cost'].startswith('~$0.084')
+    assert 'https://api.higgsfield.ai/higgsfield/ads-studio/v1.0' not in [u for _, u in hf]                 # proposal only, nothing generated
+    with app.app_context():
+        s = db.session.scalar(db.select(ProductStory).filter_by(slug='drink-balance'))
+        assert s.draft['en']['hero']['headline'] == 'Fall birthday? Bring the bottle.' and s.draft['images']['closing'] == ''
+        assert s.content['en']['hero']['headline'] == 'Same small bottle. Zero Sugar.'          # live page unchanged
+        im_id = db.session.scalar(db.select(StoryImage.id).filter_by(slug='drink-balance', status='proposed'))
+    assert 'Fall birthday? Bring the bottle.' in client.get('/admin/products/story/drink-balance/preview?lang=en').get_data(as_text=True)
+    r = client.post(f'/admin/products/story/drink-balance/images/{im_id}/allow', headers=dict(headers, Accept='application/json')).get_json()
+    assert r['status'] == 'running'
+    client.get('/admin/products/story/drink-balance')                                           # the editor checks running jobs
+    with app.app_context():
+        im = db.session.get(StoryImage, im_id); assert im.status == 'ready' and im.data and im.provider == 'higgsfield'
+
+
+def test_story_form_save_and_openai_image(client, app, monkeypatch):
+    import json, base64
+    from products.story import ProductStory, StoryImage
+    login(client, app, 'admin')
+    csrf = token(client, '/admin/products/story/jelly-balance')
+    client.post('/admin/products/story/jelly-balance/notes', data={'csrf_token': csrf, 'notes': '체리 강조', 'photos': (_io.BytesIO(_png_bytes()), 'pic.png')}, content_type='multipart/form-data')
+    with app.app_context(): up_id = db.session.scalar(db.select(StoryImage.id).filter_by(slug='jelly-balance', kind='upload'))
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    urls = []
+    def openai(request, timeout):
+        urls.append(request.full_url)
+        if '/images/' in request.full_url: return _io.BytesIO(json.dumps({'data': [{'b64_json': base64.b64encode(_png_bytes()).decode()}]}).encode())
+        content = json.dumps({'ko': '파우치는 그대로, 컨페티 배경.', 'en': 'Pouch unchanged, confetti.', 'prompt': 'Pouch on a party table, confetti, no text', 'size': 'portrait', 'label': 'Party'})
+        return _io.BytesIO(json.dumps({'choices': [{'message': {'role': 'assistant', 'content': content}}]}).encode())
+    monkeypatch.setattr('support.urllib.request.urlopen', openai)
+    monkeypatch.setattr('products.story.urllib.request.urlopen', openai)
+    client.post('/admin/products/story/jelly-balance/images/propose', data={'csrf_token': csrf, 'provider': 'openai', 'slot': 'hero', 'source': f'story:{up_id}', 'request': '파티 테이블'})
+    assert not any('/images/' in u for u in urls)
+    with app.app_context(): im_id = db.session.scalar(db.select(StoryImage.id).filter_by(slug='jelly-balance', kind='ai'))
+    client.post(f'/admin/products/story/jelly-balance/images/{im_id}/allow', data={'csrf_token': csrf})
+    assert urls[-1] == 'https://api.openai.com/v1/images/edits'
+    form = {'csrf_token': csrf, 'publish': '1', 'image_hero': f'story:{im_id}'}
+    for l, h in (('en', 'Cherry first. Party ready.'), ('ko', '체리 먼저. 파티 준비 끝.')):
+        form.update({f'headline_{l}': h, f'title_{l}_0': 'One', f'body_{l}_0': 'Body.', f'faq_{l}': 'Q? || A.', f'roles_{l}': 'Pectin || Makes the chew.'})
+    client.post('/admin/products/story/jelly-balance/save', data=dict(form, headline_en='Cures your hangover'))
+    with app.app_context(): assert db.session.scalar(db.select(ProductStory).filter_by(slug='jelly-balance')).content['en']['hero']['headline'] != 'Cures your hangover'
+    client.post('/admin/products/story/jelly-balance/save', data=form)
+    client.post('/auth/logout', data={'csrf_token': token(client, '/auth/logout')})
+    html = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'Cherry first. Party ready.' in html and f'/products/story-images/{im_id}.webp' in html
+    assert client.get(f'/products/story-images/{im_id}.webp').mimetype == 'image/webp'
+    assert client.get(f'/products/story-images/{up_id}.webp').status_code == 404
+
+
+def test_long_detail_image_on_product_page(client, app):
+    html = client.get('/products/jelly-original').get_data(as_text=True)
+    assert 'pd-long-img' in html and html.count('/images/story/jelly-original/en-') == 9
+    assert client.get('/images/story/jelly-original/en-01.webp').status_code == 200
+    client.post('/language', data={'language': 'ko', 'csrf_token': token(client, '/')})
+    assert '/images/story/jelly-original/ko-01.webp' in client.get('/products/jelly-original').get_data(as_text=True)
+    other = client.get('/products/drink-original').get_data(as_text=True)
+    assert 'pd-long-img' not in other and 'class="pd-long"' in other  # products without a composed image keep the HTML page
+
+
+def test_sample_inventory_import_files(client, app):
+    """Every file in sample_imports/inventory behaves as its README says (01–06 apply, 11–20 change nothing)."""
+    import os
+    from shop.inventory import Inventory
+    folder = os.path.join(os.path.dirname(__file__), '..', 'sample_imports', 'inventory')
+    login(client, app, 'admin')
+    def snapshot():
+        with app.app_context():
+            return {i.option_id: (i.on_hand, i.reorder_level) for i in db.session.scalars(db.select(Inventory))}
+    modes = {'03': 'add', '04': 'add', '17': 'add'}
+    for name in sorted(f for f in os.listdir(folder) if f[:2].isdigit()):
+        before = snapshot()
+        with open(os.path.join(folder, name), 'rb') as fh:
+            page = client.post('/admin/inventory/upload', data={'csrf_token': token(client, '/admin/inventory'), 'mode': modes.get(name[:2], 'set'),
+                                                                'file': (_io.BytesIO(fh.read()), name)}, content_type='multipart/form-data', follow_redirects=True).get_data(as_text=True)
+        changed = snapshot() != before
+        if name < '10':
+            assert 'CSV applied' in page and changed, name
+        else:
+            assert 'CSV applied' not in page and not changed, name
+
+
+def test_old_database_is_upgraded_on_start(tmp_path, monkeypatch):
+    """Tables made by an older version of the code get their new columns and missing tables on start (README §32)."""
+    import sqlite3
+    path = tmp_path / 'old.db'
+    con = sqlite3.connect(path)
+    con.execute("CREATE TABLE products_story (id INTEGER PRIMARY KEY, slug VARCHAR(80) NOT NULL UNIQUE, status VARCHAR(10) NOT NULL, content JSON NOT NULL, notes TEXT NOT NULL, updated_at DATETIME NOT NULL)")
+    con.execute("INSERT INTO products_story (slug, status, content, notes, updated_at) VALUES ('jelly-original', 'draft', '{}', '', '2026-10-24 00:00:00')")
+    con.execute("CREATE TABLE products_story_image (id INTEGER PRIMARY KEY, slug VARCHAR(80) NOT NULL, kind VARCHAR(10) NOT NULL, status VARCHAR(10) NOT NULL, label VARCHAR(120) NOT NULL, source VARCHAR(200) NOT NULL, request TEXT NOT NULL, plan JSON NOT NULL, prompt TEXT NOT NULL, size VARCHAR(12) NOT NULL, model VARCHAR(40) NOT NULL, error VARCHAR(300) NOT NULL, data BLOB, created_at DATETIME NOT NULL)")
+    con.execute("INSERT INTO products_story_image (slug, kind, status, label, source, request, plan, prompt, size, model, error, created_at) VALUES ('jelly-original','upload','ready','x','','','{}','','square','','','2026-10-24 00:00:00')")
+    con.commit(); con.close()
+    create_app({'TESTING': True, 'SECRET_KEY': secrets.token_hex(32), 'SQLALCHEMY_DATABASE_URI': f'sqlite:///{path}'})
+    con = sqlite3.connect(path)
+    cols = lambda t: {r[1] for r in con.execute(f'pragma table_info({t})')}
+    assert 'draft' in cols('products_story') and {'provider', 'slot', 'cost', 'job'} <= cols('products_story_image')
+    assert con.execute('select provider, cost from products_story_image').fetchone() == ('', '')   # old rows get safe values
+    assert cols('admin_ai_draft') and cols('admin_assistant_upload') and cols('support_chat_question')
+
+
+def test_higgsfield_combined_key_from_env(monkeypatch):
+    from support import higgsfield
+    for n in ('HIGGSFIELD_API_KEY_ID', 'HIGGSFIELD_API_KEY_SECRET', 'HF_KEY'): monkeypatch.delenv(n, raising=False)
+    monkeypatch.setenv('HIGGSFIELD_API_KEY', ' "4e07aaaa-bbbb-cccc-dddd-eeeeffff0000:sec:ret" ')
+    assert higgsfield.credentials() == ('4e07aaaa-bbbb-cccc-dddd-eeeeffff0000', 'sec:ret')
+
+
+def test_spec_sheet_2026_10_25(client):
+    """README §33: no 'patented', 10 jellies per pouch, Zero Sugar always with 'Not a low calorie food'."""
+    import json
+    from products.ingredient_roles import role
+    from products.spec_fixes import fix
+    from products.story_seed import SEED
+    items = json.load(open('products/data/products.json'))
+    for p in items:
+        d = p['details']; blob = json.dumps(d)
+        assert 'patent' not in blob.lower() and 'carnauba' not in blob.lower() and 'sorbate' not in blob.lower()
+        if p['line'] == 'Jelly': assert '10' in p['pack']
+        if p['is_balance']: assert 'Not a low calorie food' in d['facts']
+        assert d['confirmed']  # confirmed by admin 2026-10-26
+    seed = json.dumps(SEED, ensure_ascii=False)
+    assert 'patent' not in seed and '특허' not in seed and 'Low Calorie' not in seed
+    assert fix(SEED) == SEED
+    assert 'patent' not in role('A-HAT', 'en') and '특허' not in role('A-HAT', 'ko')
+    assert 'Not a low calorie food' in fix({'h': ['Zero Sugar']})['h'][0]
+    assert fix('Zero Sugar version') == 'Zero Sugar version'  # only whole highlight chips change
+    page = client.get('/products/jelly-balance').get_data(as_text=True)
+    assert 'patented' not in page and 'Not a low calorie food' in page
+
+
+# ---------- README §34: workspace upload, gallery photos, automatic long page ----------
+def test_workspace_upload_and_forced_draft_update(client, app, monkeypatch):
+    login(client, app, 'admin')
+    h = {'X-CSRFToken': token(client, '/admin/ai/product')}
+    page = client.get('/admin/ai/product').get_data(as_text=True)
+    assert 'upload-image.js' in page and '상세페이지를 자동으로' in page
+    # iPhone-style JPEG (MPO) and big photos are accepted; the photo lands in the draft right away
+    from PIL import Image
+    buf = _io.BytesIO(); Image.new('RGB', (2400, 1800), (200, 80, 20)).save(buf, 'JPEG'); buf.seek(0)
+    up = client.post('/admin/ai/product/upload', data={'image': (buf, 'IMG_0001.JPG')}, headers=h, content_type='multipart/form-data')
+    body = up.get_json()
+    assert up.status_code == 200 and body['state']['fields']['image_id'] == body['id'] and body['state']['image']
+    bad = client.post('/admin/ai/product/upload', data={'image': (_io.BytesIO(b'not an image'), 'x.heic')}, headers=h, content_type='multipart/form-data')
+    assert bad.status_code == 400 and bad.get_json()['error']
+    expired = client.post('/admin/ai/product/upload', data={'image': (_png(), 'p.png')}, headers={'X-CSRFToken': 'old'}, content_type='multipart/form-data')
+    assert expired.status_code == 400 and 'expired' in expired.get_json()['error']
+    big = client.post('/admin/ai/product/upload', data={'image': (_io.BytesIO(b'0' * (26 * 1024 * 1024)), 'big.png')}, headers=h, content_type='multipart/form-data')
+    assert big.status_code == 413 and '25 MB' in big.get_json()['error']
+    # the first AI round is always update_draft, so "젤리 오리지널" shows on the right
+    monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
+    sent = []
+    _ws_mock(monkeypatch, [_upd({'line': 'Jelly', 'version': 'original', 'badge': 'HALLOWEEN LIMITED'}), {'role': 'assistant', 'content': '이름을 정해요.'}], sent)
+    st = client.post('/admin/ai/product/chat', json={'messages': [{'role': 'user', 'content': '할로윈 한정 라인을 젤리 오리지널 라인으로 등록하고 싶어'}]}, headers=h).get_json()['state']
+    assert sent[0]['tool_choice'] == {'type': 'function', 'function': {'name': 'update_draft'}} and sent[1]['tool_choice'] == 'auto'
+    assert st['fields']['line'] == 'Jelly' and st['fields']['version'] == 'original' and st['fields']['image_id'] == body['id']
+
+
+def test_product_gallery_add_and_remove(client, app):
+    from products.media import GalleryPhoto
+    login(client, app, 'admin')
+    page = client.get('/admin/products').get_data(as_text=True)
+    assert 'PRODUCT PAGE PHOTOS' in page or '상품 페이지 사진' in page
+    csrf = token(client, '/admin/products')
+    r = client.post('/admin/products/gallery/add', data={'csrf_token': csrf, 'slug': 'jelly-original', 'label': 'Party scene', 'photo': [(_png(), 'a.png'), (_png(color=(0, 0, 255, 255)), 'b.png')]},
+                    headers={'Accept': 'application/json'}, content_type='multipart/form-data')
+    assert r.status_code == 200 and r.get_json()['ok']
+    with app.app_context(): ids = [p.id for p in db.session.scalars(db.select(GalleryPhoto).filter_by(slug='jelly-original'))]
+    assert len(ids) == 2
+    detail = client.get('/products/jelly-original').get_data(as_text=True)
+    assert f'/media/products/gallery/{ids[0]}.webp' in detail and 'Party scene' in detail
+    assert client.get(f'/media/products/gallery/{ids[0]}.webp').mimetype == 'image/webp'
+    assert f'/media/products/gallery/{ids[0]}.webp' not in client.get('/products/jelly-balance').get_data(as_text=True)
+    client.post(f'/admin/products/gallery/{ids[0]}/delete', data={'csrf_token': csrf})
+    assert f'/media/products/gallery/{ids[0]}.webp' not in client.get('/products/jelly-original').get_data(as_text=True)
+    # an original gallery photo can be taken off and put back
+    import json
+    original = json.load(open('products/data/products.json'))[0]['images']['gallery'][-1]['src']
+    client.post('/admin/products/gallery/toggle', data={'csrf_token': csrf, 'slug': 'jelly-original', 'src': original})
+    from products.services import get_product
+    with app.test_request_context(): assert original not in [g['src'] for g in get_product('jelly-original')['images']['gallery']]
+    client.post('/admin/products/gallery/toggle', data={'csrf_token': csrf, 'slug': 'jelly-original', 'src': original})
+    with app.test_request_context(): assert original in [g['src'] for g in get_product('jelly-original')['images']['gallery']]
+    assert client.post('/admin/products/gallery/toggle', data={'csrf_token': csrf, 'slug': 'jelly-original', 'src': 'nope.webp'}).status_code == 400
+
+
+def test_new_product_gets_automatic_long_page(client, app, monkeypatch):
+    from products.autopage import AutoPage, LongPanel
+    from products.story import StoryImage, ProductStory
+    from support import higgsfield
+    app.config.update(AUTOPAGE_SYNC=True, AUTOPAGE_POLL=0)
+    monkeypatch.delenv('OPENAI_API_KEY', raising=False); monkeypatch.delenv('OPEN_API_KEY', raising=False); monkeypatch.delenv('open_api_key', raising=False)
+    monkeypatch.setattr(higgsfield, 'credentials', lambda: ('id', 'secret'))
+    monkeypatch.setattr(higgsfield, 'bg_credits', lambda: 1.28)
+    submitted = []
+    def submit_model(model, prompt, aspect, urls=None):
+        submitted.append((model, prompt, aspect)); return True, {'request_id': str(len(submitted)), 'status_url': f'https://api.higgsfield.ai/requests/{len(submitted)}/status'}
+    monkeypatch.setattr(higgsfield, 'submit_model', submit_model)
+    monkeypatch.setattr(higgsfield, 'status', lambda url: ('completed', 'https://cdn.example/bg.png'))
+    monkeypatch.setattr(higgsfield, 'download', lambda url: _png((900, 1200), (40, 10, 60, 255)).getvalue())
+    login(client, app, 'admin')
+    page = client.get('/admin/products/new').get_data(as_text=True)
+    assert 'auto_page_ai' in page and '6.4' in page  # credits shown before registering
+    form = {'csrf_token': token(client, '/admin/products/new'), 'name': 'Reboot Jelly Halloween', 'line': 'Jelly', 'version': 'original',
+            'badge': 'HALLOWEEN LIMITED', 'format': 'Shaped jelly', 'pack': 'One pouch', 'flavors': 'pumpkin, apple, grape',
+            'opt_label_0': '1 Package', 'opt_price_0': '18.99', 'opt_count_0': '1', 'opt_stock_0': '50', 'auto_page': '1', 'auto_page_ai': '1'}
+    client.post('/admin/products/new', data=dict(form, photo=(_png(), 'p.png')), content_type='multipart/form-data')
+    slug = 'reboot-jelly-halloween'
+    with app.app_context():
+        job = db.session.scalar(db.select(AutoPage).filter_by(slug=slug))
+        assert job.status == 'ready', job.note
+        assert len(submitted) == 5 and all(m == higgsfield.BG_MODEL for m, _, _ in submitted) and 'HALLOWEEN' in submitted[0][1]
+        assert all('no text' in p and 'no products' in p for _, p, _ in submitted)
+        assert db.session.scalar(db.select(db.func.count(StoryImage.id)).filter_by(slug=slug, status='ready')) == 5
+        assert db.session.scalar(db.select(ProductStory).filter_by(slug=slug)).status == 'published'
+        panels = db.session.scalars(db.select(LongPanel).filter_by(slug=slug, lang='ko')).all()
+        assert len(panels) >= 6 and job.credits.startswith('6.4')
+    detail = client.get(f'/products/{slug}').get_data(as_text=True)
+    assert '/products/long-panels/' in detail and 'pd-long-img' in detail
+    first = re.search(r'/products/long-panels/(\d+)\.webp', detail)[1]
+    assert client.get(f'/products/long-panels/{first}.webp').mimetype == 'image/webp'
+    admin_page = client.get('/admin/products').get_data(as_text=True)
+    assert 'Higgsfield: 6.4 credits' in admin_page
+    # remake without new credits reuses the backgrounds
+    client.post(f'/admin/products/{slug}/autopage', data={'csrf_token': token(client, '/admin/products')})
+    assert len(submitted) == 5
+    with app.app_context(): assert db.session.scalar(db.select(AutoPage.status).filter_by(slug=slug)) == 'ready'
+
+
+# ---------- README §35: creator link opens the discounted sales page; orders count for the creator ----------
+def test_creator_deal_page_prices_and_sales(client, app):
+    login(client, app, 'admin')
+    csrf = token(client, '/admin/manage')
+    client.post('/admin/creators', data={'csrf_token': csrf, 'name': 'Party Pam', 'platform': 'Instagram', 'discount': '20', 'commission': '10', 'code': 'PARTYPAM20', 'landing': ''})
+    client.post('/auth/logout', data={'csrf_token': token(client, '/auth/logout')})
+    r = client.get('/r/PARTYPAM20')
+    assert r.location == '/deal/PARTYPAM20' and 'ref_code=PARTYPAM20' in r.headers['Set-Cookie']
+    page = client.get('/deal/PARTYPAM20').get_data(as_text=True)
+    assert '20% OFF' in page and 'PARTYPAM20' in page
+    assert '$17.99' in page and '$14.39' in page          # jelly original 17.99 − 20%
+    assert '$12.99' in page and '$10.39' in page          # drink original mixed box 12.99 − 20%
+    assert '/deal/exit' in page
+    detail = client.get('/products/drink-original').get_data(as_text=True)
+    assert '$10.39' not in detail and 'PARTYPAM20' not in detail  # the main site keeps regular prices
+    assert '$14.39' not in client.get('/products/').get_data(as_text=True)
+    assert client.get('/deal/NOPE').status_code == 404
+    login(client, app)
+    client.post('/shop/cart', data={'csrf_token': token(client, '/deal/PARTYPAM20'), 'sku': 'drink-original-box3', 'quantity': 1})
+    cart = client.get('/shop/cart').get_data(as_text=True)
+    assert 'PARTYPAM20 (20%)' in cart and '$10.39' in cart
+    checkout = client.get('/shop/checkout').get_data(as_text=True)
+    nonce = re.search(r'name="nonce" value="([^"]+)"', checkout)[1]; csrf_c = re.search(r'name="csrf_token" value="([^"]+)"', checkout)[1]
+    client.post('/shop/checkout', data={'csrf_token': csrf_c, 'nonce': nonce, 'name': 'Pat', 'city': 'LA', 'state': 'CA', 'points': '0'})
+    with app.app_context():
+        link = db.session.scalar(db.select(ReferralLink).filter_by(code='PARTYPAM20'))
+        order = db.session.scalar(db.select(Order).filter_by(referral_link_id=link.id))
+        assert order and order.total == Decimal('10.39') and link.clicks == 1
+    out = client.get('/deal/exit')
+    assert out.location == '/' and 'ref_code=;' in out.headers['Set-Cookie']

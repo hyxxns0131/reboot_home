@@ -11,7 +11,14 @@
   {% if not config.key_set %}<p class="admin-alert">{{ tr("No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.") }}</p>{% endif %}
   {% if result %}<p class="{{ 'admin-ok' if result.ok else 'admin-alert' }}">{{ result.detail }}</p>{% endif %}
   <form method="post" action="{{ url_for('admin.chatbot_test') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn primary">{{ tr("Run connection test ↗") }}</button></form>
+  <h2 id="guard">{{ tr("COMPLIANCE GUARD") }}</h2>
+  <p class="muted">{{ tr("Every answer is checked on the server with the REBOOT marketing dashboard’s compliance rules before the visitor sees it. REVISE or BLOCK → OpenAI rewrites it once; if it still fails, a safe fixed answer is sent. REVIEW answers are sent and logged.") }}</p>
+  <p class="muted">{{ tr("Rule set") }}: <code>support/data/compliance_rules.json</code> · {{ tr("version") }} {{ rules.version }} · {{ rules.count }} {{ tr("rules") }} · <a class="text-link" href="/admin/chatbot/questions#guard-log">{{ tr("Guard log →") }}</a></p>
+  <div class="table-wrap"><table><thead><tr><th>{{ tr("Code") }}</th><th>{{ tr("Rule") }}</th><th>{{ tr("Verdict") }}</th></tr></thead><tbody>{% for r in rules.rules %}<tr><td><code>{{ r.code }}</code></td><td>{{ r.name }}</td><td>{{ r.verdict }}</td></tr>{% endfor %}</tbody></table></div>
   <h2>{{ tr("PERSONA & KNOWLEDGE") }}</h2>
   <p class="muted">{{ tr("What the chatbot is told before every conversation (edit in support/__init__.py).") }}</p>
   <div class="prompt-view">{{ prompt }}</div>
+  <h2 id="admin-assistant">{{ tr("ADMIN AI ASSISTANT · PERSONA") }}</h2>
+  <p class="muted">{{ tr("Rebu Operator, the ✳ AI assistant button on every admin page, works from this persona plus the live site state below it (edit in admin/data/assistant_persona.md). It can only prepare popups, creator links and new products; you press Save on each one.") }}</p>
+  <div class="prompt-view">{{ assistant_prompt }}</div>
 </section></div>{% endblock %}

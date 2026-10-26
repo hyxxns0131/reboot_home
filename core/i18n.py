@@ -19,6 +19,7 @@ def change():
     locale=request.form.get('language')
     if locale not in ('en','ko'): abort(400)
     session['lang']=locale
+    session['lang_picked']=True  # chosen with the switch this session (the admin AI assistant stays Korean otherwise — README §27)
     if current_user.is_authenticated:
         current_user.language=locale
         record('language_changed',{'language':locale})

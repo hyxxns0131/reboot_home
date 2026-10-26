@@ -1,0 +1,11 @@
+sku,product,option,on_hand,reorder_level
+jelly-original-pouch,Reboot Jelly Original,"1 Package · Lime, Lemon & Cherry",320,40
+jelly-balance-pouch,Reboot Jelly Balance,"1 Package · Lime, Lemon & Cherry",30,40
+drink-original-box3,Reboot Drink Original,"Mixed Box · Lemon, Lime & Cherry",345,25
+drink-original-lemon,Reboot Drink Original,Lemon · 1 Bottle,340,40
+drink-original-lime,Reboot Drink Original,Lime · 1 Bottle,372,40
+drink-original-cherry,Reboot Drink Original,Cherry · 1 Bottle,410,40
+drink-balance-box3,Reboot Drink Balance,"Mixed Box · Lemon, Lime & Cherry",205,25
+drink-balance-lemon,Reboot Drink Balance,Lemon · 1 Bottle,209,40
+drink-balance-lime,Reboot Drink Balance,Lime · 1 Bottle,371,40
+drink-balance-cherry,Reboot Drink Balance,Cherry · 1 Bottle,12,40

@@ -133,3 +133,160 @@ KO.update({'Add product':'상품 등록','+ Add product':'+ 상품 등록','ADD 
 '+ New popup':'+ 새 팝업','Choose image & crop':'이미지 선택 · 크롭','Re-crop image':'이미지 다시 크롭','Remove image':'이미지 삭제','Optional. 4:5 or 1:1 looks best.':'선택. 4:5 또는 1:1 비율이 잘 어울립니다.','Title':'제목','Text (optional)':'내용 (선택)',
 'Button label (optional)':'버튼 문구 (선택)','Button link':'버튼 링크','Show on':'표시 위치','Home page only':'홈페이지만','Every page':'모든 페이지','Save popup ↗':'팝업 저장 ↗','Save changes':'변경 저장','No image':'이미지 없음','Edit':'수정','No popups yet.':'아직 팝업이 없습니다.',
 'Don’t show today':'오늘 하루 보지 않기'})
+# Chatbot questions & compliance guard (README §25)
+KO.update({
+'Chatbot questions':'챗봇 질문 분석','CHATBOT QUESTIONS.':'챗봇 질문 분석.','INCLUDES SAMPLE DATA':'샘플 데이터 포함',
+'Every question visitors send to Ask Reboot is saved with a topic (contact details masked, no account id). Admin test chats are left out. Times are UTC.':'방문자가 Ask Reboot에 보낸 질문을 주제와 함께 저장합니다 (연락처는 가림, 계정 ID 저장 안 함). 관리자 테스트 대화는 제외합니다. 시간은 UTC입니다.',
+'Period':'기간','Last':'최근','days':'일','QUESTIONS':'질문 수','TOP TOPIC':'가장 많은 주제','ANSWERS REWRITTEN':'다시 쓴 답변','ANSWERS BLOCKED':'차단한 답변',
+'WHAT VISITORS ASK MOST':'방문자가 가장 많이 묻는 것','Topics are tagged by keywords when the question is saved.':'질문을 저장할 때 키워드로 주제를 붙입니다.',
+'No questions in this period yet.':'이 기간에는 아직 질문이 없습니다.','AI ANALYSIS':'AI 분석',
+'AI reads the latest questions in this period (up to 300) and explains, in Korean, what visitors want to know and what to change. One request to OpenAI per run.':'AI가 이 기간의 최근 질문(최대 300개)을 읽고 방문자가 궁금해하는 것과 바꿀 점을 한국어로 정리합니다. 실행할 때마다 OpenAI에 한 번 요청합니다.',
+'Run AI analysis ↗':'AI 분석 실행 ↗','Last run':'마지막 실행','questions':'개 질문','Topic':'주제','What visitors want to know':'방문자가 궁금해하는 것','Example questions':'예시 질문',
+'Suggested action':'추천 조치','Not answered yet':'아직 답하지 못하는 것','Compliance note':'규제 관련 메모','No AI analysis for this period yet.':'이 기간의 AI 분석이 아직 없습니다.',
+'AI analysis updated.':'AI 분석을 업데이트했습니다.','No questions in this period yet.':'이 기간에는 아직 질문이 없습니다.',
+'The AI answer could not be read. Please run the analysis again.':'AI 답변을 읽지 못했습니다. 다시 실행해 주세요.',
+'COMPLIANCE GUARD LOG':'컴플라이언스 가드 기록',
+'Answers stopped by the dashboard’s compliance rules before visitors saw them. Rewritten = OpenAI rewrote it once and it passed. Blocked = the safe fixed answer was sent.':'방문자에게 보내기 전에 대시보드 컴플라이언스 규칙에 걸린 답변입니다. 다시 씀 = OpenAI가 한 번 고쳐 쓴 답변이 통과함. 차단 = 고정된 안전 답변을 보냄.',
+'See the rules →':'규칙 보기 →','Question':'질문','Rules':'규칙','Result':'결과','Stopped draft':'걸러진 초안','Sent to visitor':'방문자에게 보낸 답변',
+'No answers were stopped in this period.':'이 기간에 걸러진 답변이 없습니다.','RECENT QUESTIONS':'최근 질문','Visitor':'방문자','Guard':'가드','Sample':'샘플',
+'Rewritten':'다시 씀','Blocked':'차단','Guest':'비회원','Customer':'회원','FOR THE MARKETING DASHBOARD':'마케팅 대시보드용',
+'COMPLIANCE GUARD':'컴플라이언스 가드',
+'Every answer is checked on the server with the REBOOT marketing dashboard’s compliance rules before the visitor sees it. REVISE or BLOCK → OpenAI rewrites it once; if it still fails, a safe fixed answer is sent. REVIEW answers are sent and logged.':'모든 답변은 방문자에게 보이기 전에 서버에서 REBOOT 마케팅 대시보드의 컴플라이언스 규칙으로 검사합니다. REVISE·BLOCK이면 OpenAI가 한 번 고쳐 쓰고, 그래도 걸리면 고정된 안전 답변을 보냅니다. REVIEW 답변은 보내되 기록합니다.',
+'Rule set':'규칙 파일','version':'버전','rules':'개 규칙','Guard log →':'가드 기록 →','Code':'코드','Rule':'규칙','Verdict':'판정',
+})
+# Admin AI assistant (README §27)
+KO.update({
+'Hi! I’m Rebu Operator. I can make a popup, a creator link or a new product for you. Tell me what you need — attach a photo with 📎 if it needs one. Nothing is saved until you press Save.':'안녕하세요! 관리자 AI 비서 리부 오퍼레이터예요. 팝업, 크리에이터 전용 링크, 새 상품 등록을 도와드려요. 필요한 걸 말씀해 주시고, 사진이 필요하면 📎로 첨부해 주세요. [저장]을 누르기 전에는 아무것도 반영되지 않아요.',
+'Working on it…':'처리 중…','Something went wrong. Please try again.':'문제가 생겼어요. 다시 시도해 주세요.',
+'The assistant needs an OpenAI key. Add OPENAI_API_KEY to .env (local) or Render Environment, then restart.':'AI 비서를 쓰려면 OpenAI 키가 필요해요. .env(로컬) 또는 Render Environment에 OPENAI_API_KEY를 넣고 서버를 다시 시작하세요.',
+'Too many messages. Please wait a few minutes.':'메시지가 너무 많아요. 몇 분 뒤에 다시 시도해 주세요.','Save':'저장','Cancel':'취소','Saved':'저장됨','Cancelled':'취소됨','Open →':'열기 →',
+'Check before saving':'저장 전 확인','New chat':'새 대화','Admin AI assistant':'관리자 AI 비서','REBU OPERATOR · ADMIN AI':'리부 오퍼레이터 · 관리자 AI','Close':'닫기',
+'Attach image':'이미지 첨부','Message':'메시지','e.g. Show this photo as a popup from Oct 22 to Oct 30':'예: 이 사진을 10월 22일부터 30일까지 팝업으로 띄워줘',
+'AI drafts are checked with the site rules and the dashboard compliance rules. You save each one yourself.':'AI 초안은 사이트 규칙과 대시보드 컴플라이언스 규칙으로 검사합니다. 저장은 직접 눌러야 반영됩니다.',
+'AI assistant':'AI 비서','ADMIN AI ASSISTANT · PERSONA':'관리자 AI 비서 · 페르소나',
+'Rebu Operator, the ✳ AI assistant button on every admin page, works from this persona plus the live site state below it (edit in admin/data/assistant_persona.md). It can only prepare popups, creator links and new products; you press Save on each one.':'모든 관리자 페이지의 ✳ AI 비서(리부 오퍼레이터)는 이 페르소나와 아래 실시간 사이트 상태로 동작합니다 (수정: admin/data/assistant_persona.md). 팝업·크리에이터 링크·새 상품 초안만 만들 수 있고, 저장은 관리자가 직접 누릅니다.',
+})
+
+# Product detail: what's inside
+KO.update({'Made with A-HAT and Hovenia dulcis (Oriental raisin tree) fruit.':'A-HAT와 헛개나무 열매로 만들었어요.','Ingredients & details ↓':'성분 · 상세 정보 ↓','WHAT’S':'무엇이','INSIDE.':'들었나.',
+'BALANCE · ZERO SUGAR':'BALANCE · 제로 슈가','ALDICOM’s blend':'알디콤 조성물','Hovenia dulcis (Oriental raisin tree) extract with Lactobacillus fermentum.':'헛개나무 추출물과 유산균 Lactobacillus fermentum.',
+'FRUIT':'열매','Hovenia dulcis fruit':'헛개나무 열매','The fruit of the Oriental raisin tree, a familiar ingredient in Korea.':'한국에서 친숙한 헛개나무의 열매입니다.','Small glass bottle':'작은 유리병','Individually wrapped jelly':'개별 포장 젤리',
+'SHAPES & FLAVORS':'모양 · 맛','FLAVORS':'맛','Shape':'모양','cowboy boot':'카우보이 부츠','lasso':'올가미','cowboy hat':'카우보이 모자','deep green':'진한 초록','deep yellow':'진한 노랑','deep pink':'진한 분홍','light green':'연한 초록','light yellow':'연한 노랑','light pink':'연한 분홍',
+'1 bottle or in the Mixed Box':'낱병 또는 믹스 박스','Sold only as a line package: every pouch has all three shapes and flavors.':'라인 패키지로만 판매합니다. 한 봉지에 세 가지 모양과 맛이 모두 들어 있어요.',
+'INGREDIENTS':'원재료','Admin preview — not shown to shoppers until the list is confirmed on Admin › Products.':'관리자 미리보기 — 관리자 › 상품에서 확정하기 전까지 고객에게는 보이지 않습니다.','Listed from most to least by weight.':'많이 들어간 순서입니다.','Sweetened with':'감미 원료',
+'Key ingredients':'주요 원료','Hovenia dulcis (Oriental raisin tree) fruit extract, Lactobacillus fermentum (A-HAT), Hovenia dulcis fruit.':'헛개나무 열매 추출물, 유산균 Lactobacillus fermentum (A-HAT), 헛개나무 열매.',
+'The full ingredient list and Nutrition Facts are printed on the package label.':'전체 원재료와 영양성분은 패키지 라벨에 표시되어 있습니다.','PRODUCT DETAILS':'제품 정보','Sold as':'판매 단위','Made by':'제조','Product of Korea':'한국산','Category':'분류','Food product for adults 21+':'21세 이상 성인용 식품',
+'Pectin jelly, individually wrapped':'펙틴 젤리, 개별 포장','Zero Sugar':'제로 슈가','No cane sugar, syrup or fruit juice':'설탕·물엿·과즙 무첨가','No sugar alcohols':'당알코올 무첨가','Non-carbonated':'비탄산',
+'Ingredients':'원재료','Confirmed · on the product page':'확정 · 상품 페이지에 표시','Draft · not shown to shoppers':'초안 · 고객에게 미표시','Ingredient list — one per line, most to least by weight':'원재료 — 한 줄에 하나씩, 많이 들어간 순서',
+'Confirmed with ALDICOM’s formula sheet — show the full list on the product page':'알디콤 배합표로 확정 — 상품 페이지에 전체 원재료 표시',
+'Before confirming: pick one option wherever the list says “or”, and match the package label exactly. No health or hangover claims.':'확정 전: “or(또는)”로 적힌 원료는 하나로 정하고, 패키지 라벨과 똑같이 맞추세요. 건강·숙취 효능 표현은 쓰지 않습니다.',
+'Save ingredients':'원재료 저장','Preview on product page ↗':'상품 페이지에서 미리보기 ↗'})
+# Admin forms + AI assistant cards (README §27)
+KO.update({
+'Enter valid dates.':'날짜를 올바르게 입력하세요.','Popups need a title (up to 80 characters); text up to 600; button label up to 30.':'팝업 제목(80자 이내)이 필요합니다. 내용은 600자, 버튼 문구는 30자까지입니다.',
+'Button links must be a page on this site (/products/...) or an https:// address.':'버튼 링크는 사이트 안 경로(/products/...) 또는 https:// 주소여야 합니다.',
+'Fill in both the button label and the link, or leave both empty.':'버튼 문구와 링크를 둘 다 입력하거나 둘 다 비워 두세요.',
+'Enter a product name (3–80 characters).':'상품명을 입력하세요 (3–80자).','Choose Jelly or Drink.':'Jelly 또는 Drink를 고르세요.','Describe the format and the pack.':'형태와 포장을 입력하세요.',
+'Enter at least one flavor (comma separated).':'맛을 하나 이상 입력하세요 (쉼표로 구분).','Add at least one sales option with a price.':'가격이 있는 판매 옵션을 하나 이상 추가하세요.','Add a product photo.':'상품 사진을 추가하세요.',
+'Attach a product photo in the chat first.':'먼저 채팅에 상품 사진을 첨부해 주세요.','Unknown action.':'알 수 없는 작업입니다.',
+'Text':'내용','Button':'버튼','Show on':'노출 위치','Period':'기간','Image':'이미지','Creator':'크리에이터','Code / link':'코드 / 링크','Commission':'수수료',
+'Opens':'도착 페이지','Name':'상품명','Line':'라인','Format':'형태','Pack':'포장','Flavors':'맛','Options':'옵션','Photo':'사진',
+})
+# Product detail story (README §28)
+KO.update({'THE STORY':'제품 이야기','HOW TO ENJOY':'즐기는 법','FAQ':'자주 묻는 질문'})
+# Admin · Detail pages (README §28)
+KO.update({
+'Detail pages':'상세페이지','DETAIL PAGES.':'상세페이지.','DETAIL PAGES':'상세페이지','Detail page':'상세페이지',
+'The story under each product page, in English and Korean. Write notes and add photos, let AI draft the copy, edit it, then publish. AI images are made only after you allow each one.':'상품 페이지 아래에 보이는 제품 이야기(영어·한국어)입니다. 메모와 사진을 넣고 AI로 초안을 만든 뒤 고쳐서 게시하세요. AI 이미지는 하나하나 허락해야 만들어집니다.',
+'Published':'게시됨','Draft':'초안','Not started':'시작 전','Unpublished changes':'게시 안 된 변경','Last updated':'마지막 수정','Open editor ↗':'편집 ↗','Not published':'게시 안 됨',
+'View product page →':'상품 페이지 보기 →','Hide from product page':'상품 페이지에서 숨기기','1. NOTES & PHOTOS':'1. 메모 · 사진',
+'Write anything about the product — rough notes in Korean are fine — and add photos. The AI uses them with the product facts.':'제품에 대해 아무거나 적어 주세요. 한국어로 대충 적어도 됩니다. 사진도 올리면 AI가 제품 정보와 함께 참고합니다.',
+'e.g. Fall limited edition, cozy campfire mood, perfect for tailgates, pumpkin flavor…':'예: 가을 한정판, 캠프파이어 감성, 테일게이트 파티, 펌킨 맛…',
+'Photos (JPG, PNG, WEBP · up to 6)':'사진 (JPG, PNG, WEBP · 최대 6장)','Save notes & photos':'메모 · 사진 저장','2. AI DRAFT':'2. AI 초안',
+'One OpenAI request writes the page in English and Korean and picks images. Lines that break the compliance rules are rewritten once. Your current draft is replaced (the published page stays until you publish).':'OpenAI 요청 한 번으로 영어·한국어 상세 문구를 쓰고 이미지를 고릅니다. 컴플라이언스 규칙에 걸린 줄은 한 번 다시 씁니다. 지금 초안은 바뀌지만, 게시된 페이지는 다시 게시할 때까지 그대로입니다.',
+'Write with AI ↗':'AI로 작성 ↗','3. EDIT & PUBLISH':'3. 수정 · 게시','Compliance check':'컴플라이언스 검사','Headline':'헤드라인','Subhead':'서브 문구','Section':'섹션',
+'Highlights':'핵심 포인트','How to enjoy':'즐기는 법','One per line':'한 줄에 하나','Question || Answer, one per line':'질문 || 답변, 한 줄에 하나','Save draft':'초안 저장','Save & publish ↗':'저장하고 게시 ↗',
+'4. AI IMAGES — ASKS FIRST':'4. AI 이미지 — 먼저 허락을 받아요',
+'Describe the image. The AI first tells you exactly what it will make or change. Nothing is created and nothing is paid until you press Allow & create.':'원하는 이미지를 적어 주세요. AI가 먼저 무엇을 어떻게 만들거나 바꿀지 알려 드리고, [허락하고 생성]을 누르기 전에는 아무것도 만들지 않고 비용도 들지 않습니다.',
+'Model':'모델','quality':'품질','approx.':'약','per image':'(1장당)','Start from':'시작 이미지','A new image (no source photo)':'새 이미지 (원본 사진 없음)',
+'e.g. Put this pouch on a picnic table at a fall tailgate, warm sunset light, keep the package exactly the same':'예: 이 봉지를 가을 테일게이트 피크닉 테이블 위에 놓고, 따뜻한 노을빛으로. 패키지는 그대로',
+"Get the AI's plan":'AI 수정안 받기','Upload':'업로드','Request':'요청','source':'원본','The AI will:':'AI가 할 일:','Allow & create ↗':'허락하고 생성 ↗','Remove':'빼기',
+'No uploaded or AI images yet. The editor can already use the product’s existing photos.':'아직 올린 사진이나 AI 이미지가 없습니다. 편집기에서는 기존 상품 사진을 바로 쓸 수 있습니다.',
+'Notes saved.':'메모를 저장했습니다.','AI draft ready. Check it, edit anything, then Save and Publish.':'AI 초안이 준비됐습니다. 확인하고 고친 뒤 저장·게시하세요.',
+'Each language needs a headline and at least one section.':'언어마다 헤드라인과 섹션이 하나 이상 필요합니다.','Saved as a draft. Fix the lines the compliance rules stop before publishing.':'초안으로 저장했습니다. 게시하려면 컴플라이언스 규칙에 걸린 문구를 고치세요.',
+'Published. The detail page is live.':'게시했습니다. 상세페이지가 공개됐습니다.','Draft saved. Shoppers still see the published version.':'초안을 저장했습니다. 고객에게는 게시된 버전이 보입니다.',
+'Hidden from the product page.':'상품 페이지에서 숨겼습니다.','Check the plan below. Nothing is created until you press Allow & create.':'아래 수정안을 확인하세요. [허락하고 생성]을 누르기 전에는 만들지 않습니다.',
+'Image created. Pick it for a section in the editor.':'이미지를 만들었습니다. 편집기에서 섹션 이미지로 고르세요.','Removed from this product’s images.':'이 상품 이미지에서 뺐습니다.',
+'Describe the image you want.':'원하는 이미지를 적어 주세요.','Choose one of this product’s photos.':'이 상품의 사진 중에서 고르세요.',
+})
+# Long detail page · Rebu Studio · API connections · sidebar (README §28–29)
+KO.update({
+'Products & store':'상품 · 스토어','Marketing & homepage':'마케팅 · 홈페이지','Settings':'설정','API connections':'API 연결','SETTINGS':'설정','API CONNECTIONS.':'API 연결.',
+'Keys live only in .env (local) or Render Environment — never in the page. Add the value, restart the server, then run the test.':'키는 .env(로컬) 또는 Render Environment에만 저장하고 화면에는 넣지 않습니다. 값을 넣고 서버를 다시 시작한 뒤 연결 테스트를 누르세요.',
+'Key set':'연결됨','Environment variable':'환경 변수','Environment variables':'환경 변수','also read':'이 이름도 읽음','Key':'키','Text model':'텍스트 모델','Image model':'이미지 모델','Used for':'사용처',
+'Ask Reboot, chatbot question analysis, admin AI assistant, detail page copy and images':'Ask Reboot, 챗봇 질문 분석, 관리자 AI 비서, 상세페이지 문구·이미지',
+'or one value':'또는 한 줄로','Detail page images (choose OpenAI or Higgsfield per image)':'상세페이지 이미지 (이미지마다 OpenAI / Higgsfield 선택)','Where to get it':'발급 위치','Test connection ↗':'연결 테스트 ↗',
+'Product detail':'상품 상세','THE LINEUP':'라인업','KEY':'핵심','Sweetened with':'감미 원료','PRODUCT INFO':'제품 정보','Made by':'제조','For':'대상','Adults 21+':'만 21세 이상 성인',
+'Shop now ↗':'지금 구매 ↗','For adults 21+. Please enjoy responsibly.':'만 21세 이상 성인용. 책임감 있게 즐겨 주세요.',
+"What's inside":'성분 분석','Admin preview — the full list is shown to shoppers only after it is confirmed.':'관리자 미리보기 — 전체 원재료는 확정한 뒤에만 고객에게 보입니다.',
+'Detail page preview':'상세페이지 미리보기','← Back to editor':'← 편집기로','Download as one long image (PNG)':'긴 이미지 한 장으로 저장 (PNG)','Nothing to preview yet. Write the page first.':'아직 미리볼 내용이 없습니다. 먼저 페이지를 작성하세요.',
+'Open preview & export PNG →':'미리보기 · PNG 저장 →','API connections →':'API 연결 →','NOTES & PHOTOS':'메모 · 사진',
+'Write anything about the product — rough notes in Korean are fine — and add photos. Rebu Studio and the one-click draft use them with the product facts and the ingredient list.':'제품에 대해 아무거나 적고(한국어로 대충 OK) 사진을 올리세요. 리부 스튜디오와 원클릭 초안이 제품 정보·성분표와 함께 참고합니다.',
+'e.g. Fall limited edition, birthday party mood, cherry first, neon…':'예: 가을 한정판, 생일파티 무드, 체리 강조, 네온…','One-click AI draft (replaces the draft) ↗':'원클릭 AI 초안 (초안 교체) ↗',
+'IMAGES — ASKS FIRST':'이미지 — 먼저 허락을 받아요',
+'Describe the panel image. The AI first shows what it will make or change, the provider and the approximate cost. Nothing is created and nothing is paid until you press Allow & create.':'패널 이미지를 설명하세요. AI가 먼저 무엇을 만들거나 바꿀지, 제공자, 예상 비용을 보여 줍니다. [허락하고 생성]을 누르기 전에는 아무것도 만들지 않고 비용도 들지 않습니다.',
+'Provider':'제공자','no key':'키 없음','Slot':'위치','e.g. This pouch on a neon-lit birthday table with confetti, friends’ hands reaching in, keep the package exactly the same':'예: 네온 조명의 생일 테이블 위 이 파우치, 컨페티, 친구들 손이 뻗는 장면. 패키지는 그대로',
+'Higgsfield is making this image… this page checks every few seconds.':'Higgsfield가 이미지를 만드는 중… 이 페이지가 몇 초마다 확인합니다.','Use it':'사용 코드','EDIT & PUBLISH':'수정 · 게시',
+'REVIEW lines can be published; REVISE / BLOCK lines must be fixed.':'REVIEW 줄은 게시 가능, REVISE · BLOCK 줄은 고쳐야 합니다.','Hero':'히어로','Kicker':'키커','Party moments':'파티 모먼트','Panel':'패널',
+'Ingredient analysis':'성분 분석','Intro':'소개','Note':'안내','Custom roles (Ingredient || role)':'역할 직접 입력 (성분 || 역할)',
+"Roles come from the product's ingredient list (Products › Ingredients). Before the list is confirmed, shoppers see only the key ingredients.":'역할은 상품의 원재료 목록(상품 › Ingredients)에서 자동으로 붙습니다. 목록 확정 전에는 고객에게 핵심 성분만 보입니다.',
+'Lists':'목록','FAQ (Question || Answer)':'FAQ (질문 || 답변)','Closing':'클로징','Each language needs a headline and at least one panel.':'언어마다 헤드라인과 패널이 하나 이상 필요합니다.',
+'AI draft ready. Check the preview, edit anything, then Save and Publish.':'AI 초안이 준비됐습니다. 미리보기를 확인하고 고친 뒤 저장·게시하세요.',
+'Image created. Pick it for a slot in the editor.':'이미지를 만들었습니다. 편집기에서 위치를 골라 넣으세요.','Sent to Higgsfield. This page checks it every few seconds.':'Higgsfield에 보냈습니다. 이 페이지가 몇 초마다 확인합니다.',
+})
+# Per-tab AI workspaces (README §30)
+KO.update({'Create with AI':'AI로 생성하기'})
+KO.update({
+'Hi! I’m Rebu Operator, your admin guide. Ask me where to do something or how the site works. To make a product, popup, creator link or detail page, I’ll take you to that tab’s Create with AI workspace.':'안녕하세요, 관리자 길잡이 리부 오퍼레이터예요. 어디서 무엇을 하면 되는지, 사이트가 어떻게 돌아가는지 물어보세요. 상품·팝업·크리에이터 링크·상세페이지 만들기는 각 탭의 [AI로 생성하기] 작업실로 안내해 드릴게요.',
+'e.g. Where do I check this month’s creator sales?':'예: 이번 달 크리에이터 매출은 어디서 봐요?','Creating happens in each tab: ✳ Create with AI.':'만들기는 각 탭의 ✳ AI로 생성하기에서:',
+'Product':'상품','Popup':'팝업','Creator link':'크리에이터 링크',
+})
+
+# 2026-10-25 spec sheet update (README §33)
+KO.update({
+'One pouch of 10 individually wrapped jellies: lime, lemon & cherry':'라임·레몬·체리 젤리 10개가 개별 포장되어 한 봉지에 담겨 있습니다',
+'10 individually wrapped lime, lemon and cherry jellies in one pouch.':'개별 포장된 라임·레몬·체리 젤리 10개가 한 봉지에 들어 있어요.',
+'10 Zero Sugar cherry, lime and lemon jellies, individually wrapped in one pouch.':'개별 포장된 제로슈가 체리·라임·레몬 젤리 10개가 한 봉지에 들어 있어요.',
+'10 jellies per pouch':'한 봉지 10개','Not a low calorie food':'저칼로리 식품 아님',
+'Cane sugar, tapioca syrup and glucose syrup':'설탕(사탕수수당)·타피오카 시럽·물엿','Fructose and sugar':'과당·설탕',
+'Allulose with stevia (Reb M), monk fruit or sucralose':'알룰로스 + 스테비아(Reb M)·나한과·수크랄로스 중 선택',
+'Sucralose (allulose, stevia Reb M or monk fruit under review)':'수크랄로스 (알룰로스·스테비아 Reb M·나한과 검토 중)',
+})
+
+# README §34: product page photos
+KO.update({
+'PRODUCT PAGE PHOTOS':'상품 페이지 사진','Photos in the gallery under the main photo. Add new ones or take any of them off the page. Phone photos are resized in your browser before upload.':'대표 사진 아래 갤러리에 보이는 사진이에요. 새 사진을 추가하거나 원하는 사진을 페이지에서 뺄 수 있어요. 휴대폰 사진은 올리기 전에 브라우저에서 크기를 줄여요.',
+'Off':'빠짐','Added':'추가함','Remove':'빼기','Put back':'다시 넣기','Remove this photo?':'이 사진을 뺄까요?','No gallery photos yet.':'아직 갤러리 사진이 없어요.',
+'Label (optional), e.g. Party scene':'설명 (선택) 예: 파티 장면','+ Add photos':'+ 사진 추가','or drop photos here':'또는 여기에 사진을 끌어다 놓기','Photo':'사진',
+'Sample review':'샘플 리뷰',
+})
+
+# README §34: automatic long detail page
+KO.update({
+'Long detail page':'긴 상세페이지','Make the long detail page automatically after registering (copy in English + Korean, laid out like the launch products)':'등록 후 긴 상세페이지 자동 생성 (영어·한국어 문구, 기존 제품과 같은 레이아웃)',
+'Use Higgsfield for 5 party backgrounds':'Higgsfield로 파티 배경 5장 만들기','about':'약','credits':'크레딧',
+'No Higgsfield key: the page uses dark neon backgrounds instead (no credits).':'Higgsfield 키가 없어서 어두운 네온 배경으로 만들어요 (크레딧 없음).',
+'Automatic detail page':'자동 상세페이지','not made yet':'아직 없음','Ready':'완료','View ↗':'보기 ↗','Failed':'실패','In progress':'만드는 중','refresh in a minute':'잠시 후 새로고침',
+'New Higgsfield backgrounds':'Higgsfield 배경 새로 만들기','Make the detail page again? The current one is replaced.':'상세페이지를 다시 만들까요? 지금 것은 바뀝니다.','Make again':'다시 만들기','Make now':'지금 만들기',
+})
+
+# README §35: creator deal page
+KO.update({
+'CREATOR DEAL':'크리에이터 할인','EVERYTHING.':'전 제품.','Code':'코드',
+'is applied. The prices below already include your discount, and it is taken off again at checkout for 30 days.':'코드가 적용됐어요. 아래 가격은 할인이 반영된 가격이고, 30일 동안 결제할 때도 자동으로 할인돼요.',
+'Creator code':'크리에이터 코드','applied — prices shown include it.':'적용 중 — 보이는 가격에 할인이 반영돼 있어요.','See all deals':'할인 제품 전체 보기',
+'For adults 21+. Mock checkout only — no real payment.':'21세 이상 성인용. 모의 결제이며 실제 결제는 되지 않아요.',
+'Creator deal page (all products, discounted)':'크리에이터 할인 페이지 (전 제품 할인가)',
+})
+KO.update({'or drop photos here':'눌러서 사진 고르기 · 또는 여기에 끌어다 놓기'})
+KO.update({'Leave this deal → regular site':'할인 페이지 나가기 → 일반 사이트'})

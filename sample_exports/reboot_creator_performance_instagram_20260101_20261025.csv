@@ -1,4 +1,11 @@
 ﻿creator,discount_code,platform,link_url,clicks,order_count,units_sold,net_sales_usd,conversion_rate_pct,commission_usd
-Brunch Club (Fictional),BRUNCHCLUB,Instagram,http://127.0.0.1:5000/r/BRUNCHCLUB,6240,114,516,6322.51,1.83,632.29
-K-Party LA (Fictional),KPARTYLA,Instagram,http://127.0.0.1:5000/r/KPARTYLA,6600,114,448,5298.77,1.73,635.81
-Morning Reset (Fictional),MORNINGRESET,Instagram,http://127.0.0.1:5000/r/MORNINGRESET,6600,109,431,4821.31,1.65,723.28
+Seoul Style Diary (Fictional),SEOULSTYLE,Instagram,http://127.0.0.1:5000/r/SEOULSTYLE,7791,137,608,7229.92,1.76,1084.56
+Brunch Club (Fictional),BRUNCHCLUB,Instagram,http://127.0.0.1:5000/r/BRUNCHCLUB,7124,129,574,6995.98,1.81,699.67
+Glow Hour LA (Fictional),GLOWHOURLA,Instagram,http://127.0.0.1:5000/r/GLOWHOURLA,6525,138,574,6731.66,2.11,807.86
+City Bites SF (Fictional),CITYBITESSF,Instagram,http://127.0.0.1:5000/r/CITYBITESSF,5365,132,522,6175.08,2.46,617.61
+Weekend Wanderer (Fictional),WKNDWANDER,Instagram,http://127.0.0.1:5000/r/WKNDWANDER,6888,114,453,5826.75,1.66,582.70
+K-Party LA (Fictional),KPARTYLA,Instagram,http://127.0.0.1:5000/r/KPARTYLA,6875,117,461,5453.89,1.70,654.44
+Night Owl NYC (Fictional),NIGHTOWLNYC,Instagram,http://127.0.0.1:5000/r/NIGHTOWLNYC,4356,114,460,5214.15,2.62,625.66
+Pastel Pantry (Fictional),PASTELPANTRY,Instagram,http://127.0.0.1:5000/r/PASTELPANTRY,3605,99,405,5006.40,2.75,400.54
+Morning Reset (Fictional),MORNINGRESET,Instagram,http://127.0.0.1:5000/r/MORNINGRESET,6435,108,422,4784.85,1.68,717.79
+Sunset Sips (Fictional),SUNSETSIPS,Instagram,http://127.0.0.1:5000/r/SUNSETSIPS,3100,97,394,4609.91,3.13,461.10

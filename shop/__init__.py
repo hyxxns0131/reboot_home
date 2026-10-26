@@ -1,4 +1,5 @@
 import secrets
+from decimal import Decimal
 from flask import Blueprint, render_template, request, session, redirect, flash, abort
 from flask_login import current_user
 from auth.decorators import customer_required
@@ -23,14 +24,30 @@ def ensure_tables(state):
         upgrade_database()
 
 
+def creator_link():
+    """The creator code whose prices this page shows. Only the creator deal page (/deal/<CODE>) sets it — the main site always
+    shows regular prices (README §35). The code itself stays in the cookie, so the bag and checkout still apply it."""
+    from flask import g, has_request_context
+    return g.get('creator_link') if has_request_context() else None
+
+
+def pct(rate): return f"{(Decimal(rate)*100).normalize():f}"
+
+
 def sale_for(sku):
-    """Template helper: {'price','old','label','tag'} when an admin sale applies to this SKU, else None."""
+    """Template helper: {'price','old','label','tag'} when an admin sale applies (and, on the creator deal page only, the creator
+    code), else None. The price is what the bag will charge: sale first, then the creator % on the sale price (README §35)."""
     option=db.session.scalar(db.select(ProductOption).filter_by(sku=sku,is_active=True))
     if not option: return None
     price,rule=sale_price(option)
-    if not rule: return None
-    tag=f"{rule.value.normalize():f}% OFF" if rule.kind=='percent' else f"${rule.value:.2f} OFF"
-    return dict(price=price,old=option.price,label=rule.label,tag=tag)
+    link=creator_link()
+    if not rule and not (link and link.discount_rate): return None
+    tags,label=[],(rule.label if rule else '')
+    if rule: tags.append(f"{rule.value.normalize():f}% OFF" if rule.kind=='percent' else f"${rule.value:.2f} OFF")
+    if link and link.discount_rate:
+        price=money(price-money(price*link.discount_rate)); tags.append(f"{link.code} −{pct(link.discount_rate)}%")
+        label=label or f"Creator code {link.code}"
+    return dict(price=price,old=option.price,label=label,tag=' + '.join(tags),code=link.code if link else '')
 
 
 def from_price(p):
@@ -46,7 +63,7 @@ def from_price(p):
 def register_helpers(state):
     # globals (not a context processor) so imported macros can use them too
     from shop.inventory import stock_for
-    state.app.jinja_env.globals.update(sale_for=sale_for,from_price=from_price,stock_for=stock_for)
+    state.app.jinja_env.globals.update(sale_for=sale_for,from_price=from_price,stock_for=stock_for,creator_link=creator_link)
 @bp.get('/')
 def index():
     return redirect('/products/')

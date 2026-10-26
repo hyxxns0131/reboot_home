@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}{% block content %}
+{# Long detail page editor (README §28): Rebu Studio chat + live preview · notes & photos · one-click draft · manual editor · images (allow first) #}
+{% if running %}<meta http-equiv="refresh" content="6">{% endif %}
+{% set ko = not (session.get('lang_picked') and session.get('lang')=='en') %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main admin-story">
+  <span class="eyebrow"><a href="/admin/products/story">{{ tr("DETAIL PAGES") }}</a> / {{ p.slug }}</span>
+  <div class="section-heading"><h1>{{ p.name }}</h1>
+    <span class="badge">{{ tr("Published") if story and story.status=='published' else tr("Not published") }}</span>{% if unsaved %}<span class="badge">{{ tr("Unpublished changes") }}</span>{% endif %}</div>
+  <p class="muted"><a class="text-link" href="/products/{{ p.slug }}#story" target="_blank" rel="noopener">{{ tr("View product page →") }}</a> · <a class="text-link" href="/admin/products/story/{{ p.slug }}/preview?lang={{ 'ko' if ko else 'en' }}" target="_blank" rel="noopener">{{ tr("Open preview & export PNG →") }}</a>{% if story and story.status=='published' %} · <form class="inline" method="post" action="/admin/products/story/{{ p.slug }}/unpublish"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-link" type="submit">{{ tr("Hide from product page") }}</button></form>{% endif %}</p>
+  {% if not config.key_set %}<p class="admin-alert">{{ tr("No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.") }} <a class="text-link" href="/admin/settings/connections">{{ tr("API connections →") }}</a></p>{% endif %}
+
+  <div class="studio-grid">
+    <div class="studio" data-studio data-slug="{{ p.slug }}"
+      data-greeting="{{ '안녕하세요, 상세페이지 디렉터 리부 스튜디오예요. 이 상품을 파티 필수품으로 보여 줄 긴 상세페이지를 같이 만들어요. 메인 파티 상황, 강조할 맛, 원하는 톤을 알려 주시거나 그냥 \'알아서 초안 만들어줘\'라고 해 주세요. 이미지는 계획과 비용을 먼저 보여 드리고 허락받은 뒤에만 만들어요.' if ko else 'Hi, I’m Rebu Studio, your detail-page director. Let’s build a long page that sells this as the party essential. Tell me the main party moment, the flavors to push and the tone — or just say “draft it for me”. I show the plan and cost for every image and make it only after you allow it.' }}"
+      data-thinking="{{ '작성 중…' if ko else 'Working on it…' }}" data-error="{{ '문제가 생겼어요. 다시 시도해 주세요.' if ko else 'Something went wrong. Please try again.' }}"
+      data-unavailable="{{ 'OpenAI 키가 필요해요. 설정 › API 연결을 확인하세요.' if ko else 'An OpenAI key is needed. See Settings › API connections.' }}" data-limit="{{ '메시지가 너무 많아요. 잠시 후 다시.' if ko else 'Too many messages. Try again soon.' }}"
+      data-draft-saved="{{ '초안 저장됨' if ko else 'Draft saved' }}" data-draft-ok="{{ '미리보기에 반영했어요. 게시는 아래 [저장하고 게시]로.' if ko else 'Updated in the preview. Publish below with Save & publish.' }}" data-must-fix="{{ '고쳐야 할 줄' if ko else 'Lines to fix' }}"
+      data-image-plan="{{ '이미지 수정안' if ko else 'Image plan' }}" data-provider="{{ '제공자' if ko else 'Provider' }}" data-cost="{{ '예상 비용' if ko else 'Approx. cost' }}" data-size="{{ '비율' if ko else 'Shape' }}" data-source="{{ '원본' if ko else 'Reference' }}" data-plan="{{ '할 일' if ko else 'Plan' }}"
+      data-allow="{{ '허락하고 생성 ↗' if ko else 'Allow & create ↗' }}" data-cancel="{{ '취소' if ko else 'Cancel' }}">
+      <header><strong>{{ '리부 스튜디오 · 상세페이지 디렉터' if ko else 'REBU STUDIO · DETAIL PAGE DIRECTOR' }}</strong><button type="button" data-reset>{{ '새 대화' if ko else 'New chat' }}</button></header>
+      <div class="studio-log" aria-live="polite"></div>
+      <form><textarea rows="3" maxlength="3000" required placeholder="{{ '예: 생일파티 메인으로, 체리 강조, 위트 있는 톤. 히어로는 네온 테이블 위 파우치로.' if ko else 'e.g. Birthday party as the main moment, push cherry, witty tone. Hero: the pouch on a neon-lit table.' }}"></textarea><button class="btn primary" type="submit">{{ '보내기' if ko else 'Send' }}</button></form>
+    </div>
+    <div class="studio-preview"><iframe data-preview title="{{ tr('Detail page preview') }}" src="/admin/products/story/{{ p.slug }}/preview?lang={{ 'ko' if ko else 'en' }}&frame=1" loading="lazy"></iframe></div>
+  </div>
+  <script defer src="{{ url_for('static', filename='core/js/admin-studio.js') }}"></script>
+
+  <h2 id="notes">{{ tr("NOTES & PHOTOS") }}</h2>
+  <p class="muted">{{ tr("Write anything about the product — rough notes in Korean are fine — and add photos. Rebu Studio and the one-click draft use them with the product facts and the ingredient list.") }}</p>
+  <form method="post" action="/admin/products/story/{{ p.slug }}/notes" enctype="multipart/form-data" class="admin-story-notes">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <textarea name="notes" rows="4" maxlength="4000" placeholder="{{ tr('e.g. Fall limited edition, birthday party mood, cherry first, neon…') }}">{{ story.notes if story else '' }}</textarea>
+    <label>{{ tr("Photos (JPG, PNG, WEBP · up to 6)") }}<input type="file" name="photos" accept="image/jpeg,image/png,image/webp" multiple></label>
+    <div class="admin-story-actions"><button class="btn">{{ tr("Save notes & photos") }}</button></div>
+  </form>
+  <form method="post" action="/admin/products/story/{{ p.slug }}/generate" class="admin-story-actions"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn" {{ 'disabled' if not config.key_set }}>{{ tr("One-click AI draft (replaces the draft) ↗") }}</button></form>
+
+  <h2 id="images">{{ tr("IMAGES — ASKS FIRST") }}</h2>
+  <p class="muted">{{ tr("Describe the panel image. The AI first shows what it will make or change, the provider and the approximate cost. Nothing is created and nothing is paid until you press Allow & create.") }}</p>
+  <form method="post" action="/admin/products/story/{{ p.slug }}/images/propose" class="admin-story-notes">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="admin-story-cols3">
+      <label>{{ tr("Provider") }}<select name="provider">{% for pv in ['openai','higgsfield'] %}<option value="{{ pv }}" {{ 'disabled' if not provs[pv] }}>{{ 'OpenAI' if pv=='openai' else 'Higgsfield' }}{{ '' if provs[pv] else ' — ' ~ tr('no key') }}</option>{% endfor %}</select></label>
+      <label>{{ tr("Slot") }}<select name="slot">{% for sl in ['hero','occasions','section-1','section-2','section-3','section-4','closing'] %}<option>{{ sl }}</option>{% endfor %}</select></label>
+      <label>{{ tr("Start from") }}<select name="source"><option value="">{{ tr("A new image (no source photo)") }}</option>{% for ref,label,url in choices %}<option value="{{ ref }}">{{ label }}</option>{% endfor %}</select></label>
+    </div>
+    <textarea name="request" rows="3" maxlength="800" required placeholder="{{ tr('e.g. This pouch on a neon-lit birthday table with confetti, friends’ hands reaching in, keep the package exactly the same') }}"></textarea>
+    <div class="admin-story-actions"><button class="btn" {{ 'disabled' if not (provs.openai or provs.higgsfield) or not config.key_set }}>{{ tr("Get the AI's plan") }}</button></div>
+  </form>
+  <div class="admin-story-images">
+  {% for im in images %}
+    <article class="admin-story-image {{ im.status }}">
+      {% if im.data %}<img src="{{ im.url }}" alt="">{% endif %}
+      <strong>#{{ im.id }} · {{ (im.provider or 'upload')|upper if im.kind=='ai' else tr('Upload') }}{% if im.slot %} · {{ im.slot }}{% endif %} · {{ im.label }}</strong>
+      {% if im.status in ('proposed','failed') %}
+        <div class="admin-ai-plan"><b>{{ tr("The AI will:") }}</b> {{ im.plan.get('ko' if ko else 'en') or im.plan.get('en') }}
+          <small>{{ im.provider }} · {{ im.model }} · {{ im.size }} · {{ tr("approx.") }} {{ im.cost }}{% if im.source %} · {{ tr("source") }} {{ im.source }}{% endif %}</small></div>
+        {% if im.error %}<p class="admin-alert">{{ im.error }}</p>{% endif %}
+        <div class="admin-story-actions">
+          <form method="post" action="/admin/products/story/{{ p.slug }}/images/{{ im.id }}/allow"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn primary">{{ tr("Allow & create ↗") }}</button></form>
+          <form method="post" action="/admin/products/story/{{ p.slug }}/images/{{ im.id }}/cancel"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn">{{ tr("Cancel") }}</button></form></div>
+      {% elif im.status=='running' %}<p class="muted">{{ tr("Higgsfield is making this image… this page checks every few seconds.") }}</p>
+      {% elif im.status=='ready' %}<p class="muted">{{ tr("Use it") }}: <code>story:{{ im.id }}</code></p>
+        <form method="post" action="/admin/products/story/{{ p.slug }}/images/{{ im.id }}/remove"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-link">{{ tr("Remove") }}</button></form>
+      {% endif %}
+    </article>
+  {% else %}<p class="muted">{{ tr("No uploaded or AI images yet. The editor can already use the product’s existing photos.") }}</p>{% endfor %}
+  </div>
+
+  <h2 id="editor">{{ tr("EDIT & PUBLISH") }}</h2>
+  {% if problems %}<div class="{{ 'admin-ok' if passed else 'admin-alert' }}">{{ tr("Compliance check") }}{{ ' — ' ~ tr('REVIEW lines can be published; REVISE / BLOCK lines must be fixed.') }}{% for v,codes,t in problems %}
+{{ v }} {{ codes }} — {{ t }}{% endfor %}</div>{% endif %}
+  <form method="post" action="/admin/products/story/{{ p.slug }}/save" class="admin-story-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    {% set im = c.get('images') if c.get('images') is mapping else {'sections': c.get('images', [])} %}
+    {% macro pick(name, cur) %}<select name="{{ name }}"><option value="">—</option>{% for ref,label,url in choices %}<option value="{{ ref }}" {{ 'selected' if ref==cur }}>{{ label }}</option>{% endfor %}</select>{% endmacro %}
+    {% macro two(label, name, rows=1) %}<div class="admin-story-cols"><span>{{ tr(label) }}</span>{% for l in langs %}<textarea name="{{ name }}_{{ l }}" rows="{{ rows }}">{{ caller(l) }}</textarea>{% endfor %}</div>{% endmacro %}
+    <div class="admin-story-cols"><span></span><strong>English</strong><strong>한국어</strong></div>
+    <fieldset class="admin-story-section"><legend>{{ tr("Hero") }}</legend>
+      {% call(l) two('Kicker', 'kicker') %}{{ c.get(l,{}).get('hero',{}).get('kicker','') }}{% endcall %}
+      {% call(l) two('Headline', 'headline') %}{{ c.get(l,{}).get('hero',{}).get('headline','') }}{% endcall %}
+      {% call(l) two('Subhead', 'subhead', 2) %}{{ c.get(l,{}).get('hero',{}).get('subhead','') }}{% endcall %}
+      <div class="admin-story-cols"><span>{{ tr("Image") }}</span>{{ pick('image_hero', im.get('hero','')) }}</div></fieldset>
+    <fieldset class="admin-story-section"><legend>{{ tr("Party moments") }}</legend>
+      {% call(l) two('Title', 'occ_title') %}{{ c.get(l,{}).get('occasions',{}).get('title','') }}{% endcall %}
+      {% for i in range(4) %}<div class="admin-story-cols"><span>{{ i+1 }}</span>{% for l in langs %}{% set it = c.get(l,{}).get('occasions',{}).get('items',[]) %}<div><input name="occ_t_{{ l }}_{{ i }}" value="{{ it[i].title if i < it|length else '' }}"><textarea name="occ_b_{{ l }}_{{ i }}" rows="2">{{ it[i].body if i < it|length else '' }}</textarea></div>{% endfor %}</div>{% endfor %}
+      <div class="admin-story-cols"><span>{{ tr("Image") }}</span>{{ pick('image_occasions', im.get('occasions','')) }}</div></fieldset>
+    {% for i in range(n) %}<fieldset class="admin-story-section"><legend>{{ tr("Panel") }} {{ i+1 }}</legend>
+      <div class="admin-story-cols"><span>{{ tr("Title") }}</span>{% for l in langs %}{% set secs = c.get(l,{}).get('sections',[]) %}<input name="title_{{ l }}_{{ i }}" value="{{ secs[i].title if i < secs|length else '' }}">{% endfor %}</div>
+      <div class="admin-story-cols"><span>{{ tr("Text") }}</span>{% for l in langs %}{% set secs = c.get(l,{}).get('sections',[]) %}<textarea name="body_{{ l }}_{{ i }}" rows="3">{{ secs[i].body if i < secs|length else '' }}</textarea>{% endfor %}</div>
+      {% set cur = im.get('sections',[])[i] if i < im.get('sections',[])|length else '' %}<div class="admin-story-cols"><span>{{ tr("Image") }}</span>{{ pick('image_section_' ~ i, cur) }}</div></fieldset>{% endfor %}
+    <fieldset class="admin-story-section"><legend>{{ tr("Ingredient analysis") }}</legend>
+      {% call(l) two('Title', 'ing_title') %}{{ c.get(l,{}).get('ingredients',{}).get('title','') }}{% endcall %}
+      {% call(l) two('Intro', 'ing_intro', 2) %}{{ c.get(l,{}).get('ingredients',{}).get('intro','') }}{% endcall %}
+      {% call(l) two('Note', 'ing_note', 2) %}{{ c.get(l,{}).get('ingredients',{}).get('note','') }}{% endcall %}
+      {% call(l) two('Custom roles (Ingredient || role)', 'roles', 3) %}{% for k,v in c.get(l,{}).get('ingredients',{}).get('roles',{}).items() %}{{ k }} || {{ v }}
+{% endfor %}{% endcall %}
+      <p class="muted">{{ tr("Roles come from the product's ingredient list (Products › Ingredients). Before the list is confirmed, shoppers see only the key ingredients.") }}</p></fieldset>
+    <fieldset class="admin-story-section"><legend>{{ tr("Lists") }}</legend>
+      {% call(l) two('Highlights', 'highlights', 4) %}{{ c.get(l,{}).get('highlights',[])|join('\n') }}{% endcall %}
+      {% call(l) two('How to enjoy', 'how', 3) %}{{ c.get(l,{}).get('how_to_enjoy',[])|join('\n') }}{% endcall %}
+      {% call(l) two('FAQ (Question || Answer)', 'faq', 4) %}{% for f in c.get(l,{}).get('faq',[]) %}{{ f.q }} || {{ f.a }}
+{% endfor %}{% endcall %}</fieldset>
+    <fieldset class="admin-story-section"><legend>{{ tr("Closing") }}</legend>
+      {% call(l) two('Headline', 'close_headline') %}{{ c.get(l,{}).get('closing',{}).get('headline','') }}{% endcall %}
+      {% call(l) two('Subhead', 'close_subhead', 2) %}{{ c.get(l,{}).get('closing',{}).get('subhead','') }}{% endcall %}
+      <div class="admin-story-cols"><span>{{ tr("Image") }}</span>{{ pick('image_closing', im.get('closing','')) }}</div></fieldset>
+    <div class="admin-story-actions"><button class="btn" name="publish" value="0">{{ tr("Save draft") }}</button><button class="btn primary" name="publish" value="1">{{ tr("Save & publish ↗") }}</button></div>
+  </form>
+</section></div>{% endblock %}

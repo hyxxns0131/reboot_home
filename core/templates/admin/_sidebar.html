@@ -1,34 +1,42 @@
-{# Admin sidebar: every section one click away. Same links on every admin page. #}
+{# Admin sidebar (README §29): main groups in order of importance; each opens like a toggle. The group of the current page starts open. #}
 {% set new_inbox = admin_inbox_count() %}
+{% set path = request.path.rstrip('/') %}
+{% set groups = [
+  ('sales', 'Sales overview', path == '/admin', [
+      ('/admin/#summary', 'Summary', 'summary'), ('/admin/#product-performance', 'Product performance', 'product-performance'),
+      ('/admin/#sales-by-option', 'Sales by option', 'sales-by-option'), ('/admin/#influencer-sales', 'Influencer sales by platform', 'influencer-sales'),
+      ('/admin/#creator-performance', 'Creator performance', 'creator-performance'), ('/admin/#direct-sales', 'Direct store sales', 'direct-sales'),
+      ('/admin/#product-reviews', 'Product reviews', 'product-reviews'), ('/admin/#account-activity', 'Account activity', 'account-activity'),
+      ('/admin/#point-transactions', 'Point transactions', 'point-transactions')]),
+  ('store', 'Products & store', path.startswith('/admin/products') or path.startswith('/admin/inventory'), [
+      ('/admin/products', 'Products & photos', ''), ('/admin/products/new', 'Add product', ''), ('/admin/products/story', 'Detail pages', ''),
+      ('/admin/inventory', 'Inventory', '')]),
+  ('marketing', 'Marketing & homepage', path.startswith('/admin/manage'), [
+      ('/admin/manage#creators', 'Creator codes & links', 'creators'), ('/admin/manage#discounts', 'Product discounts', 'discounts'),
+      ('/admin/manage#popups', 'Site popups', 'popups')]),
+  ('care', 'Customer care', path.startswith('/admin/inbox') or path.startswith('/admin/chatbot'), [
+      ('/admin/inbox', 'Inbox', ''), ('/admin/chatbot/questions', 'Chatbot questions', ''), ('/admin/chatbot', 'Chatbot', '')]),
+  ('settings', 'Settings', path.startswith('/admin/settings'), [
+      ('/admin/settings/connections', 'API connections', '')]),
+] %}
 <aside class="admin-side" aria-label="{{ tr('Admin sections') }}">
   <a class="admin-side-title" href="/admin/">{{ tr('ADMIN') }}</a>
-  <p class="admin-side-group">{{ tr('Sales overview') }}</p>
-  <nav>
-    {% for anchor,label in [('summary','Summary'),('product-performance','Product performance'),('sales-by-option','Sales by option'),('influencer-sales','Influencer sales by platform'),('creator-performance','Creator performance'),('direct-sales','Direct store sales'),('product-reviews','Product reviews'),('account-activity','Account activity'),('point-transactions','Point transactions')] %}
-    <a href="/admin/#{{ anchor }}" data-anchor="{{ anchor }}" {% if request.path.rstrip('/')=='/admin' and loop.first %}aria-current="true"{% endif %}>{{ label|tr }}</a>
-    {% endfor %}
-  </nav>
-  <p class="admin-side-group">{{ tr('Homepage manager') }}</p>
-  <nav>
-    <a href="/admin/manage#discounts" data-anchor="discounts">{{ tr('Product discounts') }}</a>
-    <a href="/admin/manage#creators" data-anchor="creators">{{ tr('Creator codes & links') }}</a>
-    <a href="/admin/manage#popups" data-anchor="popups">{{ tr('Site popups') }}</a>
-  </nav>
-  <p class="admin-side-group">{{ tr('Store operations') }}</p>
-  <nav>
-    <a href="/admin/inventory" {% if request.path.startswith('/admin/inventory') %}aria-current="page"{% endif %}>{{ tr('Inventory') }}</a>
-    <a href="/admin/products" {% if request.path=='/admin/products' %}aria-current="page"{% endif %}>{{ tr('Products & photos') }}</a>
-    <a href="/admin/products/new" {% if request.path.startswith('/admin/products/new') %}aria-current="page"{% endif %}>{{ tr('Add product') }}</a>
-  </nav>
-  <p class="admin-side-group">{{ tr('Customer care') }}</p>
-  <nav>
-    <a href="/admin/inbox" {% if request.path.startswith('/admin/inbox') %}aria-current="page"{% endif %}>{{ tr('Inbox') }}{% if new_inbox %} <b class="admin-count">{{ new_inbox }}</b>{% endif %}</a>
-    <a href="/admin/chatbot" {% if request.path.startswith('/admin/chatbot') %}aria-current="page"{% endif %}>{{ tr('Chatbot') }}</a>
-  </nav>
+  {% for key, label, here, links in groups %}
+  <details class="admin-group" data-group="{{ key }}" {{ 'open' if here }}>
+    <summary>{{ tr(label) }}{% if key == 'care' and new_inbox %} <b class="admin-count">{{ new_inbox }}</b>{% endif %}</summary>
+    <nav>
+      {% for href, text, anchor in links %}
+      {% set current = (not anchor and (path == href or (href != '/admin/products' and href != '/admin/chatbot' and path.startswith(href)))) %}
+      <a href="{{ href }}" {% if anchor %}data-anchor="{{ anchor }}"{% endif %} {% if current or (anchor and here and loop.first and key == 'sales') %}aria-current="page"{% endif %}>{{ tr(text) }}{% if href == '/admin/inbox' and new_inbox %} <b class="admin-count">{{ new_inbox }}</b>{% endif %}</a>
+      {% endfor %}
+    </nav>
+  </details>
+  {% endfor %}
 </aside>
+{% include 'admin/_assistant.html' %}
 <script>
 (function () {
-  // Highlight the section being viewed (and the one just clicked) on Sales overview / Homepage manager.
+  // Highlight the section being viewed on pages with anchors (Sales overview / Marketing & homepage).
   var links = Array.prototype.slice.call(document.querySelectorAll('.admin-side [data-anchor]'));
   var here = links.filter(function (a) { return a.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, ''); });
   if (!here.length) return;

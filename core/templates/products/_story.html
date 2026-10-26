@@ -1,0 +1,18 @@
+{# Product page detail (README §28, §31): the composed long detail image when the product has one, otherwise the HTML long page. #}
+{% set panels = product_long_image(p) %}
+{% if panels %}
+<section class="pd-long pd-long-img" id="story" aria-label="{{ tr('Product detail') }}">
+  {% for src in panels %}<img class="lp-reveal" src="{{ src }}" alt="{{ p.name }} — {{ tr('Product detail') }} {{ loop.index }}" width="1080" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async">{% endfor %}
+  <div class="lp-img-cta"><a class="btn primary" href="/products/{{ p.slug }}#top">{{ tr('Shop now ↗') }}</a></div>
+</section>
+<script>
+(function () {
+  var panels = document.querySelectorAll('.pd-long .lp-reveal');
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) { panels.forEach(function (n) { n.classList.add('in'); }); return; }
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+  panels.forEach(function (n) { io.observe(n); });
+})();
+</script>
+{% else %}
+{% set s = product_story(p) %}{% if s %}{% include 'products/_long_page.html' %}{% endif %}
+{% endif %}

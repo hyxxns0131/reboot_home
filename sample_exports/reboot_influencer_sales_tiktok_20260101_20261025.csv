@@ -1,4 +1,13 @@
 ﻿platform,influencer_name,discount_code,link_path,discount_rate,commission_rate,clicks,order_count,conversion_rate,units_sold,gross_sales_usd,discount_usd,net_sales_usd,commission_usd,top_product
-TikTok,Neon Nights (Fictional),NEONNIGHTS,/r/NEONNIGHTS,0.1000,0.1500,4080,113,0.0277,456,5998.94,600.35,5398.59,809.84,jelly-original
-TikTok,Restart Crew (Fictional),RESTARTCREW,/r/RESTARTCREW,0.2000,0.2000,5760,115,0.0200,463,6146.87,1229.60,4917.27,983.48,drink-balance
-TikTok,Seoul Sip NYC (Fictional),SEOULSIPNYC,/r/SEOULSIPNYC,0.1000,0.1000,4560,112,0.0246,417,5319.33,532.35,4786.98,478.84,drink-original
+TikTok,Restart Crew (Fictional),RESTARTCREW,/r/RESTARTCREW,0.2000,0.2000,10752,213,0.0198,866,11731.84,2346.57,9385.27,1877.14,jelly-balance
+TikTok,Party Prep Pro (Fictional),PARTYPREP,/r/PARTYPREP,0.1500,0.1500,10808,188,0.0174,745,10072.55,1511.70,8560.85,1284.30,jelly-balance
+TikTok,Snack Check Daily (Fictional),SNACKCHECK,/r/SNACKCHECK,0.1000,0.1200,6880,151,0.0219,628,8145.72,815.20,7330.52,879.72,drink-balance
+TikTok,Taste Test Tina (Fictional),TASTETINA,/r/TASTETINA,0.1000,0.1000,9519,158,0.0166,541,6997.09,700.25,6296.84,629.85,drink-balance
+TikTok,Neon Nights (Fictional),NEONNIGHTS,/r/NEONNIGHTS,0.1000,0.1500,4488,125,0.0279,510,6664.90,667.00,5997.90,899.74,jelly-original
+TikTok,K-Snack Review (Fictional),KSNACKREVIEW,/r/KSNACKREVIEW,0.1000,0.1500,4257,123,0.0289,504,6551.96,655.70,5896.26,884.49,drink-original
+TikTok,Festival Fam (Fictional),FESTIVALFAM,/r/FESTIVALFAM,0.1500,0.1200,6902,116,0.0168,477,6495.73,974.92,5520.81,662.43,jelly-original
+TikTok,Game Day Crew (Fictional),GAMEDAYCREW,/r/GAMEDAYCREW,0.2000,0.1500,4636,119,0.0257,498,6478.52,1295.76,5182.76,777.49,drink-original
+TikTok,Late Night Bites (Fictional),LATENIGHTBITES,/r/LATENIGHTBITES,0.1000,0.1000,3745,98,0.0262,389,4950.61,495.45,4455.16,445.60,drink-original
+TikTok,Road Trip Duo (Fictional),ROADTRIPDUO,/r/ROADTRIPDUO,0.1000,0.1200,3150,97,0.0308,355,4883.45,488.70,4394.75,527.37,jelly-original
+TikTok,Seoul Sip NYC (Fictional),SEOULSIPNYC,/r/SEOULSIPNYC,0.1000,0.1000,4294,105,0.0245,377,4770.73,477.45,4293.28,429.45,drink-original
+TikTok,Rooftop Hours (Fictional),ROOFTOPHOURS,/r/ROOFTOPHOURS,0.1500,0.1000,5959,91,0.0153,337,4326.13,649.29,3676.84,367.72,drink-original

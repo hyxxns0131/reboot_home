@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
+  <div class="section-heading"><h1>{{ tr("DETAIL PAGES.") }}</h1></div>
+  <p class="muted">{{ tr("The story under each product page, in English and Korean. Write notes and add photos, let AI draft the copy, edit it, then publish. AI images are made only after you allow each one.") }}</p>
+  <div class="table-wrap"><table><thead><tr><th>{{ tr("Product") }}</th><th>{{ tr("Status") }}</th><th>{{ tr("Last updated") }}</th><th></th></tr></thead><tbody>
+  {% for r in rows %}<tr><td><strong>{{ r.p.name }}</strong></td>
+    <td><span class="badge">{% if r.story and r.story.status=='published' %}{{ tr("Published") }}{% elif r.story and (r.story.draft or r.story.content) %}{{ tr("Draft") }}{% else %}{{ tr("Not started") }}{% endif %}</span>{% if r.story and r.story.draft and r.story.draft != r.story.content %} <span class="badge">{{ tr("Unpublished changes") }}</span>{% endif %}</td>
+    <td>{{ r.story.updated_at.strftime('%Y-%m-%d') if r.story else '—' }}</td>
+    <td><a class="btn" href="/admin/products/story/{{ r.p.slug }}">{{ tr("Open editor ↗") }}</a></td></tr>{% endfor %}
+  </tbody></table></div>
+</section></div>{% endblock %}

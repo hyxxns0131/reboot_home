@@ -8,6 +8,7 @@ from products.models import Review  # noqa: F401  (registers products_review tab
 from products import reviews as review_service
 
 bp=Blueprint('products',__name__,url_prefix='/products')
+from products import story  # noqa: E402,F401  (detail-page stories: tables, image route, product_story() for templates — README §28)
 
 
 @bp.record_once

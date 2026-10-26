@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}{% block content %}
+{# Per-tab AI workspace (README §30): chat with the tab's persona on the left, the live draft on the right. #}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow"><a href="{{ spec.back }}">{{ spec.ko if ko else spec.en }}</a> / {{ 'AI로 생성하기' if ko else 'CREATE WITH AI' }}</span>
+  <div class="section-heading"><h1>{{ (spec.ko ~ ' · AI') if ko else (spec.en|upper ~ ' · AI.') }}</h1></div>
+  <p class="muted">{{ 'AI와 대화하면서 필요한 항목을 함께 정해요. 정해진 값은 오른쪽 초안에 바로 반영되고, [저장]을 눌러야 사이트에 올라가요.' if ko else 'Agree on each value with the AI. Agreed values appear in the draft on the right right away; nothing goes live until you press Save.' }}
+    <a class="text-link" href="{{ spec.back }}">{{ '직접 입력하는 양식으로 →' if ko else 'Use the manual form →' }}</a></p>
+  {% if not config.key_set %}<p class="admin-alert">{{ ai_tr("No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.") }} <a class="text-link" href="/admin/settings/connections">{{ ai_tr('API connections →') }}</a></p>{% endif %}
+  <div class="ws-grid" data-ws data-kind="{{ kind }}" data-ko="{{ '1' if ko else '' }}"
+       data-required='{{ spec.required|tojson }}' data-state='{{ state|tojson }}'>
+    <div class="studio">
+      <header><strong>{{ {'product':'리부 머천다이저 · 상품 등록 AI','popup':'리부 프로모터 · 팝업 AI','creator':'리부 파트너십 매니저 · 크리에이터 링크 AI'}[kind] if ko else {'product':'REBU MERCHANDISER · PRODUCT AI','popup':'REBU PROMOTER · POPUP AI','creator':'REBU PARTNERSHIPS · CREATOR LINK AI'}[kind] }}</strong><button type="button" data-ws-newchat>{{ '새 대화' if ko else 'New chat' }}</button></header>
+      <div class="studio-log" aria-live="polite"></div>
+      <div class="admin-ai-attach" hidden></div>
+      <form>
+        <label class="admin-ai-file" title="{{ '이미지 첨부' if ko else 'Attach image' }}">📎<input type="file" accept="image/*,.heic,.heif" hidden></label>
+        <textarea rows="3" maxlength="2000" required placeholder="{{ {'product':'예: 가을 한정 펌킨 젤리 만들고 싶어. 사진 첨부할게','popup':'예: 이 사진을 10월 22일부터 30일까지 팝업으로','creator':'예: 틱톡 크리에이터 Lime Lucy 링크 만들어줘'}[kind] if ko else {'product':'e.g. A fall limited pumpkin jelly — photo attached','popup':'e.g. Show this photo as a popup from Oct 22 to Oct 30','creator':'e.g. A link for TikTok creator Lime Lucy'}[kind] }}"></textarea>
+        <button class="btn primary" type="submit">{{ '보내기' if ko else 'Send' }}</button>
+      </form>
+    </div>
+    <aside class="ws-live">
+      <header><strong>{{ '실시간 초안' if ko else 'LIVE DRAFT' }}</strong><span class="badge" data-ws-status></span></header>
+      <div class="ws-mock" data-ws-mock></div>
+      <h3>{{ '필수 항목' if ko else 'Required' }}</h3><ul class="ws-check" data-ws-check></ul>
+      <div data-ws-problems></div>
+      <div class="admin-story-actions"><button class="btn primary" type="button" data-ws-save>{{ '저장 ↗' if ko else 'Save ↗' }}</button><button class="btn" type="button" data-ws-reset>{{ '초안 비우기' if ko else 'Clear draft' }}</button></div>
+      {% if autopage %}<p class="muted">{{ ('저장하면 긴 상세페이지를 자동으로 만들어요' ~ (' — Higgsfield 배경 5장, 약 ' ~ autopage.total ~ ' 크레딧 (' ~ autopage.per ~ ' × 5).' if autopage.ai else ' (Higgsfield 키가 없어 네온 배경, 크레딧 없음).')) if ko else ('Saving also makes the long detail page automatically' ~ (' — 5 Higgsfield backgrounds, about ' ~ autopage.total ~ ' credits.' if autopage.ai else ' (no Higgsfield key: neon backgrounds, no credits).')) }}</p>{% endif %}
+      <p class="admin-ai-status" data-ws-result></p>
+    </aside>
+  </div>
+</section></div>
+<script defer src="{{ url_for('static', filename='core/js/upload-image.js') }}"></script>
+<script defer src="{{ url_for('static', filename='core/js/admin-workspace.js') }}"></script>
+{% endblock %}

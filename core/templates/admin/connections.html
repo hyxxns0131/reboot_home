@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}{% block content %}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("SETTINGS") }}</span>
+  <div class="section-heading"><h1>{{ tr("API CONNECTIONS.") }}</h1></div>
+  <p class="muted">{{ tr("Keys live only in .env (local) or Render Environment — never in the page. Add the value, restart the server, then run the test.") }}</p>
+  <div class="admin-connect">
+    <article>
+      <header><h2>OpenAI</h2><span class="badge {{ 'ok' if openai.key_set else 'bad' }}">{{ tr('Key set') if openai.key_set else tr('Missing') }}</span></header>
+      <dl><dt>{{ tr("Environment variable") }}</dt><dd><code>OPENAI_API_KEY</code> <small>({{ tr("also read") }}: OPEN_API_KEY, open_api_key)</small></dd>
+        <dt>{{ tr("Key") }}</dt><dd>{{ openai.key_hint or '—' }}</dd><dt>{{ tr("Text model") }}</dt><dd>{{ openai.model }}</dd>
+        <dt>{{ tr("Image model") }}</dt><dd>{{ openai_image.model }} · {{ openai_image.quality }}</dd>
+        <dt>{{ tr("Used for") }}</dt><dd>{{ tr("Ask Reboot, chatbot question analysis, admin AI assistant, detail page copy and images") }}</dd></dl>
+      {% if results.openai %}<p class="{{ 'admin-ok' if results.openai.ok else 'admin-alert' }}">{{ results.openai.detail }}</p>{% endif %}
+      <form method="post" action="/admin/settings/connections/test"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="service" value="openai"><button class="btn" {{ 'disabled' if not openai.key_set }}>{{ tr("Test connection ↗") }}</button></form>
+    </article>
+    <article>
+      <header><h2>Higgsfield</h2><span class="badge {{ 'ok' if hf.key_set else 'bad' }}">{{ tr('Key set') if hf.key_set else tr('Missing') }}</span></header>
+      <dl><dt>{{ tr("Environment variables") }}</dt><dd><code>HIGGSFIELD_API_KEY_ID</code> + <code>HIGGSFIELD_API_KEY_SECRET</code> <small>({{ tr("or one value") }} <code>HIGGSFIELD_API_KEY=id:secret</code>)</small></dd>
+        <dt>{{ tr("Key") }}</dt><dd>{{ hf.key_hint or '—' }}</dd><dt>{{ tr("Image model") }}</dt><dd>{{ hf.model }}</dd>
+        <dt>{{ tr("Used for") }}</dt><dd>{{ tr("Detail page images (choose OpenAI or Higgsfield per image)") }}</dd>
+        <dt>{{ tr("Where to get it") }}</dt><dd><a class="text-link" href="https://console.higgsfield.ai" target="_blank" rel="noopener">console.higgsfield.ai → API keys</a></dd></dl>
+      {% if results.higgsfield %}<p class="{{ 'admin-ok' if results.higgsfield.ok else 'admin-alert' }}">{{ results.higgsfield.detail }}</p>{% endif %}
+      <form method="post" action="/admin/settings/connections/test"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="service" value="higgsfield"><button class="btn" {{ 'disabled' if not hf.key_set }}>{{ tr("Test connection ↗") }}</button></form>
+    </article>
+  </div>
+</section></div>{% endblock %}

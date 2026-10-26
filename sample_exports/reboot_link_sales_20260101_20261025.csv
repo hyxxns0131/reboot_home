@@ -1,8 +1,24 @@
 ﻿link_code,influencer_name,platform,clicks,order_count,conversion_rate,units_sold,net_sales_usd,commission_usd,top_product
-DIRECT,,,0,264,,1082,14357.68,0.00,jelly-balance
-BRUNCHCLUB,Brunch Club (Fictional),Instagram,6240,114,0.0183,516,6322.51,632.29,drink-original
-NEONNIGHTS,Neon Nights (Fictional),TikTok,4080,113,0.0277,456,5398.59,809.84,jelly-original
-KPARTYLA,K-Party LA (Fictional),Instagram,6600,114,0.0173,448,5298.77,635.81,drink-balance
-RESTARTCREW,Restart Crew (Fictional),TikTok,5760,115,0.0200,463,4917.27,983.48,drink-balance
-MORNINGRESET,Morning Reset (Fictional),Instagram,6600,109,0.0165,431,4821.31,723.28,drink-original
-SEOULSIPNYC,Seoul Sip NYC (Fictional),TikTok,4560,112,0.0246,417,4786.98,478.84,drink-original
+DIRECT,,,0,672,,2712,35980.88,0.00,jelly-balance
+RESTARTCREW,Restart Crew (Fictional),TikTok,10752,213,0.0198,866,9385.27,1877.14,jelly-balance
+PARTYPREP,Party Prep Pro (Fictional),TikTok,10808,188,0.0174,745,8560.85,1284.30,jelly-balance
+SNACKCHECK,Snack Check Daily (Fictional),TikTok,6880,151,0.0219,628,7330.52,879.72,drink-balance
+SEOULSTYLE,Seoul Style Diary (Fictional),Instagram,7791,137,0.0176,608,7229.92,1084.56,jelly-balance
+BRUNCHCLUB,Brunch Club (Fictional),Instagram,7124,129,0.0181,574,6995.98,699.67,drink-original
+GLOWHOURLA,Glow Hour LA (Fictional),Instagram,6525,138,0.0211,574,6731.66,807.86,drink-balance
+TASTETINA,Taste Test Tina (Fictional),TikTok,9519,158,0.0166,541,6296.84,629.85,drink-balance
+CITYBITESSF,City Bites SF (Fictional),Instagram,5365,132,0.0246,522,6175.08,617.61,drink-balance
+NEONNIGHTS,Neon Nights (Fictional),TikTok,4488,125,0.0279,510,5997.90,899.74,jelly-original
+KSNACKREVIEW,K-Snack Review (Fictional),TikTok,4257,123,0.0289,504,5896.26,884.49,drink-original
+WKNDWANDER,Weekend Wanderer (Fictional),Instagram,6888,114,0.0166,453,5826.75,582.70,jelly-balance
+FESTIVALFAM,Festival Fam (Fictional),TikTok,6902,116,0.0168,477,5520.81,662.43,jelly-original
+KPARTYLA,K-Party LA (Fictional),Instagram,6875,117,0.0170,461,5453.89,654.44,jelly-original
+NIGHTOWLNYC,Night Owl NYC (Fictional),Instagram,4356,114,0.0262,460,5214.15,625.66,jelly-original
+GAMEDAYCREW,Game Day Crew (Fictional),TikTok,4636,119,0.0257,498,5182.76,777.49,drink-original
+PASTELPANTRY,Pastel Pantry (Fictional),Instagram,3605,99,0.0275,405,5006.40,400.54,drink-balance
+MORNINGRESET,Morning Reset (Fictional),Instagram,6435,108,0.0168,422,4784.85,717.79,drink-original
+SUNSETSIPS,Sunset Sips (Fictional),Instagram,3100,97,0.0313,394,4609.91,461.10,drink-original
+LATENIGHTBITES,Late Night Bites (Fictional),TikTok,3745,98,0.0262,389,4455.16,445.60,drink-original
+ROADTRIPDUO,Road Trip Duo (Fictional),TikTok,3150,97,0.0308,355,4394.75,527.37,jelly-original
+SEOULSIPNYC,Seoul Sip NYC (Fictional),TikTok,4294,105,0.0245,377,4293.28,429.45,drink-original
+ROOFTOPHOURS,Rooftop Hours (Fictional),TikTok,5959,91,0.0153,337,3676.84,367.72,drink-original

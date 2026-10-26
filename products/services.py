@@ -25,11 +25,17 @@ def hidden_slugs():
 
 def get_all_products(include_hidden=False):
     """Catalog for the site: admin photo / name changes applied, hidden and deleted products left out."""
-    from products.media import overrides, apply, name_overrides
-    products = apply(load_original(), overrides())
+    from products.media import overrides, apply, name_overrides, detail_overrides, apply_gallery
+    products = apply(apply_gallery(load_original()), overrides())
     names = name_overrides()
+    details = detail_overrides()
     for p in products:
         if p['slug'] in names: p['name'] = names[p['slug']]
+        row = details.get(p['slug'])
+        if row:  # admin-edited ingredient list (Products tab)
+            d = dict(p.get('details') or {})
+            d.update(ingredients=row.ingredients, sweetened_with=row.sweetened_with, confirmed=row.confirmed)
+            p['details'] = d
     if not include_hidden:
         hidden = hidden_slugs()
         products = [p for p in products if p['slug'] not in hidden]

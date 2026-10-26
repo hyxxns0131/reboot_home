@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}{% block content %}
+{# What visitors ask Ask Reboot (README §25): topic counts from the question log + the latest AI analysis. #}
+<div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
+  <span class="eyebrow">{{ tr("CUSTOMER CARE") }}</span>
+  <div class="section-heading"><h1>{{ tr("CHATBOT QUESTIONS.") }}</h1>{% if data.sample %}<span class="badge">{{ tr("INCLUDES SAMPLE DATA") }} · {{ data.sample }}</span>{% endif %}</div>
+  <p class="muted">{{ tr("Every question visitors send to Ask Reboot is saved with a topic (contact details masked, no account id). Admin test chats are left out. Times are UTC.") }}</p>
+  <form method="get" class="admin-filters"><label>{{ tr("Period") }}<select name="days">{% for d in periods %}<option value="{{ d }}" {{ 'selected' if data.days==d }}>{{ tr("Last") }} {{ d }} {{ tr("days") }}</option>{% endfor %}</select></label><button class="btn primary">{{ tr("Apply filters ↗") }}</button></form>
+  <div class="stats">
+    <article><span>{{ tr("QUESTIONS") }}</span><strong>{{ data.total }}</strong></article>
+    <article><span>{{ tr("TOP TOPIC") }}</span><strong>{{ (data.topics[0].label_ko if locale=='ko' else data.topics[0].label) if data.topics else '—' }}</strong></article>
+    <article><span>{{ tr("ANSWERS REWRITTEN") }}</span><strong>{{ data.rewritten }}</strong></article>
+    <article><span>{{ tr("ANSWERS BLOCKED") }}</span><strong>{{ data.blocked }}</strong></article>
+  </div>
+
+  <h2 id="top-topics">{{ tr("WHAT VISITORS ASK MOST") }}</h2>
+  <p class="muted">{{ tr("Topics are tagged by keywords when the question is saved.") }}</p>
+  <ol class="admin-topics">{% for t in data.topics %}
+    <li><div class="admin-topic-head"><strong>{{ t.label_ko if locale=='ko' else t.label }}</strong><span>{{ t.count }} · {{ t.pct }}%</span></div>
+      <div class="admin-topic-bar"><i style="width: {{ t.pct if t.pct > 1 else 1 }}%"></i></div>
+      <p class="muted">{% for e in t.examples %}“{{ e }}”{% if not loop.last %} · {% endif %}{% endfor %}</p></li>
+  {% else %}<li class="muted">{{ tr("No questions in this period yet.") }}</li>{% endfor %}</ol>
+
+  <div class="section-heading admin-subhead"><h2 id="ai-analysis">{{ tr("AI ANALYSIS") }}</h2><span class="badge">OpenAI · {{ config.model }}</span></div>
+  <p class="muted">{{ tr("AI reads the latest questions in this period (up to 300) and explains, in Korean, what visitors want to know and what to change. One request to OpenAI per run.") }}</p>
+  {% if not config.key_set %}<p class="admin-alert">{{ tr("No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.") }}</p>{% endif %}
+  <form method="post" action="{{ url_for('admin.chat_questions_analyze') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="days" value="{{ data.days }}"><button class="btn primary" {{ 'disabled' if not config.key_set or not data.total }}>{{ tr("Run AI analysis ↗") }}</button></form>
+  {% if report %}
+  <div class="admin-ai-report">
+    <p class="muted">{{ tr("Last run") }}: {{ report.created_at.strftime('%Y-%m-%d %H:%M') }} UTC · {{ report.question_count }} {{ tr("questions") }} · {{ report.model }}</p>
+    <p class="admin-ai-summary">{{ report.summary }}</p>
+    <div class="table-wrap"><table><thead><tr><th>{{ tr("Topic") }}</th><th>{{ tr("What visitors want to know") }}</th><th>{{ tr("Example questions") }}</th><th>{{ tr("Suggested action") }}</th></tr></thead><tbody>
+      {% for t in report.topics %}<tr><td><strong>{{ t.label }}</strong></td><td>{{ t.insight }}</td><td>{% for e in t.examples %}“{{ e }}”<br>{% endfor %}</td><td class="neon">{{ t.action }}</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% if report.gaps %}<h3>{{ tr("Not answered yet") }}</h3><ul>{% for g in report.gaps %}<li><strong>{{ g.need }}</strong> → {{ g.action }}</li>{% endfor %}</ul>{% endif %}
+    {% if report.risk %}<h3>{{ tr("Compliance note") }}</h3><p>{{ report.risk }}</p>{% endif %}
+  </div>
+  {% else %}<p class="muted">{{ tr("No AI analysis for this period yet.") }}</p>{% endif %}
+
+  <h2 id="guard-log">{{ tr("COMPLIANCE GUARD LOG") }}</h2>
+  <p class="muted">{{ tr("Answers stopped by the dashboard’s compliance rules before visitors saw them. Rewritten = OpenAI rewrote it once and it passed. Blocked = the safe fixed answer was sent.") }} <a class="text-link" href="/admin/chatbot#guard">{{ tr("See the rules →") }}</a></p>
+  <div class="table-wrap"><table><thead><tr><th>{{ tr("Time (UTC)") }}</th><th>{{ tr("Question") }}</th><th>{{ tr("Rules") }}</th><th>{{ tr("Result") }}</th><th>{{ tr("Stopped draft") }}</th><th>{{ tr("Sent to visitor") }}</th></tr></thead><tbody>
+    {% for r in data.flagged %}<tr><td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td>{{ r.question }}</td><td><code>{{ r.codes }}</code> {{ r.verdict }}</td><td><span class="badge">{{ r.action|title|tr }}</span></td><td class="muted">{{ r.flagged_reply }}</td><td>{{ r.reply }}</td></tr>
+    {% else %}<tr><td colspan="6">{{ tr("No answers were stopped in this period.") }}</td></tr>{% endfor %}
+  </tbody></table></div>
+
+  <h2 id="recent-questions">{{ tr("RECENT QUESTIONS") }}</h2>
+  <div class="table-wrap"><table><thead><tr><th>{{ tr("Time (UTC)") }}</th><th>{{ tr("Question") }}</th><th>{{ tr("Topic") }}</th><th>{{ tr("Visitor") }}</th><th>{{ tr("Guard") }}</th></tr></thead><tbody>
+    {% for r in data.recent %}<tr><td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td><td>{{ r.question }}{% if r.is_dummy %} <span class="badge">{{ tr("Sample") }}</span>{% endif %}</td><td>{{ labels[r.topic][1] if locale=='ko' else labels[r.topic][0] }}</td><td>{{ r.visitor|title|tr }}</td><td>{{ r.verdict }}{% if r.action!='passed' %} · {{ r.action|title|tr }}{% endif %}</td></tr>
+    {% else %}<tr><td colspan="5">{{ tr("No questions in this period yet.") }}</td></tr>{% endfor %}
+  </tbody></table></div>
+  <div class="export-bar"><span>{{ tr("FOR THE MARKETING DASHBOARD") }}</span><a class="btn" href="{{ url_for('admin.chat_questions_csv', days=data.days) }}">{{ tr("Chatbot questions") }} ↓ CSV</a></div>
+</section></div>{% endblock %}
