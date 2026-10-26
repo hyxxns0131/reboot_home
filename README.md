@@ -631,6 +631,7 @@ JINRO 사이트의 **어두운 배경 + 굵은 대문자 타이포 + 큰 제품 
 | 항목 | 규칙 |
 |---|---|
 | 화살표 아이콘 | 문구에 `↗`를 쓰면 화면에서는 **Rebu 얼굴**(`core/static/core/img/rebu-face.png`, @2x 포함)로 자동 표시됩니다. 서버가 HTML 텍스트를 바꾸고(`core/i18n.py`의 `rebu_arrows`), 스크립트가 나중에 넣는 글자는 `site.js`가 바꿉니다. 속성 · `<title>` · `<option>` 안의 `↗`는 그대로 둡니다. `←` `→` `↓`는 바꾸지 않습니다. |
+| 탭 아이콘 (파비콘) | 브라우저 탭 · 북마크 아이콘은 **Rebu 얼굴**입니다. `rebu-face@2x.png`로 만든 `core/static/core/img/favicon.ico`(16·32·48px) · `favicon-32.png` · `apple-touch-icon.png`(180px, 검정 배경)를 `core/base.html`의 `<head>`에서 연결하고, `/favicon.ico` 주소로도 같은 아이콘을 돌려줍니다(`app.py`). |
 | 메인 히어로 Rebu | 평소에는 혼자 돌아다니며 놉니다(산책 · 점프 스핀 · 춤 · 모자 인사, 가끔 "Hehe!" 말풍선). **Rebu를 클릭하면 8초 동안 마우스를 따라오고**, 다시 클릭하면 시간이 연장됩니다. 동작 줄이기(`prefers-reduced-motion`) 설정에서는 움직이지 않습니다. (`core/static/core/js/rebu-3d.js`) |
 | 메인 히어로 제품 넘기기 | 양옆 제품 **그림과 글씨(← CHERRY / LEMON →) 어느 쪽을 눌러도** 그 제품으로 넘어갑니다. 가운데 제품은 상세 페이지 링크입니다. |
 | 제품 카드 가격 | `FROM $00.00`을 22px 굵게(모바일 19px) 표시하고, 옵션 중 **가장 낮은 가격**을 씁니다. |

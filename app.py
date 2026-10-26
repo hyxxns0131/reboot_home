@@ -55,6 +55,8 @@ def create_app(test_config=None):
         return (jsonify(error=msg), 400) if wants_json() else (render_template('core/error.html', code=400, title='Let’s get you back on track'), 400)
     @app.get('/images/<path:filename>')
     def images(filename): return send_from_directory(Path(app.root_path)/'images',filename)
+    @app.get('/favicon.ico')
+    def favicon(): return send_from_directory(Path(app.static_folder)/'core'/'img','favicon.ico',mimetype='image/vnd.microsoft.icon')
     @app.after_request
     def headers(response):
         response.headers['X-Content-Type-Options']='nosniff'
