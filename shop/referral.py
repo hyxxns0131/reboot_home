@@ -80,6 +80,21 @@ def deal(code):
     return remember(resp, link)
 
 
+@bp.get('/deal/<code>/<slug>')
+def deal_product(code, slug):
+    """Product page inside a creator deal (README §40): the same detail page and long detail story, but every option shows the
+    creator price and Add to bag charges it (the code is kept in the 30-day cookie, so checkout credits the creator)."""
+    link=db.session.scalar(db.select(ReferralLink).filter_by(code=code.upper(),is_active=True))
+    if not link: abort(404)
+    from flask import g
+    from products import detail
+    from rewards.services import record
+    g.creator_link=link
+    html=detail(slug)  # 404s for unknown or hidden products, like the main site
+    record('creator_deal_product_viewed',{'code':link.code,'product':slug}); db.session.commit()
+    return remember(current_app.make_response(html), link)
+
+
 @bp.get('/deal/exit')
 def deal_exit():
     """Leave the creator deal: the code is removed and the visitor goes to the regular site (regular prices)."""

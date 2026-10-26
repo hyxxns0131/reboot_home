@@ -3,7 +3,7 @@
 {% if panels %}
 <section class="pd-long pd-long-img" id="story" aria-label="{{ tr('Product detail') }}">
   {% for src in panels %}<img class="lp-reveal" src="{{ src }}" alt="{{ p.name }} — {{ tr('Product detail') }} {{ loop.index }}" width="1080" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async">{% endfor %}
-  <div class="lp-img-cta"><a class="btn primary" href="/products/{{ p.slug }}#top">{{ tr('Shop now ↗') }}</a></div>
+  <div class="lp-img-cta"><a class="btn primary" href="{{ product_href(p.slug) }}#top">{{ tr('Shop now ↗') }}</a></div>
 </section>
 <script>
 (function () {

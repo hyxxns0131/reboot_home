@@ -462,6 +462,25 @@ def test_creator_link_landing_and_edit(client, app):
 
 
 
+def test_deal_page_links_to_discounted_product(client, app):
+    """README §40: deal cards open a product page that keeps the creator price, and Add to bag carries the code."""
+    login(client, app, 'admin')
+    csrf = token(client, '/admin/manage')
+    client.post('/admin/creators', data={'csrf_token': csrf, 'name': 'Deal Tester', 'platform': 'TikTok', 'discount': '20', 'commission': '8', 'code': 'dealtest', 'landing': ''})
+    client.post('/auth/logout', data={'csrf_token': token(client, '/')})
+    deal = client.get('/deal/DEALTEST').get_data(as_text=True)
+    assert 'href="/deal/DEALTEST/jelly-original"' in deal and '/deal/DEALTEST/drink-original?sku=' in deal
+    page = client.get('/deal/DEALTEST/jelly-original').get_data(as_text=True)
+    assert '$14.39' in page and 'price-old' in page and 'href="/deal/DEALTEST"' in page
+    assert 'price-old' not in client.get('/products/jelly-original').get_data(as_text=True)
+    assert client.get('/deal/NOPE/jelly-original').status_code == 404
+    assert client.get('/deal/DEALTEST/not-a-product').status_code == 404
+    login(client, app)
+    client.get('/deal/DEALTEST/jelly-original')
+    client.post('/shop/cart', data={'csrf_token': token(client, '/deal/DEALTEST/jelly-original'), 'sku': 'jelly-original-pouch', 'quantity': '1'})
+    assert 'DEALTEST' in client.get('/shop/cart').get_data(as_text=True)
+
+
 # ---- Sample wording, reviews, contact inbox, chatbot, inventory, product photos ----
 import io as _io
 
