@@ -279,3 +279,14 @@ KO.update({
 'Automatic detail page':'자동 상세페이지','not made yet':'아직 없음','Ready':'완료','View ↗':'보기 ↗','Failed':'실패','In progress':'만드는 중','refresh in a minute':'잠시 후 새로고침',
 'New Higgsfield backgrounds':'Higgsfield 배경 새로 만들기','Make the detail page again? The current one is replaced.':'상세페이지를 다시 만들까요? 지금 것은 바뀝니다.','Make again':'다시 만들기','Make now':'지금 만들기',
 })
+
+# README §35: creator deal page
+KO.update({
+'CREATOR DEAL':'크리에이터 할인','EVERYTHING.':'전 제품.','Code':'코드',
+'is applied. The prices below already include your discount, and it is taken off again at checkout for 30 days.':'코드가 적용됐어요. 아래 가격은 할인이 반영된 가격이고, 30일 동안 결제할 때도 자동으로 할인돼요.',
+'Creator code':'크리에이터 코드','applied — prices shown include it.':'적용 중 — 보이는 가격에 할인이 반영돼 있어요.','See all deals':'할인 제품 전체 보기',
+'For adults 21+. Mock checkout only — no real payment.':'21세 이상 성인용. 모의 결제이며 실제 결제는 되지 않아요.',
+'Creator deal page (all products, discounted)':'크리에이터 할인 페이지 (전 제품 할인가)',
+})
+KO.update({'or drop photos here':'눌러서 사진 고르기 · 또는 여기에 끌어다 놓기'})
+KO.update({'Leave this deal → regular site':'할인 페이지 나가기 → 일반 사이트'})

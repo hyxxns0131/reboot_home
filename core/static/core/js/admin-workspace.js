@@ -52,7 +52,7 @@
       const c = el('div', 'ws-creator');
       c.append(el('span', 'ws-badge', f.platform || L('Platform', '플랫폼')), el('h4', '', f.name || L('Creator', '크리에이터')), el('p', 'ws-code', f.code ? `/r/${f.code}` : L('/r/CODE (auto if empty)', '/r/코드 (비우면 자동)')));
       box.append(c, row(L('Customer discount', '고객 할인'), f.discount != null ? `${f.discount}%` : ''), row(L('Commission', '수수료'), f.commission != null ? `${f.commission}%` : ''),
-                 row(L('Opens', '도착 페이지'), f.landing || (('name' in f) ? L('Home', '홈') : '')));
+                 row(L('Opens', '도착 페이지'), f.landing || (('name' in f) ? L('Creator deal page (all products, discounted)', '크리에이터 할인 페이지 (전 제품 할인가)') : '')));
     }
   }
   function render(st) {

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}{% from 'core/macros.html' import shot %}{% block content %}
+{# Creator deal page (README §35): every product with the creator's discount already taken off. #}
+{% set off = (link.discount_rate * 100)|round(0)|int %}
+<section class="section page-top deal-hero">
+  <span class="eyebrow">{{ tr("CREATOR DEAL") }} · {{ (link.influencer_name or link.code)|replace(' (Fictional)','') }}{% if link.platform %} · {{ link.platform }}{% endif %}</span>
+  <h1><span class="neon">{{ off }}% OFF</span><br>{{ tr("EVERYTHING.") }}</h1>
+  <p>{{ tr("Code") }} <strong class="deal-code">{{ link.code }}</strong> {{ tr("is applied. The prices below already include your discount, and it is taken off again at checkout for 30 days.") }}</p>
+  <p><a class="btn" href="/deal/exit">{{ tr("Leave this deal → regular site") }}</a></p>
+</section>
+<section class="section deal-grid">
+  {% for p in products %}
+  <article class="deal-card">
+    <div class="deal-visual">{{ shot(p.images.card or p.images.main, p.name) }}</div>
+    <div class="deal-body">
+      <span class="eyebrow">{{ (p.line|upper)|tr }} / {{ (p.badge or ('BALANCE' if p.is_balance else 'ORIGINAL'))|tr }}</span>
+      <h2>{{ (p.name.replace('Reboot ',''))|tr }}</h2>
+      <ul class="deal-options">{% for o in p.options %}{% set s = sale_for(o.sku) %}
+        <li><span>{{ (o.label)|tr }}</span>
+          <span class="deal-price">{% if s %}<s class="price-old">{{ s.old|usd }}</s> <strong class="price-sale">{{ s.price|usd }}</strong>{% else %}<strong>{{ o.price_usd|usd }}</strong>{% endif %}</span>
+          {% if current_user.is_authenticated and current_user.role=='customer' %}
+          <form method="post" action="/shop/cart"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="sku" value="{{ o.sku }}"><input type="hidden" name="quantity" value="1"><button class="btn primary" {{ 'disabled' if (stock_for(o.sku) or {}).get('out') }}>{{ tr("Add to bag") }}</button></form>
+          {% endif %}</li>{% endfor %}
+      </ul>
+      {% if not current_user.is_authenticated %}<a class="btn full" href="{{ url_for('auth.login', next=request.path) }}">{{ tr("Login to add to bag ↗") }}</a>{% endif %}
+    </div>
+  </article>
+  {% endfor %}
+  <p class="muted">{{ tr("For adults 21+. Mock checkout only — no real payment.") }}</p>
+</section>
+{% endblock %}

@@ -27,6 +27,13 @@ def create_app(test_config=None):
             db.session.commit()
         except Exception as e:
             db.session.rollback(); app.logger.warning('Story wording update skipped: %s', e)
+        import os
+        if os.getenv('SEED_DUMMY_DATA', '1') == '1' and not app.config.get('TESTING'):
+            try:  # sample data (creators, reviews…) up to date even when setup-db was not run (README §34)
+                from core.cli import setup_if_outdated
+                if setup_if_outdated(): app.logger.warning('Sample data updated at start-up.')
+            except Exception as e:
+                db.session.rollback(); app.logger.warning('Sample data update skipped: %s', e)
     from core.cli import register_cli
     from core.nav import NAV_ITEMS
     register_cli(app)

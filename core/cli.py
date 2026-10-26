@@ -47,6 +47,20 @@ def setup():
         else:
             db.session.add(ReferralLink(code=code,influencer_name=name+' (Fictional)',platform=platform,discount_rate=Decimal(discount)/100,commission_rate=Decimal(commission)/100,clicks=quota[code]*random.Random(code).randint(30,60)))  # ~1.7–3.3% conversion
     db.session.flush()
+    if os.getenv('SEED_DUMMY_DATA','1')=='1':
+        # An older dummy set (e.g. the 6-creator one with a YouTube link) doesn't cover every creator above.
+        # Rebuild only the dummy orders; accounts, real orders and admin-made links stay as they are.
+        roster=[db.session.scalar(db.select(ReferralLink).filter_by(code=code)) for code,*_ in seeds]
+        used=set(db.session.scalars(db.select(Order.referral_link_id).filter_by(is_dummy=True).distinct()))
+        if used and not {l.id for l in roster}<=used:
+            from rewards.models import PointEntry, CheckoutReceipt
+            dummy_ids=db.session.scalars(db.select(Order.id).filter_by(is_dummy=True)).all()
+            linked=set(db.session.scalars(db.select(PointEntry.order_id).where(PointEntry.order_id.in_(dummy_ids))))|set(db.session.scalars(db.select(CheckoutReceipt.order_id).where(CheckoutReceipt.order_id.in_(dummy_ids))))
+            for order in db.session.scalars(db.select(Order).filter_by(is_dummy=True)):
+                if order.id not in linked: db.session.delete(order)
+            for link in roster: link.clicks=quota[link.code]*random.Random(link.code).randint(30,60)
+            db.session.flush()
+            click.echo('Old dummy orders replaced with the current creator roster (Instagram 10 · TikTok 12).')
     if os.getenv('SEED_DUMMY_DATA','1')=='1' and not db.session.scalar(db.select(Order).filter_by(is_dummy=True).limit(1)):
         rng=random.Random(42); products=db.session.scalars(db.select(Product).order_by(Product.id)).all()
         links=[db.session.scalar(db.select(ReferralLink).filter_by(code=code)) for code,*_ in seeds]
@@ -82,6 +96,21 @@ def setup():
         seed_dummy_chats()  # sample chatbot questions, once (README §25)
     db.session.commit()
     click.echo('Database ready. Accounts, catalog, and sample data initialized (existing records preserved).')
+
+def setup_if_outdated():
+    """Run setup() at server start when the sample data is older than the code (README §34) — so the creator roster, sample
+    reviews and catalog are current however the server was started (start.command, flask run, an IDE). Cheap check first."""
+    from shop.models import ReferralLink
+    from products.models import Review
+    from products.sample_reviews import SAMPLES
+    first = SAMPLES['jelly-original'][0]['title']
+    creators = db.session.scalar(db.select(db.func.count(ReferralLink.id)).filter(ReferralLink.influencer_name.like('%(Fictional)'))) or 0
+    samples = db.session.scalar(db.select(db.func.count(Review.id)).filter_by(is_dummy=True, title=first)) or 0
+    dummies = db.session.scalar(db.select(db.func.count(Review.id)).filter_by(is_dummy=True)) or 0
+    if creators >= 22 and samples and dummies == sum(len(v) for v in SAMPLES.values()): return False
+    setup()
+    return True
+
 
 def register_cli(app):
     @app.cli.command('upgrade-db')

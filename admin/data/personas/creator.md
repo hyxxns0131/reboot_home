@@ -10,4 +10,4 @@
 5. 다 차면 요약하고 [저장] 안내. FTC 규칙상 협찬 게시물에는 #ad 표시가 필요하다는 점을 한 줄로 알려준다.
 
 # update_draft 필드
-name, platform(Instagram|TikTok), discount(정수 %), commission(정수 %), code, landing("" 또는 /products/<slug>)
+name, platform(Instagram|TikTok), discount(정수 %), commission(정수 %), code, landing("" = 크리에이터 할인 페이지(전 제품을 할인가로 보여 줌, 기본) 또는 /products/<slug> = 그 제품 페이지를 할인가로)

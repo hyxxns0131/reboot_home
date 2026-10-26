@@ -53,7 +53,7 @@
           </figcaption></figure>{% else %}<p class="muted">{{ tr("No gallery photos yet.") }}</p>{% endfor %}</div>
       <form class="gallery-drop" method="post" action="{{ url_for('admin.product_gallery_add') }}" enctype="multipart/form-data" data-gallery-form>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="slug" value="{{ p.slug }}">
-        <input type="file" name="photo" accept="image/*,.heic,.heif" multiple data-gallery-file>
+        <input type="file" name="photo" accept="image/*,.heic,.heif" multiple data-gallery-file hidden>
         <input name="label" maxlength="60" placeholder="{{ tr('Label (optional), e.g. Party scene') }}">
         <button class="btn primary">{{ tr("+ Add photos") }}</button><span class="muted" data-gallery-status>{{ tr("or drop photos here") }}</span>
       </form>

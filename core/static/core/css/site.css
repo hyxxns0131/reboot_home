@@ -427,3 +427,33 @@ form.inline{display:inline}form.inline button{background:none;border:0;padding:0
 .review-list .sample-tag{font-size:.68rem;color:#8d927f;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:1px 7px;margin-left:6px}
 .autopage-status{font-size:.85rem;padding:8px 12px;border-radius:10px;background:rgba(177,255,59,.08);border:1px solid rgba(177,255,59,.25);margin:8px 0}
 .autopage-status.failed{background:rgba(255,77,166,.08);border-color:rgba(255,77,166,.3)}
+/* The Rebu arrow icon inside buttons must not pick up the long-page photo rules (closing panel button blew up) */
+.lp-panel img.rebu-arrow,.pd-long-img img.rebu-arrow{display:inline-block;width:20px;height:20px;min-height:0;margin:0;border-radius:0;opacity:1;grid-area:auto;object-fit:contain;aspect-ratio:auto}
+/* README §35: creator deal page + code ribbon */
+.deal-hero h1{margin:.2em 0}.deal-code{color:var(--color-neon);letter-spacing:.06em}
+.deal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:22px}
+.deal-card{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;border:1px solid var(--color-line);border-radius:14px;padding:16px;background:rgba(255,255,255,.02)}
+.deal-visual img{width:100%;aspect-ratio:1;object-fit:contain}
+.deal-body h2{font-size:1.5rem;margin:.2em 0 .6em}
+.deal-options{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:10px}
+.deal-options li{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;border-top:1px solid var(--color-line);padding-top:10px}
+.deal-options form{grid-column:1/-1;margin:0}.deal-options .btn{width:100%;justify-content:center}
+.deal-price{text-align:right;white-space:nowrap}
+.code-ribbon{background:var(--color-neon);color:#13170c;text-align:center;font-size:13px;font-weight:700;padding:7px 12px}
+.code-ribbon a{text-decoration:underline}
+@media(max-width:560px){.deal-card{grid-template-columns:1fr}}
+
+/* creator codes table: readable % inputs, one column per field (README §24 admin readability) */
+.admin-creators .admin-pct{display:inline-flex;align-items:center;gap:6px}
+.admin-creators .admin-pct input{width:76px;padding:10px 8px 10px 12px;font-size:15px;font-weight:600;text-align:right;color:#f5f4e9;font-variant-numeric:tabular-nums}
+.admin-creators .admin-pct i{font-style:normal;font-size:13px;color:#c9ccbe}
+.admin-creators select.admin-landing{width:auto;min-width:170px;max-width:240px;padding:10px 12px;font-size:14px}
+
+/* long detail page (README §28 · §36): photo first, words underneath — text never sits on top of a product photo */
+.pd-long .lp-hero,.pd-long .lp-closing{display:block;min-height:0;padding:0}
+.pd-long .lp-hero>img,.pd-long .lp-closing>img{display:block;width:100%;height:auto;min-height:0;max-height:620px;object-fit:cover;opacity:1;border-radius:0;margin:0}
+.pd-long .lp-hero-text{background:none;padding:clamp(28px,5vw,48px) clamp(24px,5vw,48px) 36px}
+.pd-long .lp-closing-text{padding:clamp(30px,5vw,48px) 24px 44px;text-align:center}
+.pd-long .lp-hero h2,.pd-long .lp-closing-text h3{line-height:1.02;word-break:keep-all}
+.lang-ko .pd-long .lp-hero h2,.lang-ko .pd-long .lp-closing-text h3{line-height:1.18;letter-spacing:-.01em}
+.lang-ko .pd-long h2,.lang-ko .pd-long h3{word-break:keep-all}

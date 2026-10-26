@@ -1595,4 +1595,23 @@ Ask Reboot은 AI가 **사람 검수 없이 미국 소비자에게 바로 답하�
   - 크레딧은 **등록 전에** 양식/작업실에 표시되고, 양식에서 Higgsfield 사용을 끌 수 있음(끄면 네온 배경, 크레딧 0).
   - 진행 상황 · 사용 크레딧은 관리자 › 상품의 각 상품 카드에. "다시 만들기"는 기본적으로 이미 만든 배경을 재사용(크레딧 0), 체크하면 새 배경.
   - 패널 이미지는 DB(`products_long_panel`)에 저장, `/products/long-panels/<id>.webp`.
-- **샘플 리뷰** (`products/sample_reviews.py`): 기존 무작위 더미 리뷰 대신 제품마다 다른 문구 11~12개, 전부 4~5점(평균 4.91~4.92, 긍정 100%). 화면에 "샘플 리뷰" 표시. 고객 리뷰는 각 상품 페이지의 폼에서 그 상품에만 달리며(`/products/<slug>/reviews`), 고객 리뷰는 그대로 둡니다. `setup-db`(start.command / Render 배포) 때 반영.
+- **샘플 리뷰** (`products/sample_reviews.py`): 기존 무작위 더미 리뷰 대신 제품마다 다른 문구 12~13개. 젤리 2종에는 "비싸다"는 3점 리뷰가 1개씩 (평균 젤리 오리지널 4.85 · 젤리 밸런스 4.83 · 음료 4.92, 4점 이상 비율 91% 이상). 화면에 "샘플 리뷰" 표시. 고객 리뷰는 각 상품 페이지의 폼에서 그 상품에만 달리며(`/products/<slug>/reviews`), 고객 리뷰는 그대로 둡니다. `setup-db`(start.command / Render 배포) 때 반영.
+
+## 35. 크리에이터 링크 → 할인가 판매 페이지
+- `/r/<CODE>` 링크는 이제 홈이 아니라 **크리에이터 할인 페이지 `/deal/<CODE>`**로 열립니다: 전 제품 · 전 옵션을 원래 가격(취소선)과 할인가로 보여 주고, 고객 계정이면 바로 장바구니에 담을 수 있음 (`shop/referral.py`, `core/templates/shop/deal.html`).
+  - 예: 20% 코드 → 젤리 오리지널 $17.99 → **$14.39**, 음료 믹스 박스 $12.99 → **$10.39**.
+  - 링크를 특정 제품으로 설정했다면 그 제품 페이지로 열리고, 거기서도 할인가가 보임.
+- 할인가는 **크리에이터 할인 페이지에서만** 보이고, 메인 사이트(홈 · 제품 목록 · 상세)는 항상 정가. 할인 페이지의 "할인 페이지 나가기 → 일반 사이트"(`/deal/exit`)는 코드를 지우고 홈으로 이동. 나가지 않고 장바구니로 가면 코드(30일 쿠키)가 결제에 그대로 적용되어 크리에이터 실적으로 잡힘.
+- 매출 실적: 이 링크로 들어와 결제한 주문은 `shop_order.referral_link_id`에 크리에이터가 저장되어 기존 관리자 매출 · 크리에이터 리포트 · CSV에 그대로 잡힘. 링크 클릭 수는 `/r/<CODE>` 방문마다 +1, 할인 페이지 조회는 활동 로그 `creator_deal_viewed`.
+- 관리자 › 홈페이지 관리의 "링크 도착 페이지" 기본값 이름: "크리에이터 할인 페이지 (전 제품 할인가)".
+
+## 36. 상세페이지 겹침 수정 · 젤리 오리지널 성분 패널 다시 만들기 (2026-10-26)
+- **겹침**: HTML 긴 상세페이지(젤리 밸런스 · 음료 2종)의 히어로 · 클로징에서 제목 · 버튼이 반투명 제품 사진 위에 얹혀 겹쳐 보이던 문제 → 사진을 위에 온전히 보여 주고 글자는 사진 아래로 내림. 한국어 큰 제목 줄간격 1.18, 단어 단위 줄바꿈(`site.css`의 `/* long detail page ... */` 블록).
+- **젤리 오리지널 긴 이미지 · 성분 분석 패널**: 4종 확정(§33) 반영. 핵심 성분 카드 3개 + **전체 원재료 15개(많이 들어간 순, 성분별 역할)** + 감미 원료(설탕 · 타피오카 시럽 · 물엿). 원재료는 `products/data/products.json`의 `details`에서 읽고 `confirmed`가 false면 예전처럼 핵심 성분만. 역할 문구는 `products/ingredient_roles.py`, 한국어 원료명은 스크립트 `COPY['jelly-original']['ko']['ing_names']`. 다시 만들기: `python3 scripts/compose_long_image.py jelly-original` (AI 생성 없음).
+- 크리에이터 코드 표(`/admin/manage#creators`): 할인율 % · 수수료율 % · 링크 도착 페이지를 각각 헤더가 있는 칸으로 나누고 숫자 입력칸을 넓힘(`form="edit-creator-<id>"`로 한 줄 저장).
+
+## 37. 음료 오리지널 긴 상세 이미지 (2026-10-26)
+- `python3 scripts/compose_long_image.py drink-original` → `images/story/drink-original/<en|ko>-NN.webp` (9장) — 상품 페이지에 바로 표시.
+- 배경 5장: Higgsfield `xai/grok-imagine-image-2.0` (제품 · 글자 없음, 장당 1.28 크레딧, 총 6.4 크레딧 — 관리자 허락 후 생성) → `images/story/_bg/drink-original/bg0~4.jpg`.
+- 병은 실제 컷아웃(`images/showcase/original_<맛>-front.webp`)을 얹음. 스크립트의 `DrinkPage`: 'package' = 레몬 · 체리 · 라임 세 병, 맛 패널 순서 레몬 → 체리 → 라임, 전체 원재료 9개 + 감미 원료(과당 · 설탕).
+- **음료 밸런스**도 같은 방식으로 추가: `python3 scripts/compose_long_image.py drink-balance` (배경 `images/story/_bg/drink-balance/`, 파스텔 네온 톤, Higgsfield grok 5장 = 6.4 크레딧, 관리자 허락 후 생성). `COPY['drink-balance']`는 음료 오리지널 문구를 복사해 제로슈가 문구로 바꾼 것 — "Zero Sugar"가 나오는 곳마다 "Not a low calorie food"를 함께 표기(§33). 음료 2종 첫 화면은 큰 제목 바로 아래에 부제를 두고 뒤를 어둡게 깔아 배경과 겹치지 않게 함.

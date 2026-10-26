@@ -139,7 +139,9 @@ _bg_estimate = {}
 def bg_credits():
     """Credits per background image (Higgsfield estimate, cached; 1.28 if the estimate is unavailable)."""
     if 'credits' not in _bg_estimate:
-        code, body = request('POST', f'/estimate/{BG_MODEL}', MODELS[BG_MODEL]('party background', [], '3:4'), timeout=15) if credentials() else (0, None)
-        try: _bg_estimate['credits'] = float(body['credits']) if code == 200 else 1.28
-        except (TypeError, KeyError, ValueError): _bg_estimate['credits'] = 1.28
+        try:
+            code, body = request('POST', f'/estimate/{BG_MODEL}', MODELS[BG_MODEL]('party background', [], '3:4'), timeout=15) if credentials() else (0, None)
+            _bg_estimate['credits'] = float(body['credits']) if code == 200 else 1.28
+        except Exception:  # estimate is only informational
+            _bg_estimate['credits'] = 1.28
     return _bg_estimate['credits']

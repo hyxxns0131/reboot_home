@@ -91,7 +91,7 @@ def toggle_creator(link_id):
 
 def landing_pages():
     """Pages a creator link may open: home or a product page."""
-    pages={'':'Home'}
+    pages={'':'Creator deal page (all products, discounted)'}
     for p in db.session.scalars(db.select(Product).filter_by(is_active=True).order_by(Product.id)):
         pages[f'/products/{p.slug}']=p.name
     return pages

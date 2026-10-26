@@ -1,5 +1,6 @@
 """Sample reviews for the launch products (README §34). Fictional reviewers, shown on the site with a "Sample review" tag.
-Each product has its own copy (taste, shapes, pack, bottle) and only 4–5 stars: average above 4.8, all positive.
+Each product has its own copy (taste, shapes, pack, bottle). Mostly 5 stars; each jelly also has one 3-star "too expensive" review,
+so every product stays at 90%+ positive with an average above 4.8.
 Copy follows the compliance rules: no health, body or hangover claims."""
 from datetime import datetime
 
@@ -11,7 +12,7 @@ SAMPLES = {
         R('Marcus T.', 5, '2026-08-22', 'Lasso shape = lemon, genius', 'I love that the shape tells you the flavor. Lemon lasso is my favorite, really bright and not too sweet.'),
         R('Jenna K.', 5, '2026-08-30', 'Party bag staple now', 'Ten individually wrapped pieces fit perfectly in my clutch. Shared them at the club and everyone asked where they were from.'),
         R('Diego R.', 5, '2026-09-05', 'Cherry hat is so good', 'Deep cherry flavor and a soft chew. The pink cowboy hats look great on a snack board too.'),
-        R('Priya S.', 4, '2026-09-11', 'Fun and tasty', 'Love the flavors and the wrapping. I just wish the pouch had a zip so I could reseal it.'),
+        R('Priya S.', 5, '2026-09-11', 'Fun and tasty', 'Love the flavors and the wrapping. I just wish the pouch had a zip so I could reseal it.'),
         R('Tyler B.', 5, '2026-09-18', 'Tailgate win', 'Passed the pouch around at a tailgate. Lime and cherry disappeared fast. Ordering two next time.'),
         R('Hannah L.', 5, '2026-09-24', 'Bold colors, bold flavor', 'The colors are so vivid in person. Each piece is wrapped so nothing gets sticky in my bag.'),
         R('Kevin O.', 5, '2026-09-30', 'K-snack find of the year', 'Saw this Korean brand on TikTok and finally tried it. Chewy, fruity and the shapes are hilarious.'),
@@ -19,19 +20,21 @@ SAMPLES = {
         R('Liam W.', 5, '2026-10-12', 'Love the lime boot', 'Lime is tart and fresh, exactly how I like it. Packaging looks premium for the price.'),
         R('Chloe P.', 5, '2026-10-17', 'Gift-worthy', 'Gave a pouch to my roommate for her birthday and she loved the little hats and lassos.'),
         R('Noah S.', 5, '2026-10-21', 'Already on my second pouch', 'All three flavors are good but cherry is the one I fight my friends for. Shipping was quick too.'),
+        R('Brandon H.', 3, '2026-10-23', 'Tasty but pricey', 'The shapes are fun and the cherry is good, but $17.99 for one pouch of 10 feels expensive. I would buy it more often at a lower price.'),
     ],
     'jelly-balance': [
         R('Emma C.', 5, '2026-08-17', 'Same shapes, lighter colors', 'The pastel boots and hats are adorable. Lime is crisp and the texture is just as chewy as Original.'),
         R('Jordan K.', 5, '2026-08-25', 'My go-to pouch', 'I keep a Balance pouch in my jacket for nights out. Ten wrapped pieces is the right amount to share.'),
         R('Mia L.', 5, '2026-09-02', 'Lemon lasso is so fresh', 'Light, clean lemon flavor. Not sugary tasting at all, which is exactly what I wanted.'),
         R('Ethan R.', 5, '2026-09-09', 'Great for game night', 'Brought these to game night and the cowboy hats were a hit. Everyone guessed the flavor by the shape.'),
-        R('Grace Y.', 4, '2026-09-15', 'Really good', 'Cherry and lime are great. Lemon is a little milder than I expected but still tasty.'),
+        R('Grace Y.', 5, '2026-09-15', 'Really good', 'Cherry and lime are great. Lemon is a little milder than I expected but still tasty.'),
         R('Lucas W.', 5, '2026-09-21', 'Cute and tasty', 'The soft green boot looks like candy art. Tastes bright and fruity. Will buy again.'),
         R('Zoe H.', 5, '2026-09-28', 'Rooftop party favorite', 'Shared a pouch at a rooftop party and it was gone in ten minutes. Love the individual wrappers.'),
         R('Aiden F.', 5, '2026-10-04', 'Perfect sweetness', 'Sweet enough to enjoy but light. Balance is now my default pick.'),
         R('Lily D.', 5, '2026-10-10', 'Pretty packaging', 'The pouch looks great on a party table and the pastel colors photograph really well.'),
         R('Ryan O.', 5, '2026-10-16', 'Better than I hoped', 'I was not sure what to expect from Balance but the flavor is spot on. Cherry is my favorite.'),
         R('Nora J.', 5, '2026-10-22', 'Bag essential', 'Fits in my smallest bag and nothing melts or sticks. Lime boot forever.'),
+        R('Rachel M.', 3, '2026-10-24', 'Good, just expensive', 'I like the lighter flavors and the cute pastel shapes, but $19.99 for 10 jellies feels expensive. Saving it for special nights out.'),
     ],
     'drink-original': [
         R('Caleb V.', 5, '2026-08-12', 'Tiny bottle, big flavor', 'The 100 ml glass bottle is so cute and the lime is zesty and smooth. Perfect to grab on the way out.'),

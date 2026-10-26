@@ -323,7 +323,9 @@ def test_product_reviews(client,app):
         from collections import Counter
         samples=db.session.scalars(db.select(Review).filter_by(is_dummy=True)).all()
         per_product=Counter(r.product_id for r in samples)
-        assert len(per_product)==4 and all(11<=n<=12 for n in per_product.values())  # README §34
+        assert len(per_product)==4 and all(12<=n<=13 for n in per_product.values())  # README §34
+        pricey=[r for r in samples if r.rating==3]
+        assert len(pricey)==2 and all('expensive' in r.body and r.sentiment=='neutral' for r in pricey)
         for pid in per_product:
             rated=[r.rating for r in samples if r.product_id==pid]
             assert sum(rated)/len(rated)>4.8 and sum(x>=4 for x in rated)/len(rated)>=0.9
@@ -373,7 +375,7 @@ def test_creator_links_and_direct_sales(client,app):
     client.post('/auth/logout',data={'csrf_token':token(client,'/auth/logout')})
     response=client.get('/r/testcreato15?to=/products/drink-original')
     assert response.location=='/products/drink-original' and 'ref_code=TESTCREATO15' in response.headers['Set-Cookie']
-    assert client.get('/r/TESTCREATO15?to=//evil.example').location=='/'
+    assert client.get('/r/TESTCREATO15?to=//evil.example').location=='/deal/TESTCREATO15'
     login(client,app)
     client.post('/shop/cart',data={'csrf_token':token(client,'/products/drink-original'),'sku':'drink-original-box3','quantity':1})
     cart=client.get('/shop/cart').get_data(as_text=True)
@@ -456,7 +458,7 @@ def test_creator_link_landing_and_edit(client, app):
     with app.app_context():
         link = db.session.get(ReferralLink, link_id)
         assert link.discount_rate == Decimal('0.25') and link.landing == ''
-    assert client.get('/r/LIMELOVER').location == '/'
+    assert client.get('/r/LIMELOVER').location == '/deal/LIMELOVER'
 
 
 
@@ -1215,3 +1217,35 @@ def test_new_product_gets_automatic_long_page(client, app, monkeypatch):
     client.post(f'/admin/products/{slug}/autopage', data={'csrf_token': token(client, '/admin/products')})
     assert len(submitted) == 5
     with app.app_context(): assert db.session.scalar(db.select(AutoPage.status).filter_by(slug=slug)) == 'ready'
+
+
+# ---------- README §35: creator link opens the discounted sales page; orders count for the creator ----------
+def test_creator_deal_page_prices_and_sales(client, app):
+    login(client, app, 'admin')
+    csrf = token(client, '/admin/manage')
+    client.post('/admin/creators', data={'csrf_token': csrf, 'name': 'Party Pam', 'platform': 'Instagram', 'discount': '20', 'commission': '10', 'code': 'PARTYPAM20', 'landing': ''})
+    client.post('/auth/logout', data={'csrf_token': token(client, '/auth/logout')})
+    r = client.get('/r/PARTYPAM20')
+    assert r.location == '/deal/PARTYPAM20' and 'ref_code=PARTYPAM20' in r.headers['Set-Cookie']
+    page = client.get('/deal/PARTYPAM20').get_data(as_text=True)
+    assert '20% OFF' in page and 'PARTYPAM20' in page
+    assert '$17.99' in page and '$14.39' in page          # jelly original 17.99 − 20%
+    assert '$12.99' in page and '$10.39' in page          # drink original mixed box 12.99 − 20%
+    assert '/deal/exit' in page
+    detail = client.get('/products/drink-original').get_data(as_text=True)
+    assert '$10.39' not in detail and 'PARTYPAM20' not in detail  # the main site keeps regular prices
+    assert '$14.39' not in client.get('/products/').get_data(as_text=True)
+    assert client.get('/deal/NOPE').status_code == 404
+    login(client, app)
+    client.post('/shop/cart', data={'csrf_token': token(client, '/deal/PARTYPAM20'), 'sku': 'drink-original-box3', 'quantity': 1})
+    cart = client.get('/shop/cart').get_data(as_text=True)
+    assert 'PARTYPAM20 (20%)' in cart and '$10.39' in cart
+    checkout = client.get('/shop/checkout').get_data(as_text=True)
+    nonce = re.search(r'name="nonce" value="([^"]+)"', checkout)[1]; csrf_c = re.search(r'name="csrf_token" value="([^"]+)"', checkout)[1]
+    client.post('/shop/checkout', data={'csrf_token': csrf_c, 'nonce': nonce, 'name': 'Pat', 'city': 'LA', 'state': 'CA', 'points': '0'})
+    with app.app_context():
+        link = db.session.scalar(db.select(ReferralLink).filter_by(code='PARTYPAM20'))
+        order = db.session.scalar(db.select(Order).filter_by(referral_link_id=link.id))
+        assert order and order.total == Decimal('10.39') and link.clicks == 1
+    out = client.get('/deal/exit')
+    assert out.location == '/' and 'ref_code=;' in out.headers['Set-Cookie']
