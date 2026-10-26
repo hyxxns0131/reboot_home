@@ -161,6 +161,8 @@ def ai_workspace_chat(kind):
                 f = dict(d.fields)
                 ignored = [k for k in changes if k not in allowed]
                 for k, v in changes.items():
+                    if k == 'version' and isinstance(v, str): v = 'balance' if 'balance' in v.lower() or 'zero' in v.lower() else 'original'
+                    if k == 'line' and isinstance(v, str): v = 'Drink' if v.strip().lower() in ('drink', 'drinks', '음료') else ('Jelly' if v.strip().lower() in ('jelly', '젤리') else v)
                     if k in allowed:
                         if v is None: f.pop(k, None)
                         else: f[k] = v

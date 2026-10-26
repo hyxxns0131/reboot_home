@@ -397,7 +397,7 @@ def test_manage_tab_access(client, app):
     client.post('/auth/logout', data={'csrf_token': token(client, '/auth/logout')})
     login(client, app, 'admin')
     page = client.get('/admin/manage').get_data(as_text=True)
-    assert 'HOMEPAGE MANAGER.' in page and 'PRODUCT DISCOUNTS' in page and 'CREATOR CODES' in page
+    assert 'HOMEPAGE MANAGER<' in page and 'PRODUCT DISCOUNTS' in page and 'CREATOR CODES' in page
     sales = client.get('/admin/').get_data(as_text=True)
     for link in ('/admin/#product-performance', '/admin/#sales-by-option', '/admin/#influencer-sales', '/admin/manage#discounts',
                  '/admin/inventory', '/admin/products', '/admin/inbox', '/admin/chatbot'):
@@ -527,7 +527,7 @@ def test_inventory_seed_edit_csv_and_orders(client, app):
         box_id, cherry_id = box.id, cherry.id
     login(client, app, 'admin')
     page = client.get('/admin/inventory').get_data(as_text=True)
-    assert 'INVENTORY.' in page and 'drink-balance-cherry' in page
+    assert 'INVENTORY<' in page and 'drink-balance-cherry' in page
     csv_text = client.get('/admin/inventory.csv').get_data(as_text=True)
     assert csv_text.lstrip('\ufeff').startswith('sku,product,option,on_hand,reorder_level')
     form = {'csrf_token': token(client, '/admin/inventory'), 'note': 'count'}
@@ -562,7 +562,7 @@ def test_inventory_seed_edit_csv_and_orders(client, app):
 def test_admin_product_photo_upload(client, app):
     from PIL import Image
     login(client, app, 'admin')
-    assert 'PRODUCTS.' in client.get('/admin/products').get_data(as_text=True)
+    assert '>PRODUCTS<' in client.get('/admin/products').get_data(as_text=True)
     buf = _io.BytesIO(); Image.new('RGBA', (2400, 1200), (177, 255, 59, 255)).save(buf, 'PNG'); buf.seek(0)
     src = 'product_image/web/jelly-original-card.webp'
     client.post('/admin/products/photo', data={'csrf_token': token(client, '/admin/products'), 'slug': 'jelly-original', 'src': src,
@@ -625,7 +625,7 @@ def _png(size=(600, 600), color=(255, 140, 0, 255)):
 
 def test_register_hide_delete_product(client, app):
     login(client, app, 'admin')
-    assert 'ADD PRODUCT.' in client.get('/admin/products/new').get_data(as_text=True)
+    assert 'ADD PRODUCT<' in client.get('/admin/products/new').get_data(as_text=True)
     form = {'csrf_token': token(client, '/admin/products/new'), 'name': 'Reboot Jelly Pumpkin', 'line': 'Jelly', 'version': 'original',
             'badge': 'HALLOWEEN LIMITED', 'format': 'Shaped jelly', 'pack': 'One pouch', 'flavors': 'pumpkin, apple',
             'opt_label_0': '1 Package', 'opt_price_0': '18.99', 'opt_count_0': '1', 'opt_stock_0': '50'}
@@ -1047,7 +1047,7 @@ def test_long_detail_image_on_product_page(client, app):
     assert client.get('/images/story/jelly-original/en-01.webp').status_code == 200
     client.post('/language', data={'language': 'ko', 'csrf_token': token(client, '/')})
     assert '/images/story/jelly-original/ko-01.webp' in client.get('/products/jelly-original').get_data(as_text=True)
-    other = client.get('/products/drink-original').get_data(as_text=True)
+    other = client.get('/products/jelly-balance').get_data(as_text=True)
     assert 'pd-long-img' not in other and 'class="pd-long"' in other  # products without a composed image keep the HTML page
 
 
@@ -1249,3 +1249,13 @@ def test_creator_deal_page_prices_and_sales(client, app):
         assert order and order.total == Decimal('10.39') and link.clicks == 1
     out = client.get('/deal/exit')
     assert out.location == '/' and 'ref_code=;' in out.headers['Set-Cookie']
+
+
+def test_admin_titles_and_section_order(client, app):
+    """README §38: no trailing dot on admin page titles; Homepage manager sections in the sidebar order."""
+    login(client, app, 'admin')
+    for path in ('/admin/', '/admin/manage', '/admin/products', '/admin/products/new', '/admin/inventory', '/admin/inbox', '/admin/chatbot', '/admin/chatbot/questions', '/admin/settings/connections', '/admin/products/story', '/admin/ai/product'):
+        h1 = re.search(r'<h1>(.*?)</h1>', client.get(path).get_data(as_text=True), re.S)[1]
+        assert not h1.strip().endswith('.'), (path, h1)
+    page = client.get('/admin/manage').get_data(as_text=True)
+    assert page.index('id="creators"') < page.index('id="discounts"') < page.index('id="popups"')

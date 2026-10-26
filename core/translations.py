@@ -290,3 +290,6 @@ KO.update({
 })
 KO.update({'or drop photos here':'눌러서 사진 고르기 · 또는 여기에 끌어다 놓기'})
 KO.update({'Leave this deal → regular site':'할인 페이지 나가기 → 일반 사이트'})
+
+# README §38: admin page titles without the trailing dot
+KO.update({'API CONNECTIONS': 'API 연결', 'SALES OVERVIEW': '매출 현황', 'INBOX': '문의함', 'CHATBOT QUESTIONS': '챗봇 질문 분석', 'CHATBOT': '챗봇', 'PRODUCTS': '상품 관리', 'HOMEPAGE MANAGER': '홈페이지 관리', 'INVENTORY': '재고 관리', 'ADD PRODUCT': '상품 등록', 'DETAIL PAGES': '상세페이지'})

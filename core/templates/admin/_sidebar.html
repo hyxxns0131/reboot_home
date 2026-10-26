@@ -35,19 +35,36 @@
 </aside>
 {% include 'admin/_assistant.html' %}
 <script>
-(function () {
-  // Highlight the section being viewed on pages with anchors (Sales overview / Marketing & homepage).
-  var links = Array.prototype.slice.call(document.querySelectorAll('.admin-side [data-anchor]'));
-  var here = links.filter(function (a) { return a.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, ''); });
-  if (!here.length) return;
-  function mark(id) { here.forEach(function (a) { if (a.dataset.anchor === id) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); }); }
-  if (location.hash) mark(location.hash.slice(1));
-  here.forEach(function (a) { a.addEventListener('click', function () { mark(a.dataset.anchor); }); });
-  window.addEventListener('hashchange', function () { mark(location.hash.slice(1)); });
-  if (!('IntersectionObserver' in window)) return;
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.id); });
-  }, { rootMargin: '-90px 0px -65% 0px' });
-  here.forEach(function (a) { var t = document.getElementById(a.dataset.anchor); if (t) io.observe(t); });
-})();
+document.addEventListener('DOMContentLoaded', function () {
+  // The sidebar is rendered before the main content; resolve targets only after parsing it.
+  var links = Array.from(document.querySelectorAll('.admin-side [data-anchor]'));
+  var sections = links.filter(function (a) {
+    return a.pathname.replace(/\/$/, '') === location.pathname.replace(/\/$/, '');
+  }).map(function (a) {
+    return { link: a, target: document.getElementById(a.dataset.anchor) };
+  }).filter(function (s) { return s.target; });
+  if (!sections.length) return;
+  function update() {
+    // The last heading above the reading line remains active throughout its content.
+    var active = sections[0];
+    sections.forEach(function (s) {
+      if (s.target.getBoundingClientRect().top <= 120) active = s;
+    });
+    sections.forEach(function (s) {
+      if (s === active) s.link.setAttribute('aria-current', 'location');
+      else s.link.removeAttribute('aria-current');
+    });
+  }
+  var pending = false;
+  function schedule() {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(function () { pending = false; update(); });
+  }
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule);
+  window.addEventListener('hashchange', schedule);
+  window.addEventListener('load', schedule);
+  update();
+});
 </script>

@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
-  <div class="section-heading"><h1>{{ tr("DETAIL PAGES.") }}</h1></div>
+  <div class="section-heading"><h1>{{ tr("DETAIL PAGES") }}</h1></div>
   <p class="muted">{{ tr("The story under each product page, in English and Korean. Write notes and add photos, let AI draft the copy, edit it, then publish. AI images are made only after you allow each one.") }}</p>
   <div class="table-wrap"><table><thead><tr><th>{{ tr("Product") }}</th><th>{{ tr("Status") }}</th><th>{{ tr("Last updated") }}</th><th></th></tr></thead><tbody>
   {% for r in rows %}<tr><td><strong>{{ r.p.name }}</strong></td>
