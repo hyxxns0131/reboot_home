@@ -10,7 +10,7 @@ from flask import Blueprint, request, jsonify, abort
 
 bp = Blueprint('export_api', __name__, url_prefix='/api/export')
 KINDS = ('creator-performance', 'influencer-orders', 'influencer-sales', 'orders', 'direct-orders', 'reviews', 'review-summary',
-         'product-sales', 'option-sales', 'link-sales', 'inventory', 'chatbot-questions', 'creator-visits')
+         'product-sales', 'option-sales', 'link-sales', 'inventory', 'chatbot-questions', 'creator-visits', 'inbox')
 
 
 def token_ok():

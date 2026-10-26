@@ -1630,3 +1630,5 @@ Ask Reboot은 AI가 **사람 검수 없이 미국 소비자에게 바로 답하�
 - 날짜별 방문: 표 `shop_creator_visit`(링크 · 날짜 · 방문수). `/r/CODE` 방문마다 오늘 날짜에 +1(is_dummy=False). 샘플 크리에이터는 누적 clicks를 샘플 주문 날짜에 맞춰 나눠 넣음(is_dummy=True, 합계 = clicks). 기존 `clicks`(누적)는 그대로.
 - 토큰: Render › reboot-us › Environment에 `EXPORT_API_TOKEN` 추가(Generate 버튼) → 저장. 값은 채팅방이 아닌 안전한 경로로 대시보드 담당자에게만 전달. 로컬은 `.env`에 같은 이름.
 - 컬럼 이름을 바꿀 때는 대시보드 담당자에게 먼저 알리기(이번 작업에서는 기존 컬럼 변경 없음).
+- **문의함** 추가: `/api/export/inbox.csv` (관리자 화면 `/admin/export/inbox.csv`도). 컬럼: message_id, created_at, kind(contact · creators), topic, order_id, status(new · read · answered), name, email_masked(`p***@example.com`처럼 가림), body, reply, replied_at. 날짜 범위는 접수 시각 기준.
+- 대시보드 화면 ↔ 파일: 상품 실적 `product-sales` · 판매 옵션별 실적 `option-sales` · 플랫폼별 인플루언서 매출 `influencer-sales`(주문 단위는 `influencer-orders`) · 크리에이터 성과 `creator-performance` · 자사몰 직접 매출 `direct-orders` · 상품 리뷰 `reviews`(월별 요약 `review-summary`) · 문의함 `inbox`.

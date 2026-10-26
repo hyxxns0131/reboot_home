@@ -40,7 +40,14 @@ def dashboard():
 
 FIELDS.update({  # README §39
 'chatbot-questions':'question_id created_at language visitor topic question reply verdict codes action is_dummy'.split(),
-'creator-visits':'date discount_code creator platform visits is_dummy'.split()})
+'creator-visits':'date discount_code creator platform visits is_dummy'.split(),
+'inbox':'message_id created_at kind topic order_id status name email_masked body reply replied_at'.split()})
+
+
+def mask_email(e):
+    """j***@example.com — the inbox export never carries a full address."""
+    user, _, domain = (e or '').partition('@')
+    return (user[:1] + '***@' + domain) if domain else ''
 EXTRA_KINDS=('inventory',)  # its own columns (shop/inventory.py CSV_FIELDS), no date range
 
 
@@ -59,7 +66,12 @@ def date_range():
 def extra_rows(kind):
     """Rows for the exports that are not part of report(): chatbot questions and creator visits per day."""
     start,end,a,b=date_range()
-    if kind=='chatbot-questions':
+    if kind=='inbox':
+        q=db.select(Message).where(Message.created_at>=a,Message.created_at<b).order_by(Message.created_at.desc())
+        rows=[dict(message_id=m.id,created_at=m.created_at.isoformat(timespec='seconds') if m.created_at else '',kind=m.kind,topic=m.topic,order_id=m.order_id or '',
+                   status=m.status,name=m.name,email_masked=mask_email(m.email),body=m.body,reply=m.reply or '',
+                   replied_at=m.replied_at.isoformat(timespec='seconds') if m.replied_at else '') for m in db.session.scalars(q)]
+    elif kind=='chatbot-questions':
         from support.models import ChatQuestion
         q=db.select(ChatQuestion).where(ChatQuestion.created_at>=a,ChatQuestion.created_at<b).order_by(ChatQuestion.created_at.desc())
         rows=[dict(question_id=c.id,created_at=c.created_at.isoformat(timespec='seconds'),language=c.language,visitor=c.visitor,topic=c.topic,question=c.question,
@@ -80,7 +92,7 @@ def export_payload(kind):
     if kind in INFLUENCER_KINDS and platform not in ('all',*PLATFORMS): abort(400,description='Choose instagram, tiktok, or all.')
     sentiment=request.args.get('sentiment','all')
     if kind=='reviews' and sentiment not in SENTIMENTS: abort(400,description='Choose positive, negative, neutral, or all.')
-    if kind in ('chatbot-questions','creator-visits'):
+    if kind in ('chatbot-questions','creator-visits','inbox'):
         rows,start,end=extra_rows(kind)
     else:
         data=report(); start,end=data['start'],data['end']

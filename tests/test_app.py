@@ -1294,3 +1294,17 @@ def test_export_api_token_and_files(client, app, monkeypatch):
     client.get('/r/NEONNIGHTS'); client.get('/r/NEONNIGHTS')
     today = [r for r in rows(client.get('/api/export/creator-visits.csv' + q, headers=h)) if r['discount_code'] == 'NEONNIGHTS' and r['is_dummy'] == 'False']
     assert len(today) == 1 and today[0]['visits'] == '2'
+
+
+def test_export_api_inbox_masks_email(client, app, monkeypatch):
+    import csv as _csv
+    from core.messages import Message
+    monkeypatch.setenv('EXPORT_API_TOKEN', 'tok-456')
+    with app.app_context():
+        db.session.add(Message(kind='contact', name='Pat Lee', email='pat.lee@example.com', body='Where is my order?', topic='order', status='new')); db.session.commit()
+    r = client.get('/api/export/inbox.csv?start=2026-01-01&end=2030-12-31', headers={'Authorization': 'Bearer tok-456'})
+    rows = list(_csv.DictReader(io.StringIO(r.get_data(as_text=True).lstrip('﻿'))))
+    me = [x for x in rows if x['name'] == 'Pat Lee'][0]
+    assert me['email_masked'] == 'p***@example.com' and 'pat.lee@' not in r.get_data(as_text=True) and me['body'] == 'Where is my order?'
+    for kind in ('product-sales', 'option-sales', 'influencer-sales', 'creator-performance', 'direct-orders', 'reviews'):
+        assert client.get(f'/api/export/{kind}.csv?start=2026-01-01&end=2030-12-31', headers={'Authorization': 'Bearer tok-456'}).status_code == 200
