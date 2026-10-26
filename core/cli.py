@@ -107,10 +107,10 @@ def setup_if_outdated():
     from products.sample_reviews import SAMPLES
     first = SAMPLES['jelly-original'][0]['title']
     creators = db.session.scalar(db.select(db.func.count(ReferralLink.id)).filter(ReferralLink.influencer_name.like('%(Fictional)'))) or 0
-    samples = db.session.scalar(db.select(db.func.count(Review.id)).filter_by(is_dummy=True, title=first)) or 0
-    dummies = db.session.scalar(db.select(db.func.count(Review.id)).filter_by(is_dummy=True)) or 0
+    samples = db.session.scalar(db.select(db.func.count(Review.id)).where(Review.is_dummy.is_(True), Review.title==first)) or 0
+    dummies = db.session.scalar(db.select(db.func.count(Review.id)).where(Review.is_dummy.is_(True))) or 0
     from shop.referral import CreatorVisit
-    visits = db.session.scalar(db.select(CreatorVisit.id).filter_by(is_dummy=True).limit(1))
+    visits = db.session.scalar(db.select(CreatorVisit.id).where(CreatorVisit.is_dummy.is_(True)).limit(1))
     if creators >= 22 and samples and visits and dummies == sum(len(v) for v in SAMPLES.values()): return False
     setup()
     return True

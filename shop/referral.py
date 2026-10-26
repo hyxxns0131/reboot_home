@@ -29,8 +29,8 @@ def seed_dummy_visits():
     from collections import Counter
     from datetime import timedelta
     from shop.models import Order
-    real = dict(db.session.execute(db.select(CreatorVisit.link_id, db.func.sum(CreatorVisit.visits)).filter_by(is_dummy=False).group_by(CreatorVisit.link_id)).all())
-    done = set(db.session.scalars(db.select(CreatorVisit.link_id).filter_by(is_dummy=True).distinct()))
+    real = dict(db.session.execute(db.select(CreatorVisit.link_id, db.func.sum(CreatorVisit.visits)).where(CreatorVisit.is_dummy.is_(False)).group_by(CreatorVisit.link_id)).all())
+    done = set(db.session.scalars(db.select(CreatorVisit.link_id).where(CreatorVisit.is_dummy.is_(True)).distinct()))
     for link in db.session.scalars(db.select(ReferralLink)):
         if link.id in done: continue
         total = (link.clicks or 0) - (real.get(link.id) or 0)
