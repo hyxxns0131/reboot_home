@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
-  <div class="section-heading"><h1>{{ tr("ADD PRODUCT.") }}</h1><a class="btn primary ws-entry" href="/admin/ai/product">✳ {{ ai_tr("Create with AI") }}</a></div>
+  <div class="section-heading"><h1>{{ tr("ADD PRODUCT") }}</h1><a class="btn primary ws-entry" href="/admin/ai/product">✳ {{ ai_tr("Create with AI") }}</a></div>
   <p class="muted">{{ tr("Register a new or seasonal product. It appears on the Products page under its line, with its own page, bag, stock and sales reports. Prices are in USD.") }}</p>
   <form method="post" enctype="multipart/form-data" class="product-new" data-crop-form data-crop-no-submit data-crop-aspect="1">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

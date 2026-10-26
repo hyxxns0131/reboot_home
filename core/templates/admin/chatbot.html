@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("CUSTOMER CARE") }}</span>
-  <div class="section-heading"><h1>{{ tr("CHATBOT.") }}</h1></div>
+  <div class="section-heading"><h1>{{ tr("CHATBOT") }}</h1></div>
   <p class="muted">{{ tr("The Ask Reboot chat uses OpenAI with the customer-care persona below. Product facts, prices and live sales are filled in automatically from the site.") }}</p>
   <div class="chatbot-status">
     <article><span>OPENAI_API_KEY</span><strong class="{{ 'ok' if config.key_set else 'bad' }}">{{ ('Set ('~config.key_hint~')') if config.key_set else 'Missing' }}</strong></article>

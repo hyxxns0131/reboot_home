@@ -2,7 +2,7 @@
 {# What visitors ask Ask Reboot (README §25): topic counts from the question log + the latest AI analysis. #}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("CUSTOMER CARE") }}</span>
-  <div class="section-heading"><h1>{{ tr("CHATBOT QUESTIONS.") }}</h1>{% if data.sample %}<span class="badge">{{ tr("INCLUDES SAMPLE DATA") }} · {{ data.sample }}</span>{% endif %}</div>
+  <div class="section-heading"><h1>{{ tr("CHATBOT QUESTIONS") }}</h1>{% if data.sample %}<span class="badge">{{ tr("INCLUDES SAMPLE DATA") }} · {{ data.sample }}</span>{% endif %}</div>
   <p class="muted">{{ tr("Every question visitors send to Ask Reboot is saved with a topic (contact details masked, no account id). Admin test chats are left out. Times are UTC.") }}</p>
   <form method="get" class="admin-filters"><label>{{ tr("Period") }}<select name="days">{% for d in periods %}<option value="{{ d }}" {{ 'selected' if data.days==d }}>{{ tr("Last") }} {{ d }} {{ tr("days") }}</option>{% endfor %}</select></label><button class="btn primary">{{ tr("Apply filters ↗") }}</button></form>
   <div class="stats">

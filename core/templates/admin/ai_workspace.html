@@ -2,7 +2,7 @@
 {# Per-tab AI workspace (README §30): chat with the tab's persona on the left, the live draft on the right. #}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow"><a href="{{ spec.back }}">{{ spec.ko if ko else spec.en }}</a> / {{ 'AI로 생성하기' if ko else 'CREATE WITH AI' }}</span>
-  <div class="section-heading"><h1>{{ (spec.ko ~ ' · AI') if ko else (spec.en|upper ~ ' · AI.') }}</h1></div>
+  <div class="section-heading"><h1>{{ (spec.ko ~ ' · AI') if ko else (spec.en|upper ~ ' · AI') }}</h1></div>
   <p class="muted">{{ 'AI와 대화하면서 필요한 항목을 함께 정해요. 정해진 값은 오른쪽 초안에 바로 반영되고, [저장]을 눌러야 사이트에 올라가요.' if ko else 'Agree on each value with the AI. Agreed values appear in the draft on the right right away; nothing goes live until you press Save.' }}
     <a class="text-link" href="{{ spec.back }}">{{ '직접 입력하는 양식으로 →' if ko else 'Use the manual form →' }}</a></p>
   {% if not config.key_set %}<p class="admin-alert">{{ ai_tr("No API key found. Add a line OPENAI_API_KEY=sk-... to the .env file (local) or to Environment on Render, then restart the server.") }} <a class="text-link" href="/admin/settings/connections">{{ ai_tr('API connections →') }}</a></p>{% endif %}

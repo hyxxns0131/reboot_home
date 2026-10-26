@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
-  <div class="section-heading"><h1>{{ tr("PRODUCTS.") }}</h1><a class="btn primary" href="/admin/products/new">{{ tr("+ Add product") }}</a></div>
+  <div class="section-heading"><h1>{{ tr("PRODUCTS") }}</h1><a class="btn primary" href="/admin/products/new">{{ tr("+ Add product") }}</a></div>
   <p class="muted">{{ tr("Rename products and replace or re-crop any product photo. Photos: JPG, PNG or WEBP up to 10 MB, cropped in your browser, saved as WEBP (transparent backgrounds are kept). Changes show everywhere the name or photo is used. Reset brings back the original.") }}</p>
   {% for item in catalog if not (item.row and item.row.is_deleted) %}{% set p = item.p %}
   <div class="product-admin{{ ' is-hidden' if item.row and not item.row.is_active }}" id="p-{{ p.slug }}">

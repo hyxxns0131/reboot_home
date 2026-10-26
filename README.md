@@ -1615,3 +1615,10 @@ Ask Reboot은 AI가 **사람 검수 없이 미국 소비자에게 바로 답하�
 - 배경 5장: Higgsfield `xai/grok-imagine-image-2.0` (제품 · 글자 없음, 장당 1.28 크레딧, 총 6.4 크레딧 — 관리자 허락 후 생성) → `images/story/_bg/drink-original/bg0~4.jpg`.
 - 병은 실제 컷아웃(`images/showcase/original_<맛>-front.webp`)을 얹음. 스크립트의 `DrinkPage`: 'package' = 레몬 · 체리 · 라임 세 병, 맛 패널 순서 레몬 → 체리 → 라임, 전체 원재료 9개 + 감미 원료(과당 · 설탕).
 - **음료 밸런스**도 같은 방식으로 추가: `python3 scripts/compose_long_image.py drink-balance` (배경 `images/story/_bg/drink-balance/`, 파스텔 네온 톤, Higgsfield grok 5장 = 6.4 크레딧, 관리자 허락 후 생성). `COPY['drink-balance']`는 음료 오리지널 문구를 복사해 제로슈가 문구로 바꾼 것 — "Zero Sugar"가 나오는 곳마다 "Not a low calorie food"를 함께 표기(§33). 음료 2종 첫 화면은 큰 제목 바로 아래에 부제를 두고 뒤를 어둡게 깔아 배경과 겹치지 않게 함.
+
+## 38. 관리자 화면 정리 (2026-10-26)
+- 관리자 페이지 큰 제목 끝의 점(.) 삭제 ("SALES OVERVIEW." → "SALES OVERVIEW" / "매출 현황").
+- 홈페이지 관리(`/admin/manage`) 섹션 순서를 사이드바와 같게: 크리에이터 코드 · 링크 → 상품 할인 → 사이트 팝업. 매출 현황(`/admin/`)은 이미 사이드바 순서와 같음.
+- AI 상품 등록: AI가 버전을 "Original"/"Balance"처럼 대문자로 넣어도 original/balance로 맞춤(Balance가 Original로 저장되던 위험 제거).
+- 확인(실제 키 · DB 복사본): 사진 추가(3000px JPG) · AI 작업실 사진 업로드 · 상품 AI 대화(초안 반영) · 관리자 길잡이 · 고객 챗봇 모두 정상.
+- 사이드바 스크롤 표시: 본문이 준비된 뒤 앵커를 연결하고, 읽는 위치를 기준으로 현재 섹션을 갱신. 브라우저에서 메뉴/본문 순서와 스크롤 표시 확인.

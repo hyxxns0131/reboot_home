@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("STORE OPERATIONS") }}</span>
-  <div class="section-heading"><h1>{{ tr("INVENTORY.") }}</h1><span class="badge">{{ tr("DUMMY OPENING STOCK") }}</span></div>
+  <div class="section-heading"><h1>{{ tr("INVENTORY") }}</h1><span class="badge">{{ tr("DUMMY OPENING STOCK") }}</span></div>
   <p class="muted">{{ tr("Stock per sales option (SKU). Orders on the site take stock automatically; shoppers can't buy more than is on hand. Low = at or below the reorder level.") }}</p>
   <div class="stats"><article><span>{{ tr("SKUS") }}</span><strong>{{ stats.skus }}</strong></article><article><span>{{ tr("UNITS ON HAND") }}</span><strong>{{ '{:,}'.format(stats.units) }}</strong></article><article><span>{{ tr("LOW STOCK") }}</span><strong class="{{ 'warn' if stats.low }}">{{ stats.low }}</strong></article><article><span>{{ tr("SOLD OUT") }}</span><strong class="{{ 'bad' if stats.out }}">{{ stats.out }}</strong></article></div>
 

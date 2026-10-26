@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}{% block content %}
 <div class="admin-shell section page-top">{% include 'admin/_sidebar.html' %}<section class="admin-page admin-main">
   <span class="eyebrow">{{ tr("CUSTOMER CARE") }}</span>
-  <div class="section-heading"><h1>{{ tr("INBOX.") }}</h1><span class="badge">{{ admin_inbox_count() }} {{ tr("new") }}</span></div>
+  <div class="section-heading"><h1>{{ tr("INBOX") }}</h1><span class="badge">{{ admin_inbox_count() }} {{ tr("new") }}</span></div>
   <p class="muted">{{ tr("Inquiries from the Contact page arrive here automatically with the member’s account. Your reply appears on the member’s Contact page. Creator applications come with an email address.") }}</p>
   <nav class="inbox-filter">{% for v,l in [('open','Open'),('answered','Answered'),('all','All')] %}<a href="?view={{ v }}" {% if view==v %}aria-current="page"{% endif %}>{{ l|tr }}</a>{% endfor %}</nav>
   {% for m in items %}
