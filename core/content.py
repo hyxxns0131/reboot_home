@@ -6,10 +6,13 @@ ARTICLES=[
 # Paste public Instagram Reel or post links here, one per line, e.g. 'https://www.instagram.com/reel/ABC123xyz/' or 'https://www.instagram.com/p/ABC123xyz/'.
 # They appear on Home and Feed in this order; the section stays hidden while the list is empty.
 REELS=[
- 'https://www.instagram.com/reel/De1aUaRh1Yu/',
- 'https://www.instagram.com/p/De08EuyGlTS/',
- 'https://www.instagram.com/p/De08vRgmtSh/',
- 'https://www.instagram.com/reel/De1dmjtB8Ww/',
- 'https://www.instagram.com/p/De3uV-PGmRS/',
- 'https://www.instagram.com/reel/De3uZG1Bk3Z/',
+ 'https://www.instagram.com/p/De1aUaRh1Yu/',
+ 'https://www.instagram.com/p/De1dmjtB8Ww/',
+ 'https://www.instagram.com/p/De6FulEhU9a/',
+ 'https://www.instagram.com/p/De8lfPfmpNv/',
+ 'https://www.instagram.com/p/De8l2HiGnbN/',
+ 'https://www.instagram.com/p/De6FNDTB8HA/',
+ 'https://www.instagram.com/p/De3uZG1Bk3Z/',
+ 'https://www.instagram.com/p/De6OZYpBvwi/',
+ 'https://www.instagram.com/p/De8fjs3hHdN/',
 ]
